@@ -176,7 +176,6 @@ export const substrateDiagram = () => `
 </div>`;
 
 // ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
 // Claim specimen (Evidence section) — the anatomy of a Claim
 // ---------------------------------------------------------------------------
 
@@ -191,9 +190,9 @@ const CLAIM_SRC = `class Claim(BaseModel, Generic[T]):
     caveat: str | None = None   # scope limitation, in the source's own terms`;
 
 const CLAIM_RULES = [
-  "A `DERIVED` claim's confidence never exceeds the minimum of its parents'.",
+  "A `DERIVED` claim’s confidence never exceeds the minimum of its parents’.",
   "A `MODEL` claim with no confidence cannot render as a fact.",
-  "A parent's caveat - \"sample size 51\" - propagates to every child.",
+  "A parent’s caveat — “sample size 51” — propagates to every child.",
 ];
 
 export const claimSpecimen = () => `
