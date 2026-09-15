@@ -73,6 +73,7 @@ export const badge = (status, idSuffix = "") => {
 
 export const flowStepper = (nodes, label) => `
 <ol class="flow" role="list" aria-label="${esc(label)}">
+  <svg class="flow-line" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none"><line class="fl-h" x1="0" y1="50" x2="100" y2="50" pathLength="1"/><line class="fl-v" x1="50" y1="0" x2="50" y2="100" pathLength="1"/></svg>
   ${nodes
     .map(
       (n, i) => `<li class="flow-node" style="--i:${i}">
@@ -175,14 +176,11 @@ export const substrateDiagram = () => `
 </div>`;
 
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 // Claim specimen (Evidence section) — the anatomy of a Claim
 // ---------------------------------------------------------------------------
 
-export const claimSpecimen = () => `
-<div class="claim-specimen">
-  <div class="claim-code">
-    <span class="mono claim-code-label">provenance.Claim — the type</span>
-<pre><code>class Claim(BaseModel, Generic[T]):
+const CLAIM_SRC = `class Claim(BaseModel, Generic[T]):
     value: T
     source: Source              # file+line, URL+retrieved_at,
                                 # model call id, or human
@@ -190,15 +188,27 @@ export const claimSpecimen = () => `
     confidence: float | None    # None for DETERMINISTIC; calibrated for MODEL
     observed_at: datetime
     parents: list[Claim] = []   # for DERIVED
-    caveat: str | None = None   # scope limitation, in the source's own terms</code></pre>
+    caveat: str | None = None   # scope limitation, in the source's own terms`;
+
+const CLAIM_RULES = [
+  "A `DERIVED` claim's confidence never exceeds the minimum of its parents'.",
+  "A `MODEL` claim with no confidence cannot render as a fact.",
+  "A parent's caveat - \"sample size 51\" - propagates to every child.",
+];
+
+export const claimSpecimen = () => `
+<div class="claim-specimen">
+  <div class="claim-code">
+    <span class="mono claim-code-label">provenance.Claim — the type</span>
+<pre><code>${CLAIM_SRC.split("\n")
+  .map((l, i) => `<span class="cl" style="--i:${i}">${esc(l)}\n</span>`)
+  .join("")}</code></pre>
   </div>
   <div class="claim-notes">
     <p>Rules enforced by tests, not comments:</p>
-    ${bullets([
-      "A `DERIVED` claim’s confidence never exceeds the minimum of its parents’.",
-      "A `MODEL` claim with no confidence cannot render as a fact.",
-      "A parent’s caveat — “sample size 51” — propagates to every child.",
-    ])}
+    <ul class="rules">${CLAIM_RULES.map(
+      (r, i) => `<li class="rule" style="--i:${i}"><span class="stamp mono" aria-hidden="true">ENFORCED</span><span>${md(r)}</span></li>`
+    ).join("")}</ul>
     <p class="claim-try">This page is built the same way: <strong>activate any underlined number</strong> to open its chain.</p>
   </div>
 </div>`;
