@@ -15,7 +15,7 @@
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = matchMedia("(pointer: fine)").matches;
   const CORE = "bok-core";
-  const ACCENT = "#5cf28a", INK2 = "#a6abb4", CARD = "#181b21", HAIR = "rgba(255,255,255,.14)";
+  const ACCENT = "#5cf28a", INK2 = "#a6abb4", CARD = "#181b21", HAIR = "rgba(255,255,255,.12)";
 
   let W = 0, H = 0, nodes = [], edges = [];
   let raf = 0, running = false, onScreen = true, last = 0;
