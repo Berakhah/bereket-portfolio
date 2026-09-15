@@ -13,6 +13,7 @@ import {
   evidenceScript, evidenceDrawer, repoChip, substrateDiagram, claimSpecimen, prov,
 } from "./src/render/components.mjs";
 import { head, scripts, header, footer } from "./src/render/layout.mjs";
+import { bootLines, bootBlock, graphData, graphScript } from "./src/render/ops.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const OUT = join(ROOT, "site");
@@ -72,22 +73,29 @@ const PIPELINE = [
   { n: "06", name: "Output", sub: "facts that carry their own caveats", d: "Numbers leave with their chain attached. Never a bare float." },
 ];
 
-const heroPipeline = () => `
-<div class="pipeline rv" id="pipeline" role="group" aria-label="Systems pipeline: input, processing, validation, policy, evidence, output.">
-  <div class="pipeline-rail" aria-hidden="true"><span class="rail-line"></span><span class="rail-pulse"></span></div>
-  <ol class="pipeline-stations">
-    ${PIPELINE.map(
-      (s, i) => `<li class="station" style="--i:${i}" tabindex="0" aria-label="${esc(`Stage ${s.n}: ${s.name}. ${s.d}`)}">
-        <span class="station-num mono">${s.n}</span>
-        <span class="station-body">
-          <span class="station-name">${s.name}</span>
-          <span class="station-sub">${esc(s.sub)}</span>
-        </span>
-        <span class="station-tip" role="presentation">${esc(s.d)}</span>
-      </li>`
-    ).join("")}
-  </ol>
-</div>`;
+// Pipeline scene — pinned on desktop; scroll scrubs a packet along the rail.
+const pipelineScene = () => `
+<section class="scene" id="pipeline" aria-label="Systems pipeline: input, processing, validation, policy, evidence, output.">
+  <div class="scene-pin">
+    <div class="wrap">
+      <p class="eyebrow mono">§ 00 — THE PIPELINE EVERY SYSTEM SHARES</p>
+      <div class="rail" aria-hidden="true"><span class="rail-line"></span><span class="packet"></span></div>
+      <ol class="stations">
+        ${PIPELINE.map(
+          (s, i) => `<li class="station" style="--i:${i}" tabindex="0" aria-label="${esc(`Stage ${s.n}: ${s.name}. ${s.d}`)}" data-desc="${esc(s.d)}">
+          <span class="station-num mono">[${s.n}]</span>
+          <span class="station-body">
+            <span class="station-name">${s.name}</span>
+            <span class="station-sub mono">${esc(s.sub)}</span>
+          </span>
+          <span class="station-tip" role="presentation">${esc(s.d)}</span>
+        </li>`
+        ).join("")}
+      </ol>
+      <p class="station-readout mono" aria-hidden="true" data-readout>&gt; awaiting input</p>
+    </div>
+  </div>
+</section>`;
 
 // ---------------------------------------------------------------------------
 // Project card
@@ -97,9 +105,9 @@ const projectCard = (p, i) => {
   const idx = String(i + 1).padStart(2, "0");
   const isSubstrate = !!p.substrate;
   return `
-<article class="project-card rv ${isSubstrate ? "card-substrate" : ""}" id="card-${p.slug}" aria-labelledby="pc-${p.slug}">
+<article class="project-card wipe ${isSubstrate ? "card-substrate" : ""}" id="card-${p.slug}" data-panel aria-labelledby="pc-${p.slug}">
   <div class="pc-head">
-    <span class="pc-index mono" aria-hidden="true">${idx}</span>
+    <span class="pc-index mono" aria-hidden="true">[${idx}]</span>
     <div class="pc-titlebox">
       <p class="pc-tagline mono">${esc(p.tagline)}</p>
       <h3 class="pc-name" id="pc-${p.slug}">${esc(p.name)}</h3>
@@ -155,16 +163,19 @@ const indexPage = () => {
   const main = `
 <!-- ============================ 1 · IDENTITY ============================ -->
 <section class="hero" aria-labelledby="hero-h">
-  <div class="hero-grid-bg" aria-hidden="true"></div>
-  <div class="wrap">
-    <p class="eyebrow mono rv" style="--d:.05s">${esc(site.name)} · ${esc(site.title)} · ${esc(site.location)}</p>
+  <canvas class="hero-graph" id="graph" aria-hidden="true"></canvas>
+  <div class="hero-texture" aria-hidden="true"></div>
+  ${graphScript(graphData(projects))}
+  <div class="wrap hero-inner">
+    ${bootBlock(bootLines({ site, projects, heroMetrics }))}
+    <p class="eyebrow mono rv" data-hero style="--d:.05s">${esc(site.name)} · ${esc(site.title)} · ${esc(site.location)}</p>
     <h1 class="hero-h" id="hero-h">
-      <span class="line-mask rv" style="--d:.12s">Systems that know what they are</span>
-      <span class="line-mask rv" style="--d:.22s"><em>allowed to do</em>, know when they are</span>
-      <span class="line-mask rv" style="--d:.32s"><em>uncertain</em>, preserve evidence, and</span>
-      <span class="line-mask rv" style="--d:.42s"><em>fail safely.</em></span>
+      <span class="line-mask" data-hero style="--d:.12s">Systems that know what they are</span>
+      <span class="line-mask" data-hero style="--d:.22s"><em>allowed to do</em>, know when they are</span>
+      <span class="line-mask" data-hero style="--d:.32s"><em>uncertain</em>, preserve evidence, and</span>
+      <span class="line-mask" data-hero style="--d:.42s"><em>fail safely.</em></span>
     </h1>
-    <div class="hero-lede-row rv" style="--d:.55s">
+    <div class="hero-lede-row rv" data-hero style="--d:.55s">
       <p class="hero-lede">${esc(site.positioning)}</p>
       <div class="hero-ctas">
         <a class="btn btn-ink" href="#work">View the work ${icon("arrowDown")}</a>
@@ -173,13 +184,13 @@ const indexPage = () => {
     </div>
 
     <!-- ======================== 2 · PROOF STRIP ======================== -->
-    <div class="proof rv" style="--d:.7s" aria-label="Selected verified metrics — activate any figure for its evidence">
+    <div class="proof rv" data-hero style="--d:.7s" aria-label="Selected verified metrics — activate any figure for its evidence">
       <p class="proof-head mono">${icon("info", "icon-xs")} VERIFIED FIGURES — ACTIVATE ANY NUMBER FOR ITS CHAIN</p>
       <div class="proof-grid">
         ${heroMetrics
           .map(
             (m) => `<button class="proof-item prov-trigger" type="button" data-evidence="${esc(m.id)}" aria-haspopup="dialog">
-              <span class="proof-value tnum">${esc(m.value)}</span>
+              <span class="proof-value tnum" ${/^[\d,]+$/.test(m.value) ? `data-count="${esc(m.value)}"` : "data-decode"}>${esc(m.value)}</span>
               <span class="proof-label">${esc(m.label)}</span>
               <span class="proof-context">${md(m.context)}</span>
             </button>`
@@ -187,10 +198,10 @@ const indexPage = () => {
           .join("")}
       </div>
     </div>
-
-    ${heroPipeline()}
   </div>
 </section>
+
+${pipelineScene()}
 
 <!-- ============================ 3 · WORK ============================ -->
 <section class="section section-work" id="work" aria-labelledby="work-h">
@@ -198,8 +209,13 @@ const indexPage = () => {
     ${sectionHead("§ 01 — FEATURED WORK", `<span id="work-h">Five systems, one conviction</span>`,
       "Security, backend correctness, trustworthy automation and evidence — presented in the order they build on each other. Each card states its status, its strongest proof, and what is not finished.")}
     ${STATUS_LEGEND}
-    <div class="project-stack">
-      ${projects.map((p, i) => projectCard(p, i)).join("")}
+    <div class="work-layout">
+      <ol class="work-index mono" aria-label="Featured work index">
+        ${projects.map((p, i) => `<li><a href="#card-${p.slug}" data-index-for="card-${p.slug}">[${String(i + 1).padStart(2, "0")}] ${esc(p.name)}</a></li>`).join("")}
+      </ol>
+      <div class="project-stack">
+        ${projects.map((p, i) => projectCard(p, i)).join("")}
+      </div>
     </div>
   </div>
 </section>
@@ -218,11 +234,12 @@ const indexPage = () => {
   <div class="wrap">
     ${sectionHead("§ 03 — HOW I THINK", `<span id="eng-h">Principles, with the systems that forced them</span>`,
       "Not aphorisms — each one is a decision this portfolio can point to.")}
+    <div class="principles-track" data-track>
     <ol class="principles">
       ${principles
         .map(
           (pr, i) => `<li class="principle rv" style="--i:${i}">
-            <span class="principle-num mono" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
+            <span class="principle-num mono" aria-hidden="true">[${String(i + 1).padStart(2, "0")}]</span>
             <div>
               <h3 class="principle-title">${esc(pr.title)}</h3>
               <p class="principle-body">${md(pr.body)}</p>
@@ -232,10 +249,13 @@ const indexPage = () => {
         )
         .join("")}
     </ol>
+    </div>
 
     <div class="subblock" aria-labelledby="timeline-h">
       <h3 class="subblock-h" id="timeline-h"><span class="mono eyebrow">§ 03.1</span> Four years, five modes</h3>
       <p class="subblock-intro">A career stated as engineering modes rather than job dates — each mode absorbed into the next.</p>
+      <div class="modes-wrap">
+      <span class="modes-rail" aria-hidden="true"></span>
       <ol class="modes">
         ${timeline
           .map(
@@ -251,6 +271,7 @@ const indexPage = () => {
           )
           .join("")}
       </ol>
+      </div>
     </div>
 
     <div class="subblock" aria-labelledby="stack-h">
@@ -297,15 +318,19 @@ const indexPage = () => {
       "No forms, no friction. One message with context gets a considered reply.")}
     <div class="contact-grid rv">
       <a class="contact-card" href="mailto:${esc(site.email)}">
+        <span class="scan" aria-hidden="true"></span>
         ${icon("mail")}<span class="cc-label mono">EMAIL</span><span class="cc-value">${esc(site.email)}</span>
       </a>
       <a class="contact-card" href="${esc(site.github)}" rel="noopener" target="_blank">
+        <span class="scan" aria-hidden="true"></span>
         ${icon("github")}<span class="cc-label mono">GITHUB</span><span class="cc-value">@Berakhah ${icon("external", "icon-xs")}</span>
       </a>
       <a class="contact-card" href="${esc(site.linkedin)}" rel="noopener" target="_blank">
+        <span class="scan" aria-hidden="true"></span>
         ${icon("linkedin")}<span class="cc-label mono">LINKEDIN</span><span class="cc-value">in/bereket-tilahun ${icon("external", "icon-xs")}</span>
       </a>
       <a class="contact-card" href="/assets/Bereket_Tilahun_Resume.pdf" download>
+        <span class="scan" aria-hidden="true"></span>
         ${icon("download")}<span class="cc-label mono">RÉSUMÉ</span><span class="cc-value">PDF — one page</span>
       </a>
     </div>
