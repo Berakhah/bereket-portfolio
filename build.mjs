@@ -374,25 +374,25 @@ const caseSections = (p) => {
   <aside class="cs-toc" aria-label="Case study sections">
     <p class="mono toc-h">CONTENTS</p>
     <ol>
-      ${toc.map(([id, label]) => `<li><a href="#${id}">${esc(label)}</a></li>`).join("")}
+      ${toc.map(([id, label]) => `<li><a href="#${id}"><span class="toc-bar" aria-hidden="true"></span>${esc(label)}</a></li>`).join("")}
     </ol>
     <a class="btn btn-quiet btn-sm toc-back" href="/#work">${icon("arrow")} All work</a>
   </aside>
 
   <div class="cs-body">
-    <section class="cs-sec rv" id="problem" aria-labelledby="problem-h">
+    <section class="cs-sec rv rv-clip" id="problem" aria-labelledby="problem-h">
       <p class="eyebrow mono">§ 1 — PROBLEM</p>
       <h2 class="cs-h" id="problem-h">The problem</h2>
       ${prose(cs.problem)}
     </section>
 
-    <section class="cs-sec rv" id="why" aria-labelledby="why-h">
+    <section class="cs-sec rv rv-clip" id="why" aria-labelledby="why-h">
       <p class="eyebrow mono">§ 2 — PRIOR ART</p>
       <h2 class="cs-h" id="why-h">Why existing approaches fail</h2>
       ${bullets(cs.whyFails)}
     </section>
 
-    <section class="cs-sec rv" id="architecture" aria-labelledby="arch-h">
+    <section class="cs-sec rv rv-clip" id="architecture" aria-labelledby="arch-h">
       <p class="eyebrow mono">§ 3 — ARCHITECTURE</p>
       <h2 class="cs-h" id="arch-h">System architecture</h2>
       ${prose(cs.architecture.intro)}
@@ -401,13 +401,13 @@ const caseSections = (p) => {
       <div class="code-block rv"><span class="code-label mono">repository layout</span><pre><code>${esc(cs.architecture.tree)}</code></pre></div>
     </section>
 
-    <section class="cs-sec rv" id="threat" aria-labelledby="threat-h">
+    <section class="cs-sec rv rv-clip" id="threat" aria-labelledby="threat-h">
       <p class="eyebrow mono">§ 4 — THREAT MODEL</p>
       <h2 class="cs-h" id="threat-h">Threat model</h2>
       ${bullets(cs.threatModel)}
     </section>
 
-    <section class="cs-sec rv" id="decisions" aria-labelledby="dec-h">
+    <section class="cs-sec rv rv-clip" id="decisions" aria-labelledby="dec-h">
       <p class="eyebrow mono">§ 5 — DECISIONS</p>
       <h2 class="cs-h" id="dec-h">Key decisions</h2>
       <dl class="decisions">
@@ -415,38 +415,38 @@ const caseSections = (p) => {
       </dl>
     </section>
 
-    <section class="cs-sec rv" id="implementation" aria-labelledby="impl-h">
+    <section class="cs-sec rv rv-clip" id="implementation" aria-labelledby="impl-h">
       <p class="eyebrow mono">§ 6 — IMPLEMENTATION</p>
       <h2 class="cs-h" id="impl-h">Implementation</h2>
       ${bullets(cs.implementation)}
     </section>
 
-    <section class="cs-sec rv" id="evidence" aria-labelledby="ev-h">
+    <section class="cs-sec rv rv-clip" id="evidence" aria-labelledby="ev-h">
       <p class="eyebrow mono">§ 7 — EVIDENCE</p>
       <h2 class="cs-h" id="ev-h">Evidence</h2>
       ${metricsRow(p.card.metrics)}
       ${bullets(cs.evidence)}
     </section>
 
-    <section class="cs-sec rv" id="controls" aria-labelledby="ctl-h">
+    <section class="cs-sec rv rv-clip" id="controls" aria-labelledby="ctl-h">
       <p class="eyebrow mono">§ 8 — CONTROLS</p>
       <h2 class="cs-h" id="ctl-h">Security controls</h2>
       ${bullets(cs.securityControls)}
     </section>
 
-    <section class="cs-sec rv" id="tradeoffs" aria-labelledby="tr-h">
+    <section class="cs-sec rv rv-clip" id="tradeoffs" aria-labelledby="tr-h">
       <p class="eyebrow mono">§ 9 — TRADE-OFFS</p>
       <h2 class="cs-h" id="tr-h">Trade-offs</h2>
       ${bullets(cs.tradeoffs)}
     </section>
 
-    <section class="cs-sec rv" id="limits" aria-labelledby="lim-h">
+    <section class="cs-sec rv rv-clip" id="limits" aria-labelledby="lim-h">
       <p class="eyebrow mono">§ 10 — LIMITATIONS</p>
       <h2 class="cs-h" id="lim-h">Limitations</h2>
       ${bullets(cs.limitations)}
     </section>
 
-    <section class="cs-sec rv" id="status" aria-labelledby="st-h">
+    <section class="cs-sec rv rv-clip" id="status" aria-labelledby="st-h">
       <p class="eyebrow mono">§ 11 — STATUS</p>
       <h2 class="cs-h" id="st-h">Current status</h2>
       <div class="status-block">
@@ -456,7 +456,7 @@ const caseSections = (p) => {
       ${prose(cs.currentStatus)}
     </section>
 
-    <section class="cs-sec rv" id="repo" aria-labelledby="repo-h">
+    <section class="cs-sec rv rv-clip" id="repo" aria-labelledby="repo-h">
       <p class="eyebrow mono">§ 12 — REPOSITORY</p>
       <h2 class="cs-h" id="repo-h">Repository &amp; demo</h2>
       <div class="repo-block">
@@ -481,7 +481,7 @@ const casePage = (p, i) => {
   };
   const main = `
 <section class="cs-hero">
-  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="hero-texture" aria-hidden="true"></div>
   <div class="wrap">
     <p class="eyebrow mono rv">CASE STUDY · ${esc(p.category.join(" · "))}</p>
     <h1 class="cs-title rv" style="--d:.1s">${esc(p.name)}</h1>
@@ -493,7 +493,7 @@ const casePage = (p, i) => {
       <span class="mono">${esc(p.role)}</span>
     </div>
     <p class="pc-status-detail cs-status-detail rv" style="--d:.4s">${md(p.status.detail)}</p>
-    <div class="cs-hero-flow rv" style="--d:.46s">
+    <div class="cs-hero-flow rv" data-draw style="--d:.46s">
       ${flowStepper(p.flow, `${p.name} architecture flow`)}
     </div>
     <div class="cs-hero-tech rv" style="--d:.52s">
@@ -589,6 +589,11 @@ const notFoundPage = () =>
     main: `
 <section class="section nf">
   <div class="wrap">
+    ${bootBlock([
+      "> route lookup ........... refused",
+      "> policy ................. fail closed",
+      "> exit 404",
+    ])}
     <p class="eyebrow mono rv">404 — NO ROUTE</p>
     <h1 class="cs-title rv" style="--d:.08s">This page refuses to load.</h1>
     <p class="rv" style="--d:.16s">Fail-closed, in the spirit of the rest of the site. <a class="text-link" href="/">Back to the homepage</a>.</p>
