@@ -227,6 +227,111 @@
     win.addEventListener("pageshow", () => gsap.set(curtain, { scaleY: 0 }));
   }
 
-  /* === SCENES (Task 12) === */
+  /* ================================================================= scenes */
+
+  /* pipeline: pinned scrub on desktop; CSS-looped packet + reveals on mobile */
+  const scene = $("#pipeline");
+  if (scene && motion) {
+    const packet = $(".packet", scene), stations = $$(".station", scene), readout = $("[data-readout]", scene);
+    const n = stations.length;
+    const light = (p) => {
+      let current = -1;
+      stations.forEach((s, i) => {
+        const on = p >= i / (n - 1) - .02;
+        s.classList.toggle("lit", on);
+        if (on) current = i;
+      });
+      if (readout) readout.textContent = current < 0 ? "> awaiting input" : `> ${stations[current].getAttribute("data-desc")}`;
+    };
+    const mm = gsap.matchMedia();
+    mm.add(DESK, () => {
+      gsap.fromTo(packet, { "--x": 0 }, { "--x": 100, ease: "none",
+        scrollTrigger: { trigger: scene, pin: true, start: "top top", end: () => "+=" + n * 55 + "%", scrub: .5,
+          onUpdate: (self) => light(self.progress) } });
+    });
+    mm.add("(max-width: 63.99em)", () => {
+      ST.batch(stations, { start: "top 80%", once: true, onEnter: (els) => els.forEach((s) => s.classList.add("lit")) });
+      ST.create({ trigger: scene, start: "top bottom", end: "bottom top",
+        onToggle: (self) => scene.classList.toggle("live", self.isActive) });
+    });
+  }
+
+  /* work: sticky index follows the panel in view */
+  if (motion) {
+    $$("[data-panel]").forEach((card) => {
+      const link = $(`[data-index-for="${card.id}"]`);
+      if (!link) return;
+      ST.create({ trigger: card, start: "top 50%", end: "bottom 50%",
+        onToggle: (self) => link.classList.toggle("current", self.isActive) });
+    });
+  }
+
+  /* flow steppers: line draws with scroll (or on load inside [data-draw]) */
+  if (motion) {
+    $$(".flow").forEach((flow) => {
+      const line = $(".flow-line", flow);
+      if (!line) return;
+      if (flow.closest("[data-draw]")) {
+        gsap.fromTo(line, { "--draw": 0 }, { "--draw": 1, duration: 1.1, ease: "power2.inOut", delay: .6 });
+        return;
+      }
+      gsap.fromTo(line, { "--draw": 0 }, { "--draw": 1, ease: "none",
+        scrollTrigger: { trigger: flow, start: "top 85%", end: "bottom 45%", scrub: .4 } });
+    });
+  }
+
+  /* evidence: the Claim type "compiles" line by line, then rules stamp in */
+  const claim = $(".claim-specimen");
+  if (claim && motion) {
+    const lines = $$(".cl", claim), rules = $$(".rule", claim);
+    ST.create({ trigger: claim, start: "top 75%", once: true, onEnter: () => {
+      const tl = gsap.timeline();
+      lines.forEach((l) => tl.call(() => {
+        lines.forEach((x) => x.classList.remove("typing"));
+        l.classList.add("on", "typing");
+      }, null, ">.11"));
+      tl.call(() => lines.forEach((x) => x.classList.remove("typing")), null, ">.2");
+      rules.forEach((r) => tl.call(() => r.classList.add("stamped"), null, ">.28"));
+    } });
+  }
+
+  /* principles: pinned horizontal scrub on desktop */
+  const track = $("[data-track]");
+  if (track && motion) {
+    const list = $(".principles", track);
+    gsap.matchMedia().add(DESK, () => {
+      const dist = () => Math.max(0, list.scrollWidth - track.clientWidth);
+      gsap.to(list, { x: () => -dist(), ease: "none",
+        scrollTrigger: { trigger: track, pin: true, start: "center center", end: () => "+=" + dist(), scrub: .6, invalidateOnRefresh: true } });
+    });
+  }
+
+  /* timeline: rail draws, nodes ignite */
+  const rail = $(".modes-rail");
+  if (rail && motion) {
+    const wrap = rail.parentElement;
+    gsap.fromTo(rail, { "--draw": 0 }, { "--draw": 1, ease: "none",
+      scrollTrigger: { trigger: wrap, start: "top 70%", end: "bottom 60%", scrub: .4 } });
+    $$(".mode", wrap).forEach((m) => ST.create({ trigger: m, start: "top 65%", once: true, onEnter: () => m.classList.add("lit") }));
+  }
+
+  /* case-study TOC: current section + per-section progress hairline */
+  const toc = $(".cs-toc");
+  if (toc) {
+    const pairs = $$("a[href^='#']", toc).map((a) => [a, $(a.getAttribute("href"))]).filter(([, s]) => s);
+    if (motion) {
+      pairs.forEach(([a, sec]) => ST.create({ trigger: sec, start: "top 40%", end: "bottom 40%",
+        onUpdate: (self) => a.style.setProperty("--p", self.progress.toFixed(3)),
+        onToggle: (self) => a.classList.toggle("current", self.isActive) }));
+    } else if ("IntersectionObserver" in win) {
+      const spy = new IntersectionObserver((entries) => entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        pairs.forEach(([a]) => a.classList.remove("current"));
+        const hit = pairs.find(([, s]) => s === en.target);
+        if (hit) { hit[0].classList.add("current"); hit[0].style.setProperty("--p", "1"); }
+      }), { rootMargin: "-30% 0px -60% 0px" });
+      pairs.forEach(([, s]) => spy.observe(s));
+    }
+  }
 
 })();
