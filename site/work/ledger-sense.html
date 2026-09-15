@@ -10,19 +10,19 @@
 <meta property="og:description" content="Document intelligence with confidence routing, for construction progress billing. The validation layer is the product.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bereket Tilahun — Backend Security Engineer">
-
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ledger Sense — Case Study — Bereket Tilahun">
 <meta name="twitter:description" content="Document intelligence with confidence routing, for construction progress billing. The validation layer is the product.">
-<meta name="theme-color" content="#f6f4ee">
-<meta name="color-scheme" content="light">
-<meta name="view-transition" content="same-origin">
+<meta name="theme-color" content="#0a0b0d">
+<meta name="color-scheme" content="dark">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/plex-mono-normal-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="stylesheet" href="/assets/css/style.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ledger Sense — Document intelligence with confidence routing, for construction progress billing","author":{"@type":"Person","name":"Bereket Tilahun"},"about":"Trustworthy Automation, Backend Systems, Security"}</script>
 </head>
 <body class="page-case">
+<div class="curtain" aria-hidden="true"></div>
 
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="progress" aria-hidden="true"><span class="progress-bar"></span></div>
@@ -61,7 +61,7 @@
 <main id="main">
 
 <section class="cs-hero">
-  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="hero-texture" aria-hidden="true"></div>
   <div class="wrap">
     <p class="eyebrow mono rv">CASE STUDY · Trustworthy Automation · Backend Systems · Security</p>
     <h1 class="cs-title rv" style="--d:.1s">Ledger Sense</h1>
@@ -76,9 +76,10 @@
       <span class="mono">Sole engineer — domain modelling, implementation, security posture</span>
     </div>
     <p class="pc-status-detail cs-status-detail rv" style="--d:.4s">Real implementation exists; the project is incomplete. 72 commits — foundation 29 Aug 2026, extraction / rules / sensitivity-gateway / inbox API landed through 15 Sep 2026. Frontend scaffolded; review-queue UI and calibration phases pending.</p>
-    <div class="cs-hero-flow rv" style="--d:.46s">
+    <div class="cs-hero-flow rv" data-draw style="--d:.46s">
       
 <ol class="flow" role="list" aria-label="Ledger Sense architecture flow">
+  <svg class="flow-line" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none"><line class="fl-h" x1="0" y1="50" x2="100" y2="50" pathLength="1"/><line class="fl-v" x1="50" y1="0" x2="50" y2="100" pathLength="1"/></svg>
   <li class="flow-node" style="--i:0">
       <span class="flow-dot" aria-hidden="true"></span>
       <span class="flow-text"><span class="flow-label">Document</span></span>
@@ -110,31 +111,32 @@
   <aside class="cs-toc" aria-label="Case study sections">
     <p class="mono toc-h">CONTENTS</p>
     <ol>
-      <li><a href="#problem">Problem</a></li><li><a href="#why">Why existing approaches fail</a></li><li><a href="#architecture">System architecture</a></li><li><a href="#threat">Threat model</a></li><li><a href="#decisions">Key decisions</a></li><li><a href="#implementation">Implementation</a></li><li><a href="#evidence">Evidence</a></li><li><a href="#controls">Security controls</a></li><li><a href="#tradeoffs">Trade-offs</a></li><li><a href="#limits">Limitations</a></li><li><a href="#status">Current status</a></li><li><a href="#repo">Repository &amp; demo</a></li>
+      <li><a href="#problem"><span class="toc-bar" aria-hidden="true"></span>Problem</a></li><li><a href="#why"><span class="toc-bar" aria-hidden="true"></span>Why existing approaches fail</a></li><li><a href="#architecture"><span class="toc-bar" aria-hidden="true"></span>System architecture</a></li><li><a href="#threat"><span class="toc-bar" aria-hidden="true"></span>Threat model</a></li><li><a href="#decisions"><span class="toc-bar" aria-hidden="true"></span>Key decisions</a></li><li><a href="#implementation"><span class="toc-bar" aria-hidden="true"></span>Implementation</a></li><li><a href="#evidence"><span class="toc-bar" aria-hidden="true"></span>Evidence</a></li><li><a href="#controls"><span class="toc-bar" aria-hidden="true"></span>Security controls</a></li><li><a href="#tradeoffs"><span class="toc-bar" aria-hidden="true"></span>Trade-offs</a></li><li><a href="#limits"><span class="toc-bar" aria-hidden="true"></span>Limitations</a></li><li><a href="#status"><span class="toc-bar" aria-hidden="true"></span>Current status</a></li><li><a href="#repo"><span class="toc-bar" aria-hidden="true"></span>Repository &amp; demo</a></li>
     </ol>
     <a class="btn btn-quiet btn-sm toc-back" href="/#work"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg> All work</a>
   </aside>
 
   <div class="cs-body">
-    <section class="cs-sec rv" id="problem" aria-labelledby="problem-h">
+    <section class="cs-sec rv rv-clip" id="problem" aria-labelledby="problem-h">
       <p class="eyebrow mono">§ 1 — PROBLEM</p>
       <h2 class="cs-h" id="problem-h">The problem</h2>
       <p class="">Construction progress billing runs on pay applications — a summary sheet (contract sum, retainage, previous payments, current payment due) that must reconcile exactly to a continuation sheet of line items (scheduled value, work completed, stored materials, % complete, balance to finish). Controllers and AP staff check these by hand: does the continuation sheet foot to the summary? Is retainage stepping down at 50% completion as the contract says? Are stored materials being double-counted once installed? Did this vendor’s bank details just change? Every error a human misses is money out the door; every document a human checks costs touch time nobody has measured.</p>
     </section>
 
-    <section class="cs-sec rv" id="why" aria-labelledby="why-h">
+    <section class="cs-sec rv rv-clip" id="why" aria-labelledby="why-h">
       <p class="eyebrow mono">§ 2 — PRIOR ART</p>
       <h2 class="cs-h" id="why-h">Why existing approaches fail</h2>
       <ul class="bullets"><li>The obvious fix — throw a vision model at the PDF — is off the table for anyone serious: a subcontractor invoice with bank details cannot go to a free-tier model that trains on inputs.</li><li>The AIA’s G702/G703 forms are copyrighted and actively enforced, so you can’t ship a corpus of them either — and most tooling pretends otherwise.</li><li>Generic document AI optimises extraction, not validation — but the money is lost in validation: footing errors, retainage mistakes, double-counted stored materials, changed bank details.</li><li>Confidence scores that aren’t calibrated are decoration: routing on an uncalibrated score is guessing while displaying a number.</li></ul>
     </section>
 
-    <section class="cs-sec rv" id="architecture" aria-labelledby="arch-h">
+    <section class="cs-sec rv rv-clip" id="architecture" aria-labelledby="arch-h">
       <p class="eyebrow mono">§ 3 — ARCHITECTURE</p>
       <h2 class="cs-h" id="arch-h">System architecture</h2>
       <p class="">A deterministic-first extraction and validation pipeline where the validation layer is the product. Documents enter through one labelled door, are classified, layout-parsed (text layer with coordinates first, OCR only for the scanned tail), field-extracted by anchor + geometry + table reconstruction, validated by typed domain rules, and routed by confidence thresholds — with everything routed to review until calibration exists.</p>
       
       
 <ol class="flow" role="list" aria-label="Ledger Sense architecture flow">
+  <svg class="flow-line" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none"><line class="fl-h" x1="0" y1="50" x2="100" y2="50" pathLength="1"/><line class="fl-v" x1="50" y1="0" x2="50" y2="100" pathLength="1"/></svg>
   <li class="flow-node" style="--i:0">
       <span class="flow-dot" aria-hidden="true"></span>
       <span class="flow-text"><span class="flow-label">Document</span></span>
@@ -173,13 +175,13 @@
   web/         Next.js app: baseline, review/[docId]</code></pre></div>
     </section>
 
-    <section class="cs-sec rv" id="threat" aria-labelledby="threat-h">
+    <section class="cs-sec rv rv-clip" id="threat" aria-labelledby="threat-h">
       <p class="eyebrow mono">§ 4 — THREAT MODEL</p>
       <h2 class="cs-h" id="threat-h">Threat model</h2>
       <ul class="bullets"><li><strong>Data-processor liability from document one.</strong> Client documents are confidential and bank-detail-bearing — the system becomes a data processor on the first upload, so encryption, retention and purge exist before the first document does.</li><li><strong>Free-tier model training on inputs.</strong> The model lane refuses anything above REDACTED sensitivity; the boundary is structural, not disciplinary.</li><li><strong>Unauthorised cross-tenant reads.</strong> Every route performs a 404-not-403 ownership check; tenant scoping lives in the store layer.</li><li><strong>Resource-exhaustion via crafted PDFs.</strong> Parsing runs in a killable, resource-capped child process with a request-body cap before spooling.</li><li><strong>Fabricated zeros passing as verified.</strong> unverifiable_money_fields() ensures a fabricated zero can’t masquerade as a confirmed figure.</li><li><strong>Trademark exposure.</strong> No AIA form artifact anywhere in the repo — the synthetic corpus uses an original layout with equivalent column semantics, enforced by the aia-guard CI job with a non-affiliation notice carried.</li></ul>
     </section>
 
-    <section class="cs-sec rv" id="decisions" aria-labelledby="dec-h">
+    <section class="cs-sec rv rv-clip" id="decisions" aria-labelledby="dec-h">
       <p class="eyebrow mono">§ 5 — DECISIONS</p>
       <h2 class="cs-h" id="dec-h">Key decisions</h2>
       <dl class="decisions">
@@ -187,13 +189,13 @@
       </dl>
     </section>
 
-    <section class="cs-sec rv" id="implementation" aria-labelledby="impl-h">
+    <section class="cs-sec rv rv-clip" id="implementation" aria-labelledby="impl-h">
       <p class="eyebrow mono">§ 6 — IMPLEMENTATION</p>
       <h2 class="cs-h" id="impl-h">Implementation</h2>
       <ul class="bullets"><li>Python 3.12, FastAPI, Pydantic v2, SQLAlchemy 2 + Alembic (5 migrations), PostgreSQL (SQLite WAL for dev). Next.js 15.5 / React 19 frontend with self-hosted pdf.js worker — no CDN, so the demo runs offline and emits no document-read telemetry.</li><li>~6,200 LOC of non-test Python across 127 files; ~5,600 LOC of test code with 405 test functions.</li><li>Security posture ahead of the first document: envelope-encrypted blob store, Argon2 sessions, per-tenant retention with audited purge, closed-period refusal, resource-capped PDF parsing in a killable child process.</li><li>Domain modelling as typed rules: retainage stepping at 50% / substantial completion, stored materials that must leave the stored column when installed, approved change orders reconciling to the adjusted contract sum.</li><li>The t-interval uses a table to 200 df, not 1.96; loaded-rate uncertainty propagates — supply a low/high hourly rate and the interval widens, supply one figure and the report says verbatim that the interval holds it fixed.</li><li>Baseline study is the billable first week: times real document handling, computes cost-per-document with a 95% Student’s t interval (minimum 8 samples enforced), and renders a print-ready report carrying its own method statement.</li></ul>
     </section>
 
-    <section class="cs-sec rv" id="evidence" aria-labelledby="ev-h">
+    <section class="cs-sec rv rv-clip" id="evidence" aria-labelledby="ev-h">
       <p class="eyebrow mono">§ 7 — EVIDENCE</p>
       <h2 class="cs-h" id="ev-h">Evidence</h2>
       <div class="metrics-row">
@@ -250,25 +252,25 @@
       <ul class="bullets"><li><strong>Property-based validation:</strong> hypothesis invariants run over every arithmetic rule, routed through the real run_rules() entry point — not a parallel test-only code path.</li><li><strong>Every rule ships with a fixture that must trip it and a clean control that must not.</strong></li><li><strong>Boundary enforcement you can read:</strong> tests walk the AST to prove single insert site, single writer, no HTTP client outside the gateway seam (tests/boundary/).</li><li><strong>8 independent CI gates</strong> including supply-chain (pip-audit + CycloneDX SBOM) and licence audit that rejects AGPL by SPDX identifier and by native shared-object inspection.</li><li><strong>Straight-through rate published including the misses</strong> — never claiming full automation.</li></ul>
     </section>
 
-    <section class="cs-sec rv" id="controls" aria-labelledby="ctl-h">
+    <section class="cs-sec rv rv-clip" id="controls" aria-labelledby="ctl-h">
       <p class="eyebrow mono">§ 8 — CONTROLS</p>
       <h2 class="cs-h" id="ctl-h">Security controls</h2>
       <ul class="bullets"><li><strong>Sensitivity gateway:</strong> labels at the door with named CHECK constraints; the model lane refuses anything above REDACTED; enforced by AST tests, one door, one writer.</li><li><strong>Envelope-encrypted blob store</strong> with per-tenant keys; per-tenant retention with audited purge; closed-period refusal.</li><li><strong>Argon2 sessions; 404-not-403 ownership checks on every route.</strong></li><li><strong>Resource-capped, killable child-process PDF parsing</strong> with request-body cap before spool.</li><li><strong>Draft-only writeback; hard stop on bank-detail changes; no auto-merged vendors; no generated legal documents.</strong></li></ul>
     </section>
 
-    <section class="cs-sec rv" id="tradeoffs" aria-labelledby="tr-h">
+    <section class="cs-sec rv rv-clip" id="tradeoffs" aria-labelledby="tr-h">
       <p class="eyebrow mono">§ 9 — TRADE-OFFS</p>
       <h2 class="cs-h" id="tr-h">Trade-offs</h2>
       <ul class="bullets"><li><strong>Deterministic-first</strong> trades the ceiling of vision models for verifiable extraction on software-generated documents — the population this system actually serves.</li><li><strong>Everything routes to review until calibration</strong> trades short-term automation rates for never guessing with money.</li><li><strong>Compose-profile separation (app vs app-demo)</strong> costs one more service definition and buys a demo route that cannot exist in production.</li></ul>
     </section>
 
-    <section class="cs-sec rv" id="limits" aria-labelledby="lim-h">
+    <section class="cs-sec rv rv-clip" id="limits" aria-labelledby="lim-h">
       <p class="eyebrow mono">§ 10 — LIMITATIONS</p>
       <h2 class="cs-h" id="lim-h">Limitations</h2>
       <ul class="bullets"><li>Calibration (isotonic/Platt curves per field type) is a later phase — consumed from the Ground Truth project.</li><li>Accounting-system writeback (draft bills + CSV/IIF fallback) is designed but not yet built.</li><li>The review-queue UI (split view, J/K/Enter/E/R keyboard path) is scaffolded, not complete.</li><li>No design partner or real-document baseline has been run yet; the synthetic corpus is the demo.</li></ul>
     </section>
 
-    <section class="cs-sec rv" id="status" aria-labelledby="st-h">
+    <section class="cs-sec rv rv-clip" id="status" aria-labelledby="st-h">
       <p class="eyebrow mono">§ 11 — STATUS</p>
       <h2 class="cs-h" id="st-h">Current status</h2>
       <div class="status-block">
@@ -281,7 +283,7 @@
       <p class="">In active development — 72 commits; foundation from 29 Aug 2026; extraction, rules, sensitivity gateway and inbox API landed through 15 Sep 2026. Frontend scaffolded; review-queue UI and calibration phases pending. Licence: Apache-2.0.</p>
     </section>
 
-    <section class="cs-sec rv" id="repo" aria-labelledby="repo-h">
+    <section class="cs-sec rv rv-clip" id="repo" aria-labelledby="repo-h">
       <p class="eyebrow mono">§ 12 — REPOSITORY</p>
       <h2 class="cs-h" id="repo-h">Repository &amp; demo</h2>
       <div class="repo-block">
@@ -349,6 +351,9 @@
   </aside>
 </div>
 <script type="application/json" id="evidence-data">{"m-tests-731":{"claim":"Agent Perimeter’s test suite contains 731 registered test functions.","method":"DETERMINISTIC","source":{"label":"Repository — tests/ directory count","href":"https://github.com/Berakhah/agent-perimeter"},"basis":"Counted from the repository tree: 86 test files, ~12,400 lines of test code, 731 test functions.","observedAt":"2026-09","caveats":["Counts test functions, not individual assertions."]},"m-pr-100":{"claim":"Agent Perimeter scores 1.00 precision and 1.00 recall on all 12 evaluated check classes.","method":"DETERMINISTIC","source":{"label":"docs/methodology.md — precision/recall table","href":"https://github.com/Berakhah/agent-perimeter"},"basis":"Evaluated against a 22-case local corpus (v1.0.0). The table is rebuilt by CI on every commit and the build fails if the result goes stale.","observedAt":"2026-09","caveats":["Local fixture corpus maintained by the project — not an independent public benchmark."]},"m-quickstart-82":{"claim":"A clean machine can clone and run Agent Perimeter’s quickstart end-to-end in 82 seconds.","method":"DETERMINISTIC","source":{"label":"docs/evidence/clean-machine.md","href":"https://github.com/Berakhah/agent-perimeter"},"basis":"A GitHub Actions workflow (clean-machine.yml) clones the public repo onto a fresh ubuntu-latest VM and executes the README quickstart verbatim with Docker 28. Recorded run: green in 82 s.","observedAt":"2026-09","caveats":["Measured on GitHub’s hosted runners; local disk speed will vary."]},"m-census-31953":{"claim":"The published census covered the full 31,953-entry population of the official MCP Registry.","method":"DETERMINISTIC","source":{"label":"Registry census report, 2026-09-14","href":"https://github.com/Berakhah/agent-perimeter"},"basis":"Passive crawl of the official MCP Registry with full pagination (320 pages, 0 failures), timestamped to the second. analysis/census_analysis.py recomputes every published figure from records.csv alone.","observedAt":"2026-09-14","caveats":["Zero counts are reported with Wilson 95% intervals (0.0–2.2%, 0.0–2.9%) — a zero is never reported as “none”.","Two earlier same-day runs were discarded for detector bugs and recorded in the changelog."]},"m-degraded-90":{"claim":"At least 90% of Agent Perimeter’s finding classes still fire with all model providers disabled.","method":"DETERMINISTIC","source":{"label":"test_degraded_mode_still_produces_findings","href":"https://github.com/Berakhah/agent-perimeter"},"basis":"The test disables every model provider and asserts the share of finding classes that still produce findings. The LLM judge is the only model-gated check.","observedAt":"2026-09","caveats":["Floor is on finding classes, not on individual findings."]},"m-latency-195":{"claim":"Redis caching dropped p95 latency on the auth verification path from ~340 ms to ~195 ms under peak load.","method":"HUMAN","source":{"label":"Résumé — DZ Software Engineering PLC, Mar 2023 – Present"},"basis":"Self-reported from production telemetry: 15 containerized backend services, Redis-backed caching with 84% hit rate on hot paths, peak ~420 req/min.","observedAt":"2023 – present","caveats":["Self-reported figure from production dashboards; the measurement window is not published."]},"ap-checks":{"claim":"Agent Perimeter registers 34 checks across 7 families.","method":"DETERMINISTIC","source":{"label":"checks/all_checks.py","href":"https://github.com/Berakhah/agent-perimeter"},"basis":"Revision (12) · static (5) · descriptions (5) · secrets (3) · active (4, scope-gated) · injection (2) · drift (1) · policy (2).","observedAt":"2026-09","caveats":[]},"ap-pr":{"claim":"Precision and recall of 1.00 across all 12 evaluated check classes.","method":"DETERMINISTIC","source":{"label":"docs/methodology.md","href":"https://github.com/Berakhah/agent-perimeter"},"basis":"Evaluated on a 22-case local corpus (v1.0.0). The precision/recall table is rebuilt on every commit and CI fails if it drifts.","observedAt":"2026-09","caveats":["Local fixture corpus — not an independent public benchmark."]},"ap-tests":{"claim":"The test suite contains 731 registered test functions across 86 files.","method":"DETERMINISTIC","source":{"label":"Repository — tests/ count","href":"https://github.com/Berakhah/agent-perimeter"},"basis":"Counted from the repository tree. Coverage floor of 75% is enforced in CI.","observedAt":"2026-09","caveats":["Counts test functions, not individual assertions."]},"ap-census":{"claim":"The published census covered the full 31,953-entry registry population.","method":"DETERMINISTIC","source":{"label":"Registry census report — 2026-09-14","href":"https://github.com/Berakhah/agent-perimeter"},"basis":"Full pagination (320 pages, 0 failures), seeded uniform random sample of packaged entries, 23-minute collection window timestamped to the second.","observedAt":"2026-09-14","caveats":["Zero counts reported with Wilson 95% intervals — never as “none”."]},"ap-clean":{"claim":"The README quickstart completes green in 82 seconds on a clean machine.","method":"DETERMINISTIC","source":{"label":"docs/evidence/clean-machine.md","href":"https://github.com/Berakhah/agent-perimeter"},"basis":"clean-machine.yml clones the public repo onto a fresh ubuntu-latest VM and runs the quickstart verbatim with Docker 28.","observedAt":"2026-09","caveats":[]},"gt-golden":{"claim":"The golden set is 300 synthetic items: 120 public, 180 private.","method":"DETERMINISTIC","source":{"label":"golden/ — seeded splits & manifests"},"basis":"Two independent seeded generations, never one pool divided. The private split is committed as salted content hashes (sha256 with a 128-bit secret salt), proving the items existed at a date without revealing them.","observedAt":"2026-09","caveats":["The golden set is synthetic — generated by the project’s own generator."]},"gt-tests":{"claim":"Ground Truth’s test suite contains 408 registered test functions.","method":"DETERMINISTIC","source":{"label":"Repository — tests/ count"},"basis":"Counted from the repository tree: 50 test files, ~5,000 lines of test code. Docker Compose ‘up’ runs the full suite with coverage as the smoke test.","observedAt":"2026-09","caveats":[]},"gt-nongoals":{"claim":"Six non-goals are enforced in CI by AST checks.","method":"DETERMINISTIC","source":{"label":"tests/test_non_goals.py · docs/non-goals.md"},"basis":"The test parses the codebase and fails the build on forbidden abstractions: no plugin system, no generic task abstraction, no multi-tenant SaaS, no bring-your-own-eval, no observability product, no prompt management.","observedAt":"2026-09","caveats":[]},"gt-terms":{"claim":"Every term the leaderboard uses is defined in the methodology — enforced, not promised.","method":"DETERMINISTIC","source":{"label":"docs/methodology.md · tests/"},"basis":"A test asserts that each of 17 leaderboard terms (accurate, correct, field, replicate, look, …) is defined in docs/methodology.md; an undefined term fails the build.","observedAt":"2026-09","caveats":[]},"gt-alpha":{"claim":"LLM-judge agreement below α 0.667 excludes the field type from headline scoring.","method":"DETERMINISTIC","source":{"label":"graders/judge/agreement.py"},"basis":"Judge-vs-human agreement (Krippendorff’s α) is measured against a pre-registered rejection threshold. Bias controls are mandatory: randomised presentation order with an order-effect test, length-cue stripping, same-family judge rejected, n ≥ 3 majority vote.","observedAt":"2026-09","caveats":[]},"ls-rules":{"claim":"The rule registry holds 8 arithmetic rules (A1–A8) and 3 integrity rules (I1–I3).","method":"DETERMINISTIC","source":{"label":"rules/ — engine, arithmetic, integrity"},"basis":"Arithmetic: exact footing, per-line sums at the contract’s rounding, payment chain with previous payments subtracted once. Integrity: duplicates across history, fuzzy vendor resolution with first-match human confirmation, bank-detail change = hard stop.","observedAt":"2026-09","caveats":[]},"ls-tests":{"claim":"Ledger Sense’s test suite contains 405 registered test functions.","method":"DETERMINISTIC","source":{"label":"Repository — tests/ count"},"basis":"Counted from the repository tree. Property-based coverage routes hypothesis invariants over every arithmetic rule through the real run_rules() entry point.","observedAt":"2026-09","caveats":[]},"ls-nofloat":{"claim":"Floats cannot enter the money path — enforced three independent ways.","method":"DETERMINISTIC","source":{"label":"CI ‘no-float’ job"},"basis":"A ruff lint rule, a dedicated CI job, and hypothesis property tests over every arithmetic rule. Money is Decimal with contract-supplied rounding.","observedAt":"2026-09","caveats":[]},"ls-gates":{"claim":"Eight independent CI jobs gate every change.","method":"DETERMINISTIC","source":{"label":".github/workflows/ci.yml"},"basis":"Licence audit (rejects AGPL by SPDX and by native shared-object), backend coverage floors per module, degraded-mode, no-float, aia-guard, gitleaks, frontend, supply-chain (pip-audit + CycloneDX SBOM).","observedAt":"2026-09","caveats":[]},"ls-baseline":{"claim":"The baseline study refuses to emit a cost-per-document interval from fewer than 8 samples.","method":"DETERMINISTIC","source":{"label":"baseline/ — BaselineStudy · docs/methodology.md"},"basis":"Times real document handling and computes cost-per-document with a defensible Student’s t 95% interval. The t-value comes from a table to 200 df, not the asymptotic 1.96, because at real sample sizes the asymptotic value understates the margin.","observedAt":"2026-09","caveats":["No design-partner baseline has been run yet — the synthetic corpus is the demo."]},"bk-contract":{"claim":"The interface contract is at v0.2 and is the authoritative symbol surface.","method":"DETERMINISTIC","source":{"label":"docs/INTERFACE-CONTRACT.md"},"basis":"Additive/versioned; §9 records every change from v0.1, including two security holes closed: a missing redacted_opt_in flag, and verified_at staleness never being enforced.","observedAt":"2026-08-29","caveats":[]},"bk-audit":{"claim":"The R1 audit corrected five controls before any implementation.","method":"HUMAN","source":{"label":"Revision R1 audit record"},"basis":"Both implementation plans were audited line-by-line; five controls were found untestable-as-written or absent and corrected before implementation. Three redaction ‘controls’ were tests that could not fail.","observedAt":"2026-08","caveats":[]},"bk-slice":{"claim":"A minimal slice of bok-core is implemented with tests.","method":"DETERMINISTIC","source":{"label":"bok_core.boundary.sensitivity · bok_core.provenance"},"basis":"Sensitivity labels with explicit rank ordering and fail-closed provider capability matrix; Source/Claim provenance types with validator-enforced confidence monotonicity and caveat inheritance. ruff and mypy --strict clean.","observedAt":"2026-09","caveats":["The rest of the library (gateway, redaction, findings, UI, template) is specified but not shipped."]},"bk-consumers":{"claim":"Two consumer projects already mirror the v0.1/v0.2 surface.","method":"DETERMINISTIC","source":{"label":"Ledger Sense · Ground Truth repositories"},"basis":"Ledger Sense’s sensitivity gateway and Ground Truth’s _bok_shim.py mirror the v0.1/v0.2 interface surface, so the contract is already load-bearing.","observedAt":"2026-09","caveats":[]},"sd-cascade":{"claim":"The resolution cascade has five ordered rungs.","method":"HUMAN","source":{"label":"Design brief — resolution cascade"},"basis":"Rungs 1–4 must carry the overwhelming majority of resolutions; the proportion reaching rung 5 (visual grounding, redacted screenshot, client opt-in only) is instrumented and published.","observedAt":"2026-09 (design)","caveats":["Design-stage figure — the cascade is specified, not implemented."]},"sd-gate":{"claim":"Every heal passes six validation checks before any write.","method":"HUMAN","source":{"label":"Design brief — post-heal validation gate"},"basis":"Type/format assertions from the task spec, domain assertions (range, enum, date plausibility, currency sanity), cross-field consistency, distributional check against history (PSI/KS with warm-up and persistence), first-heal human confirmation, quarantine rather than failure.","observedAt":"2026-09 (design)","caveats":["Design-stage figure."]},"sd-proofpoint":{"claim":"A ninety-day live heal log is the intended headline proof point.","method":"HUMAN","source":{"label":"Design brief — planned proof points"},"basis":"To be run against ethically clean targets (own deployed apps, the test bench, consenting client portals), started on day one of the build because calendar time cannot be compressed. docs/methodology.md will define what counts as a UI change, a successful heal, and the sample.","observedAt":"planned","caveats":["This is a planned future proof point — it has not been achieved and must not be read as a result."]},"sd-bench":{"claim":"The plan ships a realistic mutating portal with a mutation engine as an open-source artifact.","method":"HUMAN","source":{"label":"Design brief — test bench"},"basis":"Login, search, results table, detail page, export; parameterised mutations (class renames, DOM restructuring, column reordering, table-to-div conversion) plus adversarial mutations — a decoy adjacent column with plausible values. Every mutation class gets a test asserting the cascade heals; every adversarial mutation gets a test asserting the gate refuses.","observedAt":"planned","caveats":["Design-stage commitment — implementation not started."]}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </body>
 </html>
