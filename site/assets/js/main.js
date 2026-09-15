@@ -64,42 +64,48 @@
     if (lenis) lenis.scrollTo(target, { offset: -72 });
     else target.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
   };
-  const onHome = location.pathname === "/" || /\/index\.html$/.test(location.pathname);
+  const normalizePath = (p) => p.replace(/\/index\.html$/, "/");
+  const isHome = (pathname) => pathname === "/" || /\/index\.html$/.test(pathname);
+  const onHome = isHome(location.pathname);
   doc.addEventListener("click", (e) => {
     const a = e.target.closest('a[href^="#"], a[href^="/#"]');
     if (!a) return;
+    if (a.classList.contains("skip-link")) return;           // let native fragment nav move focus
     const href = a.getAttribute("href");
     if (href.startsWith("/#") && !onHome) return;            // real navigation to home
     const hash = href.replace(/^\//, "");
-    const target = hash === "#" ? null : $(hash);
+    const target = hash === "#" ? null : doc.getElementById(hash.slice(1));
     if (!target) return;
     e.preventDefault();
     history.pushState(null, "", hash);
     scrollTo(target);
+    target.setAttribute("tabindex", "-1");
+    target.focus({ preventScroll: true });
   });
 
   /* claim → evidence drawer */
   const drawerRoot = $(".drawer-root"), drawerBody = $("#drawer-body");
   let lastTrigger = null, evidence = {};
   try { evidence = JSON.parse($("#evidence-data").textContent || "{}"); } catch { evidence = {}; }
-  const evRow = (k, v, i) => `<div class="ev-row" style="--i:${i}"><span class="ev-k">${k}</span><span class="ev-v">${v}</span></div>`;
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const evRow = (k, v, i) => `<div class="ev-row" style="--i:${i}"><span class="ev-k">${esc(k)}</span><span class="ev-v">${v}</span></div>`;
   const openDrawer = (id, trigger) => {
     const ev = evidence[id];
     if (!ev || !drawerRoot) return;
     lastTrigger = trigger || null;
     const rows = [
-      evRow("Method", `<span class="ev-method m-${ev.method}">${ev.method}</span>`, 0),
+      evRow("Method", `<span class="ev-method m-${esc(ev.method)}">${esc(ev.method)}</span>`, 0),
       evRow("Source", ev.source && ev.source.href
-        ? `<a href="${ev.source.href}" target="_blank" rel="noopener">${ev.source.label}</a>`
-        : (ev.source ? ev.source.label : "—"), 1),
-      evRow("Basis", ev.basis || "—", 2),
-      evRow("Observed", ev.observedAt || "—", 3),
+        ? `<a href="${esc(ev.source.href)}" target="_blank" rel="noopener">${esc(ev.source.label)}</a>`
+        : (ev.source ? esc(ev.source.label) : "—"), 1),
+      evRow("Basis", ev.basis ? esc(ev.basis) : "—", 2),
+      evRow("Observed", ev.observedAt ? esc(ev.observedAt) : "—", 3),
     ];
     drawerBody.innerHTML = `
-      <p class="ev-claim">${ev.claim}</p>
+      <p class="ev-claim">${esc(ev.claim)}</p>
       <div class="ev-chain">${rows.join("")}</div>
       ${ev.caveats && ev.caveats.length
-        ? `<div class="ev-caveats"><p class="ev-caveats-h">⚠ INHERITED CAVEATS</p><ul>${ev.caveats.map((c) => `<li>${c}</li>`).join("")}</ul></div>`
+        ? `<div class="ev-caveats"><p class="ev-caveats-h">⚠ INHERITED CAVEATS</p><ul>${ev.caveats.map((c) => `<li>${esc(c)}</li>`).join("")}</ul></div>`
         : ""}`;
     drawerRoot.classList.add("open");
     drawerRoot.setAttribute("aria-hidden", "false");
@@ -216,10 +222,11 @@
   const curtain = $(".curtain");
   if (motion && curtain && !("startViewTransition" in doc)) {
     doc.addEventListener("click", (e) => {
+      if (e.defaultPrevented) return;                        // anchor handler already acted
       const a = e.target.closest("a[href]");
       if (!a || a.target === "_blank" || a.hasAttribute("download") || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
       const url = new URL(a.href, location.href);
-      if (url.origin !== location.origin || (url.pathname === location.pathname && url.hash)) return;
+      if (url.origin !== location.origin || (normalizePath(url.pathname) === normalizePath(location.pathname) && url.hash)) return;
       e.preventDefault();
       gsap.fromTo(curtain, { scaleY: 0 }, { scaleY: 1, duration: .38, ease: "power3.inOut", transformOrigin: "bottom",
         onComplete: () => { location.href = url.href; } });
