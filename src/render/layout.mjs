@@ -1,8 +1,21 @@
-// Page shell: head (SEO/OG/JSON-LD), header, footer. Consumed by build.mjs.
+// Page shell: head (SEO/OG/JSON-LD), vendor scripts, header, footer.
+// Consumed by build.mjs.
 import { esc, icon } from "./components.mjs";
 
+// Pinned, deferred, no build step.  Lenis is not on cdnjs → jsDelivr.
+export const VENDOR = [
+  "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js",
+  "https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js",
+];
+
+export const scripts = (extra = []) =>
+  [...VENDOR, ...extra, "/assets/js/main.js"]
+    .map((src) => `<script src="${src}" defer></script>`)
+    .join("\n");
+
 export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogType = "website" }) => {
-  const canon = siteUrl ? `\n<link rel="canonical" href="${esc((siteUrl + path).replace(/\/$/, "/"))}">` : "";
+  const canon = siteUrl ? `\n<link rel="canonical" href="${esc(siteUrl + path)}">` : "";
   const ogUrl = siteUrl ? `\n<meta property="og:url" content="${esc(siteUrl + path)}">` : "";
   const ogImg = siteUrl ? `\n<meta property="og:image" content="${esc(siteUrl + "/assets/img/og-card.png")}">\n<meta name="twitter:image" content="${esc(siteUrl + "/assets/img/og-card.png")}">` : "";
   return `<!doctype html>
@@ -20,13 +33,12 @@ export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogT
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
-<meta name="theme-color" content="#f6f4ee">
-<meta name="color-scheme" content="light">
-<meta name="view-transition" content="same-origin">
+<meta name="theme-color" content="#0a0b0d">
+<meta name="color-scheme" content="dark">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/plex-mono-normal-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="stylesheet" href="/assets/css/style.css">
-${canon}
+<link rel="stylesheet" href="/assets/css/style.css">${canon}
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>` : ""}
 </head>`;
 };

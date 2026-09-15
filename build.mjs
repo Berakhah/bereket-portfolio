@@ -12,39 +12,16 @@ import {
   esc, md, prose, bullets, icon, badge, flowStepper, metricsRow,
   evidenceScript, evidenceDrawer, repoChip, substrateDiagram, claimSpecimen, prov,
 } from "./src/render/components.mjs";
-import { head, header, footer } from "./src/render/layout.mjs";
+import { head, scripts, header, footer } from "./src/render/layout.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const OUT = join(ROOT, "site");
 
-const page = ({ title, desc, path, bodyClass = "", main, jsonLd = null }) => `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(title)}</title>
-<meta name="description" content="${esc(desc)}">
-<meta name="author" content="Bereket Tilahun">
-<meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(desc)}">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Bereket Tilahun — Backend Security Engineer">
-${site.siteUrl ? `<meta property="og:url" content="${esc(site.siteUrl + path)}">
-<link rel="canonical" href="${esc(site.siteUrl + path)}">
-<meta property="og:image" content="${esc(site.siteUrl + "/assets/img/og-card.png")}">
-<meta name="twitter:image" content="${esc(site.siteUrl + "/assets/img/og-card.png")}">` : ""}
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${esc(title)}">
-<meta name="twitter:description" content="${esc(desc)}">
-<meta name="theme-color" content="#f6f4ee">
-<meta name="color-scheme" content="light">
-<meta name="view-transition" content="same-origin">
-<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="stylesheet" href="/assets/css/style.css">
-${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>` : ""}
-</head>
+const page = ({ title, desc, path, bodyClass = "", main, jsonLd = null, extraScripts = [] }) => `${head({
+  title, desc, path, siteUrl: site.siteUrl, jsonLd,
+})}
 <body class="${bodyClass}">
+<div class="curtain" aria-hidden="true"></div>
 ${header(path)}
 <main id="main">
 ${main}
@@ -52,7 +29,7 @@ ${main}
 ${footer(site)}
 ${evidenceDrawer()}
 ${evidenceScript(evidenceIndex)}
-<script src="/assets/js/main.js" defer></script>
+${scripts(extraScripts)}
 </body>
 </html>`;
 
@@ -343,6 +320,7 @@ const indexPage = () => {
     bodyClass: "page-home",
     main,
     jsonLd,
+    extraScripts: ["/assets/js/graph.js"],
   });
 };
 
