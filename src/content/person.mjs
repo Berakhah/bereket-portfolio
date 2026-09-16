@@ -16,7 +16,7 @@ export const site = {
   availability:
     "Open to backend and security engineering roles — Addis Ababa or remote.",
   // Set before deploy; used for canonical URLs, sitemap and OpenGraph.
-  siteUrl: "https://bereket-portfolio.vercel.app",
+  siteUrl: "https://berakhah.github.io",
 };
 
 export const nav = [
