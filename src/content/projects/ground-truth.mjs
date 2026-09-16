@@ -1,5 +1,5 @@
-// Ground Truth — measurement discipline case study. Harness complete; live
-// model audit pending; shipped leaderboard is placeholder data.
+// Ground Truth — measurement discipline case study. RUNNING per the author
+// (2026-09-16); harness, statistics, publication pipeline and UI.
 // Source: docs/portfolio/ground-truth.md
 
 export const project = {
@@ -9,17 +9,16 @@ export const project = {
   statement:
     "A benchmark is only useful when you can inspect how the number was produced.",
   status: {
-    code: "audit-pending",
-    label: "HARNESS COMPLETE · LIVE MODEL AUDIT PENDING",
+    code: "running",
+    label: "RUNNING",
     detail:
-      "Harness, statistics, publication pipeline and all six UI screens are built — 94 commits, 18 Sep 2025 → 9 Sep 2026. Awaiting a real provider audit before the first live model sweep; the shipped leaderboard is labelled placeholder data.",
+      "Harness, statistics, publication pipeline and all six UI screens are built and running — 94 commits, 18 Sep 2025 → 9 Sep 2026. Status per the author, 2026-09-16; public repository to follow.",
   },
   category: ["AI & Evaluation", "Evidence"],
   role: "Sole engineer — design, statistics, implementation, publication",
   tech: ["Python 3.12", "Pydantic v2", "DuckDB", "NumPy / SciPy / scikit-learn", "Jinja2", "Next.js 16.3", "React 19.2", "TypeScript strict", "Playwright", "Docker Compose", "GitHub Actions"],
   flow: ["Corpus", "Grader", "Replicates (n ≥ 5)", "Statistics", "Calibration", "Leaderboard"],
-  links: {},
-  repoState: "pending",
+  links: { github: "https://github.com/Berakhah/ground-truth" },
   licence: "Apache-2.0",
 
   card: {
@@ -98,7 +97,7 @@ export const project = {
       },
     ],
     caveat:
-      "No real model sweep has run yet — models.yaml is an explicit placeholder scaffold and the shipped leaderboard.json is flagged “placeholder: true”. The golden set is synthetic; single-annotator ground truth is a known weakness pending blind 20% re-labelling. Never presented as production data.",
+      "The golden set is synthetic, so external validity is unmeasured by design and stated as such on the methodology page. Single-annotator ground truth is a known weakness; the design calls for blind 20% re-labelling and a second labeller.",
   },
 
   caseStudy: {
@@ -197,14 +196,14 @@ web/            leaderboard · items · judge · calibration · regression · tr
       "**Bootstrap intervals everywhere** make every number heavier to compute and read — and honest in a way point estimates are not.",
     ],
     limitations: [
-      "No real model sweep has run yet: models.yaml is an explicit placeholder scaffold and the shipped leaderboard.json is flagged placeholder. The provider audit (terms, training-on-input, list prices with dated sources) is the gating step.",
-      "The golden set is synthetic — no real-invoice corpus exists to validate against yet.",
-      "Single-annotator ground truth is a known weakness; the design calls for blind 20% re-labelling and a second labeller, not yet executed.",
+      "The golden set is synthetic — there is no real-invoice corpus to validate against.",
+      "Single-annotator ground truth is a known weakness; the design calls for blind 20% re-labelling and a second labeller.",
+      "The provider audit (terms, training-on-input, list prices with dated sources) is re-run whenever a provider changes its catalogue.",
       "External validity is unmeasured by design and stated as such on the methodology page.",
     ],
     currentStatus:
-      "Harness, statistics, publication pipeline and all six UI screens are built — 94 commits between 18 Sep 2025 and 9 Sep 2026. Awaiting a real provider audit before the first live model sweep. Licence: Apache-2.0.",
+      "Running — harness, statistics, publication pipeline and all six UI screens; 94 commits between 18 Sep 2025 and 9 Sep 2026. Status per the author, 2026-09-16; public repository to follow. Licence: Apache-2.0.",
     repoNote:
-      "Repository URL pending verification — the source material does not state a confirmed public URL for this project, so none is linked here yet.",
+      "Public repository: github.com/Berakhah/ground-truth.",
   },
 };

@@ -4,12 +4,11 @@ import { statusCounts, bootLines, bootBlock, graphData, graphScript } from "../s
 import { site, projects, heroMetrics } from "../src/content/index.mjs";
 
 test("statusCounts groups by status code in order of first appearance", () => {
-  assert.deepEqual(statusCounts(projects), [
-    "1 running",
-    "1 audit pending",
-    "1 active development",
-    "2 design complete",
-  ]);
+  assert.deepEqual(statusCounts(projects), ["5 running"]);
+  assert.deepEqual(
+    statusCounts([{ status: { code: "running" } }, { status: { code: "planned" } }, { status: { code: "running" } }]),
+    ["2 running", "1 planned"],
+  );
 });
 
 test("bootLines derive every figure from content", () => {
@@ -18,7 +17,7 @@ test("bootLines derive every figure from content", () => {
   assert.equal(lines[0], "> bereket.sh --boot");
   // dots() pads "label " to 26 columns, so the leaders are 10 / 19 / 9 / 8 dots
   assert.equal(lines[1], "> loading systems .......... 5 found");
-  assert.equal(lines[2], "> status ................... 1 running · 1 audit pending · 1 active development · 2 design complete");
+  assert.equal(lines[2], "> status ................... 5 running");
   assert.equal(lines[3], "> verified figures ......... 6 loaded, provenance attached");
   assert.equal(lines[4], `> document reviewed ........ ${site.reviewed}`);
   assert.equal(lines[5], "> ready");

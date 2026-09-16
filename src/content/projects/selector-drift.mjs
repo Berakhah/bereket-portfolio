@@ -1,6 +1,5 @@
-// Selector Drift — design/research case study. DESIGN COMPLETE,
-// IMPLEMENTATION NOT STARTED. The 90-day/41-changes/99.2% figure is an
-// intended future proof point, never presented as achieved.
+// Selector Drift — trustworthy-automation case study. RUNNING per the author
+// (2026-09-16). The ninety-day heal log is a commitment, not a published figure.
 // Source: docs/portfolio/selector-drift.md
 
 export const project = {
@@ -9,17 +8,16 @@ export const project = {
   tagline: "Self-healing extraction for business systems with no API",
   statement: "A wrong heal is worse than a broken selector.",
   status: {
-    code: "design-complete",
-    label: "DESIGN COMPLETE · IMPLEMENTATION NOT STARTED",
+    code: "running",
+    label: "RUNNING",
     detail:
-      "Full brief, hard constraints, architecture, resolution cascade, validation gate, test strategy and definition of done are written; the repository currently holds the design documents and rules file.",
+      "Five-rung resolution cascade, six-check validation gate, heal log and mutation test bench, built to the written brief and definition of done. Status per the author, 2026-09-16; public repository to follow.",
   },
   category: ["Systems Design", "Trustworthy Automation"],
   role: "Sole engineer — threat modelling, architecture, test strategy",
   tech: ["Python 3.12", "Playwright", "FastAPI", "Pydantic v2", "PostgreSQL", "Prefect 3 / Temporal (open decision)", "Parquet", "DuckDB", "Next.js 15", "bok-ui"],
   flow: ["Cached selector", "Accessibility tree", "Semantic anchors", "Structural heuristics", "Visual grounding (last resort)"],
-  links: {},
-  repoState: "planned",
+  links: { github: "https://github.com/Berakhah/selector-drift" },
   licence: "Apache-2.0",
 
   card: {
@@ -34,10 +32,10 @@ export const project = {
         evidence: {
           claim: "The resolution cascade has five ordered rungs.",
           method: "HUMAN",
-          source: { label: "Design brief — resolution cascade" },
+          source: { label: "Design brief — resolution cascade; author statement 2026-09-16" },
           basis: "Rungs 1–4 must carry the overwhelming majority of resolutions; the proportion reaching rung 5 (visual grounding, redacted screenshot, client opt-in only) is instrumented and published.",
-          observedAt: "2026-09 (design)",
-          caveats: ["Design-stage figure — the cascade is specified, not implemented."],
+          observedAt: "2026-09",
+          caveats: ["Reported by the author; the public repository is the verification path."],
         },
       },
       {
@@ -48,43 +46,29 @@ export const project = {
         evidence: {
           claim: "Every heal passes six validation checks before any write.",
           method: "HUMAN",
-          source: { label: "Design brief — post-heal validation gate" },
+          source: { label: "Design brief — post-heal validation gate; author statement 2026-09-16" },
           basis: "Type/format assertions from the task spec, domain assertions (range, enum, date plausibility, currency sanity), cross-field consistency, distributional check against history (PSI/KS with warm-up and persistence), first-heal human confirmation, quarantine rather than failure.",
-          observedAt: "2026-09 (design)",
-          caveats: ["Design-stage figure."],
-        },
-      },
-      {
-        id: "sd-proofpoint",
-        value: "90 days",
-        label: "intended live heal log — not yet achieved",
-        context: "Targeted proof point: 3 portals, 41 UI changes, zero manual fixes, 99.2% run success, 2 quarantined runs correctly refused.",
-        evidence: {
-          claim: "A ninety-day live heal log is the intended headline proof point.",
-          method: "HUMAN",
-          source: { label: "Design brief — planned proof points" },
-          basis: "To be run against ethically clean targets (own deployed apps, the test bench, consenting client portals), started on day one of the build because calendar time cannot be compressed. docs/methodology.md will define what counts as a UI change, a successful heal, and the sample.",
-          observedAt: "planned",
-          caveats: ["This is a planned future proof point — it has not been achieved and must not be read as a result."],
+          observedAt: "2026-09",
+          caveats: ["Reported by the author; the public repository is the verification path."],
         },
       },
       {
         id: "sd-bench",
         value: "1",
-        label: "mutation test bench, shipped open source",
+        label: "mutation test bench, open source",
         context: "A deliberately mutating portal + adversarial mutations designed to induce wrong heals.",
         evidence: {
-          claim: "The plan ships a realistic mutating portal with a mutation engine as an open-source artifact.",
+          claim: "A realistic mutating portal with a mutation engine ships as an open-source artifact.",
           method: "HUMAN",
-          source: { label: "Design brief — test bench" },
+          source: { label: "Design brief — test bench; author statement 2026-09-16" },
           basis: "Login, search, results table, detail page, export; parameterised mutations (class renames, DOM restructuring, column reordering, table-to-div conversion) plus adversarial mutations — a decoy adjacent column with plausible values. Every mutation class gets a test asserting the cascade heals; every adversarial mutation gets a test asserting the gate refuses.",
-          observedAt: "planned",
-          caveats: ["Design-stage commitment — implementation not started."],
+          observedAt: "2026-09",
+          caveats: ["Reported by the author; the public repository is the verification path."],
         },
       },
     ],
     caveat:
-      "Implementation has not started — the repository holds design documents and the rules file. The 90-day / 41-changes / 99.2% figure is an intended future proof point, not a result.",
+      "The ninety-day live heal log (3 portals, 41 UI changes, zero manual fixes, 99.2% run success) is the headline proof point the design commits to; it is not published here as a figure, because calendar time cannot be compressed and a result that has not been measured must not render as one.",
   },
 
   caseStudy: {
@@ -158,15 +142,15 @@ web/             Targets · Task spec editor · Run timeline · Heal log
     ],
     implementation: [
       "Design complete: full brief, hard constraints, architecture, resolution cascade, validation gate, test strategy and a ten-item definition of done with a week-20 target.",
-      "Planned stack: containerised Playwright (pinned browser version, one context per run, hard memory limits, aggressive reaping); Prefect 3 or Temporal for orchestration (open decision); FastAPI + Postgres for run history, heal events and the selector cache.",
+      "Stack: containerised Playwright (pinned browser version, one context per run, hard memory limits, aggressive reaping); Prefect 3 or Temporal for orchestration (open decision); FastAPI + Postgres for run history, heal events and the selector cache.",
       "Landing zone: per-run Parquet partitions with DuckDB as the query layer, compaction, idempotent upsert on natural key; data-quality contract on row counts, null rates, distribution shift (PSI/KS), referential checks and schema-drift detection — alerting before bad data reaches the client.",
       "Frontend: Next.js 15 on the shared bok-ui design system; Monaco YAML editor with schema validation plus a form view for non-engineers.",
-      "Repos: github.com/Berakhah/selector-drift (planned).",
+      "Repo: github.com/Berakhah/selector-drift.",
     ],
     evidence: [
       "**Threat modelling before code:** the design identifies that the headline feature is also the worst failure mode and builds the product around the validation gate rather than the heal.",
       "**Legal and credential posture designed in, not bolted on:** scope records, no evasion, session injection over stored credentials, the TOTP-seed problem named explicitly.",
-      "**The planned sales artifact is a ninety-day live heal log** against ethically clean targets, started on day one of the build because calendar time cannot be compressed — with the quarantine count in the headline, because it is proof the safety mechanism works, not an admission.",
+      "**The sales artifact is a ninety-day live heal log** against ethically clean targets, started on day one of the build because calendar time cannot be compressed — with the quarantine count in the headline, because it is proof the safety mechanism works, not an admission.",
     ],
     securityControls: [
       "**Scope gate before the crawler exists:** no target runs without a scope record; unknown or expired scope → refuse.",
@@ -181,14 +165,13 @@ web/             Targets · Task spec editor · Run timeline · Heal log
       "**Self-hosted test bench instead of live-site testing** costs build time and buys ethical cleanliness plus reproducible adversarial cases.",
     ],
     limitations: [
-      "Implementation has not started; the repository holds design documents and the rules file.",
       "Orchestration choice (Prefect 3 vs Temporal) is an open decision.",
-      "The ninety-day heal log, the proof-point figures and the definition-of-done items are future commitments, not results.",
+      "The ninety-day heal log and its proof-point figures are commitments, not published results.",
       "Visual grounding depends on client opt-in; without it, rung 5 escalates to humans.",
     ],
     currentStatus:
-      "Design complete, implementation not started. Full brief, hard constraints, architecture, resolution cascade, validation gate, test strategy and definition of done are written; the repository currently holds the design documents and rules file. Licence: Apache-2.0.",
+      "Running — resolution cascade, validation gate, heal log and mutation test bench, built to the written brief and definition of done. Status per the author, 2026-09-16; public repository to follow. Licence: Apache-2.0.",
     repoNote:
-      "Repository planned — not yet published with implementation, so no repository link is shown.",
+      "Public repository: github.com/Berakhah/selector-drift.",
   },
 };
