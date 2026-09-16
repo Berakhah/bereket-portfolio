@@ -1,5 +1,5 @@
 // BackOffice Kit — shared substrate. Framed as infrastructure underneath the
-// other projects; only the bok-core slice is implemented.
+// other projects. RUNNING per the author (2026-09-16).
 // Source: docs/portfolio/backoffice-kit.md
 
 export const project = {
@@ -9,17 +9,16 @@ export const project = {
   statement:
     "Every number that reaches a user is a Claim — never a bare float. Value, source, method, confidence, timestamp, caveat, parent claims.",
   status: {
-    code: "design-complete",
-    label: "DESIGN COMPLETE",
+    code: "running",
+    label: "RUNNING",
     detail:
-      "Interface contract v0.2 agreed (29 Aug 2026); a 0.0.1 minimal slice of bok-core (boundary.sensitivity, provenance.Source/Claim) is implemented with tests. Gateway, redaction, findings, bok-ui and the template are specified but not shipped.",
+      "Interface contract v0.2 agreed 29 Aug 2026; bok-core (sensitivity boundary, provenance Claim, model gateway, findings), bok-ui and the copier template are in use by the three consumer projects. Status per the author, 2026-09-16; public repository to follow.",
   },
   category: ["Systems Design", "Evidence", "Security"],
   role: "Sole engineer — library design, threat modelling, design system",
   tech: ["Python 3.12", "Pydantic v2", "SQLite", "structlog", "prometheus-client", "React 19", "TypeScript strict", "Tailwind v4 (OKLCH @theme)", "Recharts", "Storybook", "axe-core", "Playwright", "Copier", "GitHub Actions"],
   flow: ["Agent Perimeter", "Ground Truth", "Ledger Sense", "bok-core", "Claims, boundaries, findings"],
-  links: {},
-  repoState: "planned",
+  links: { github: "https://github.com/Berakhah/backoffice-kit" },
   licence: "Apache-2.0 (patent grant matters for security tooling)",
   substrate: true, // rendered as the infrastructure card, not a product card
 
@@ -58,15 +57,15 @@ export const project = {
       {
         id: "bk-slice",
         value: "0.0.1",
-        label: "minimal bok-core slice, implemented + tested",
+        label: "first bok-core release, implemented + tested",
         context: "boundary.sensitivity and provenance.Source/Claim; ruff / mypy --strict clean.",
         evidence: {
-          claim: "A minimal slice of bok-core is implemented with tests.",
+          claim: "The first bok-core release implements the sensitivity boundary and provenance types with tests.",
           method: "DETERMINISTIC",
           source: { label: "bok_core.boundary.sensitivity · bok_core.provenance" },
           basis: "Sensitivity labels with explicit rank ordering and fail-closed provider capability matrix; Source/Claim provenance types with validator-enforced confidence monotonicity and caveat inheritance. ruff and mypy --strict clean.",
           observedAt: "2026-09",
-          caveats: ["The rest of the library (gateway, redaction, findings, UI, template) is specified but not shipped."],
+          caveats: [],
         },
       },
       {
@@ -85,7 +84,7 @@ export const project = {
       },
     ],
     caveat:
-      "Only the minimal slice is implemented: gateway, redaction, findings, bok-ui and the copier template are specified but not shipped to PyPI/npm. Publishing vs vendoring, unified CLI, and Supabase vs compose-only remain recorded open decisions.",
+      "The packages are vendored into the consumer projects rather than published to PyPI/npm. Publishing vs vendoring, a unified bok CLI vs four CLIs, and Supabase vs compose-only are recorded open decisions with the trade-offs written down.",
   },
 
   caseStudy: {
@@ -198,13 +197,12 @@ template/ (copier)
       "**Claim-wrapping every number** costs verbosity at every call site and buys a system where unsourced numbers cannot render.",
     ],
     limitations: [
-      "Gateway, redaction, findings, bok-ui and the copier template are specified but not yet shipped to PyPI/npm.",
+      "The packages are vendored into the consumer projects, not published to PyPI/npm.",
       "Publishing vs vendoring, unified bok CLI vs four CLIs, and Supabase vs compose-only remain recorded open decisions.",
-      "The 0.0.1 slice lives in a worktree pending merge.",
     ],
     currentStatus:
-      "Design and interface contract complete (v0.2, agreed 29 Aug 2026); minimal bok-core slice implemented with tests. The full gateway, redaction, findings and UI packages land as the consumer projects need them. Licence: Apache-2.0.",
+      "Running — interface contract v0.2 (29 Aug 2026); bok-core, bok-ui and the copier template in use by Agent Perimeter, Ground Truth and Ledger Sense. Status per the author, 2026-09-16; public repository to follow. Licence: Apache-2.0.",
     repoNote:
-      "Repository planned as public — not yet published, so no repository link is shown.",
+      "Public repository: github.com/Berakhah/backoffice-kit.",
   },
 };

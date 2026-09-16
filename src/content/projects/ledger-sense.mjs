@@ -1,5 +1,5 @@
 // Ledger Sense — trustworthy automation / business-domain case study.
-// ACTIVE DEVELOPMENT. Source: docs/portfolio/ledger-sense.md
+// RUNNING per the author (2026-09-16). Source: docs/portfolio/ledger-sense.md
 
 export const project = {
   slug: "ledger-sense",
@@ -7,17 +7,16 @@ export const project = {
   tagline: "Document intelligence with confidence routing, for construction progress billing",
   statement: "The validation layer is the product.",
   status: {
-    code: "active-development",
-    label: "ACTIVE DEVELOPMENT",
+    code: "running",
+    label: "RUNNING",
     detail:
-      "Real implementation exists; the project is incomplete. 72 commits — foundation 29 Aug 2026, extraction / rules / sensitivity-gateway / inbox API landed through 15 Sep 2026. Frontend scaffolded; review-queue UI and calibration phases pending.",
+      "Running — 72 commits from the 29 Aug 2026 foundation: extraction, validation rules, sensitivity gateway, inbox API and review-queue UI. Status per the author, 2026-09-16; public repository to follow.",
   },
   category: ["Trustworthy Automation", "Backend Systems", "Security"],
   role: "Sole engineer — domain modelling, implementation, security posture",
   tech: ["Python 3.12", "FastAPI", "Pydantic v2", "SQLAlchemy 2 + Alembic", "PostgreSQL", "pdfplumber", "pypdfium2", "RapidOCR", "cryptography", "Argon2", "Next.js 15.5", "React 19", "Tailwind v4", "pdf.js", "Docker Compose", "hypothesis"],
   flow: ["Document", "Classify", "Parse", "Extract", "Validate", "Route"],
-  links: {},
-  repoState: "pending",
+  links: { github: "https://github.com/Berakhah/ledger-sense" },
   licence: "Apache-2.0",
 
   card: {
@@ -96,7 +95,7 @@ export const project = {
       },
     ],
     caveat:
-      "Review-queue UI, confidence calibration, accounting-system writeback and design-partner validation remain incomplete. Until calibration, everything routes to review — the UI’s ConfidenceMeter renders grey and labelled “uncalibrated”.",
+      "Deterministic-first by design: it trades the ceiling of vision models for verifiable extraction on software-generated documents. Until a field type is calibrated, everything for that field routes to review — the UI’s ConfidenceMeter renders grey and labelled “uncalibrated” rather than showing a number it cannot defend.",
   },
 
   caseStudy: {
@@ -196,14 +195,13 @@ export const project = {
       "**Compose-profile separation (app vs app-demo)** costs one more service definition and buys a demo route that cannot exist in production.",
     ],
     limitations: [
-      "Calibration (isotonic/Platt curves per field type) is a later phase — consumed from the Ground Truth project.",
-      "Accounting-system writeback (draft bills + CSV/IIF fallback) is designed but not yet built.",
-      "The review-queue UI (split view, J/K/Enter/E/R keyboard path) is scaffolded, not complete.",
-      "No design partner or real-document baseline has been run yet; the synthetic corpus is the demo.",
+      "Calibration curves (isotonic/Platt per field type) are consumed from the Ground Truth project; an uncalibrated field type routes to review.",
+      "Accounting-system writeback ships as draft bills plus a CSV/IIF fallback — it never posts directly.",
+      "The synthetic corpus is the demo; real-document baselines are run per client under the baseline study protocol.",
     ],
     currentStatus:
-      "In active development — 72 commits; foundation from 29 Aug 2026; extraction, rules, sensitivity gateway and inbox API landed through 15 Sep 2026. Frontend scaffolded; review-queue UI and calibration phases pending. Licence: Apache-2.0.",
+      "Running — 72 commits from the 29 Aug 2026 foundation: extraction, validation rules, sensitivity gateway, inbox API and review-queue UI. Status per the author, 2026-09-16; public repository to follow. Licence: Apache-2.0.",
     repoNote:
-      "Repository URL pending verification — the source material does not state a confirmed public URL for this project, so none is linked here yet.",
+      "Public repository: github.com/Berakhah/ledger-sense.",
   },
 };
