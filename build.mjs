@@ -1,6 +1,6 @@
 // Zero-dependency static site builder.  node build.mjs
 // Renders index, résumé, 404 and /work/<slug> case studies from src/content.
-import { mkdirSync, writeFileSync, cpSync, existsSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -10,7 +10,7 @@ import {
 } from "./src/content/index.mjs";
 import {
   esc, md, prose, bullets, icon, badge, flowStepper, metricsRow,
-  evidenceScript, evidenceDrawer, repoChip, substrateDiagram, claimSpecimen, prov,
+  evidenceScript, evidenceDrawer, repoChip, substrateDiagram, claimRules, prov,
 } from "./src/render/components.mjs";
 import { head, scripts, header, footer } from "./src/render/layout.mjs";
 import { bootLines, bootBlock, graphData, graphScript } from "./src/render/ops.mjs";
@@ -103,9 +103,10 @@ const pipelineScene = () => `
 
 const projectCard = (p, i) => {
   const idx = String(i + 1).padStart(2, "0");
-  const isSubstrate = !!p.substrate;
+  // Two headline figures; the full evidence grid lives on the case study.
+  const lead = p.card.metrics.slice(0, 2);
   return `
-<article class="project-card wipe ${isSubstrate ? "card-substrate" : ""}" id="card-${p.slug}" data-panel aria-labelledby="pc-${p.slug}">
+<article class="project-card wipe" id="card-${p.slug}" aria-labelledby="pc-${p.slug}">
   <div class="pc-head">
     <span class="pc-index mono" aria-hidden="true">[${idx}]</span>
     <div class="pc-titlebox">
@@ -114,32 +115,15 @@ const projectCard = (p, i) => {
     </div>
     ${badge(p.status)}
   </div>
-  <p class="pc-status-detail">${md(p.status.detail)}</p>
   <p class="pc-statement">${esc(p.statement)}</p>
-
-  ${isSubstrate ? substrateDiagram() : flowStepper(p.flow, `${p.name} architecture flow`)}
-
-  ${metricsRow(p.card.metrics)}
-
-  <div class="pc-lower">
-    <div class="pc-diff">
-      <h4 class="pc-lower-h mono">WHY IT’S DIFFERENT</h4>
-      <p>${md(p.card.differentiator)}</p>
-    </div>
-    <div class="pc-caveat">
-      <h4 class="pc-lower-h mono">${icon("alert", "icon-xs")} HONEST CAVEAT</h4>
-      <p>${md(p.card.caveat)}</p>
-    </div>
-  </div>
-
   <div class="pc-foot">
+    <div class="pc-lead" aria-label="Headline figures">
+      ${lead.map((m) => `<span class="pc-lead-item">${prov(m.id, m.value)} <span class="pc-lead-label mono">${esc(m.label)}</span></span>`).join("")}
+    </div>
     <div class="pc-chips">
       ${repoChip(p)}
-      <span class="chip chip-muted mono">${esc(p.licence)}</span>
+      <a class="btn btn-ink btn-sm pc-cta" href="/work/${p.slug}.html">Read the case study ${icon("arrow")}</a>
     </div>
-    <a class="btn btn-ink pc-cta" href="/work/${p.slug}.html">
-      Read the case study ${icon("arrow")}
-    </a>
   </div>
 </article>`;
 };
@@ -207,15 +191,10 @@ ${pipelineScene()}
 <section class="section section-work" id="work" aria-labelledby="work-h">
   <div class="wrap">
     ${sectionHead("§ 01 — FEATURED WORK", `<span id="work-h">Five systems, one conviction</span>`,
-      "Security, backend correctness, trustworthy automation and evidence — presented in the order they build on each other. Each card states its status, its strongest proof, and what is not finished.")}
+      "Security, backend correctness, trustworthy automation and evidence — in the order they build on each other. Each card states its status and two headline figures; the case study carries the rest.")}
     ${STATUS_LEGEND}
-    <div class="work-layout">
-      <ol class="work-index mono" aria-label="Featured work index">
-        ${projects.map((p, i) => `<li><a href="#card-${p.slug}" data-index-for="card-${p.slug}">[${String(i + 1).padStart(2, "0")}] ${esc(p.name)}</a></li>`).join("")}
-      </ol>
-      <div class="project-stack">
-        ${projects.map((p, i) => projectCard(p, i)).join("")}
-      </div>
+    <div class="project-stack">
+      ${projects.map((p, i) => projectCard(p, i)).join("")}
     </div>
   </div>
 </section>
@@ -225,7 +204,7 @@ ${pipelineScene()}
   <div class="wrap">
     ${sectionHead("§ 02 — EVIDENCE", `<span id="evidence-h">A number that can’t show its work is decoration</span>`,
       "BackOffice Kit’s <code>Claim</code> type makes provenance structural: value, source, method, confidence, timestamp, inherited caveats, parent claims. The whole portfolio is built the same way.")}
-    ${claimSpecimen()}
+    ${claimRules()}
   </div>
 </section>
 
@@ -234,7 +213,6 @@ ${pipelineScene()}
   <div class="wrap">
     ${sectionHead("§ 03 — HOW I THINK", `<span id="eng-h">Principles, with the systems that forced them</span>`,
       "Not aphorisms — each one is a decision this portfolio can point to.")}
-    <div class="principles-track" data-track>
     <ol class="principles">
       ${principles
         .map(
@@ -249,7 +227,6 @@ ${pipelineScene()}
         )
         .join("")}
     </ol>
-    </div>
 
     <div class="subblock" aria-labelledby="timeline-h">
       <h3 class="subblock-h" id="timeline-h"><span class="mono eyebrow">§ 03.1</span> Four years, five modes</h3>
@@ -397,7 +374,7 @@ const caseSections = (p) => {
       <h2 class="cs-h" id="arch-h">System architecture</h2>
       ${prose(cs.architecture.intro)}
       ${cs.architecture.claimCode ? `<div class="code-block rv"><span class="code-label mono">the Claim type</span><pre><code>${esc(cs.architecture.claimCode)}</code></pre></div>` : ""}
-      ${flowStepper(p.flow, `${p.name} architecture flow`)}
+      ${p.substrate ? substrateDiagram() : flowStepper(p.flow, `${p.name} architecture flow`)}
       <div class="code-block rv"><span class="code-label mono">repository layout</span><pre><code>${esc(cs.architecture.tree)}</code></pre></div>
     </section>
 
@@ -493,6 +470,16 @@ const casePage = (p, i) => {
       <span class="mono">${esc(p.role)}</span>
     </div>
     <p class="pc-status-detail cs-status-detail rv" style="--d:.4s">${md(p.status.detail)}</p>
+    <div class="pc-lower rv" style="--d:.43s">
+      <div class="pc-diff">
+        <h2 class="pc-lower-h mono">WHY IT’S DIFFERENT</h2>
+        <p>${md(p.card.differentiator)}</p>
+      </div>
+      <div class="pc-caveat">
+        <h2 class="pc-lower-h mono">${icon("alert", "icon-xs")} HONEST CAVEAT</h2>
+        <p>${md(p.card.caveat)}</p>
+      </div>
+    </div>
     <div class="cs-hero-flow rv" data-draw style="--d:.46s">
       ${flowStepper(p.flow, `${p.name} architecture flow`)}
     </div>

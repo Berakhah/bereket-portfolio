@@ -36,7 +36,7 @@ export const bootLines = ({ site, projects, heroMetrics }) => [
 export const bootBlock = (lines) => `
 <pre class="boot mono" data-boot>${lines
   .map((l, i) => `<span class="boot-line" style="--i:${i}">${esc(l)}</span>`)
-  .join("\n")}<span class="boot-caret" aria-hidden="true"></span></pre>`;
+  .join("")}<span class="boot-caret" aria-hidden="true"></span></pre>`;
 
 // Nodes: the five systems + bok-core.  Edges: any system the substrate
 // project lists in its flow, plus the project whose own flow contains the

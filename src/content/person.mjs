@@ -133,12 +133,6 @@ export const principles = [
     source: "BackOffice Kit — boundary/redact",
   },
   {
-    title: "Validate before automating",
-    body:
-      "Ledger Sense routes on confidence only after calibration; until then, everything routes to review. Automating on an uncalibrated score is guessing while displaying a number.",
-    source: "Ledger Sense — routing thresholds",
-  },
-  {
     title: "Fail closed",
     body:
       "Agent Perimeter refuses active probing without a scope file — CLI and HTTP API go through the same authorisation function, and the API returns 422 authorization_required, never a silent skip. Its census records an un-cursored page as a suspected pagination bug, never as a completed population.",
@@ -149,18 +143,6 @@ export const principles = [
     body:
       "BackOffice Kit’s Claim model makes value, source, method, confidence, timestamp and inherited caveats part of the type. A DERIVED claim’s confidence can never exceed the minimum of its parents’.",
     source: "BackOffice Kit — provenance.Claim",
-  },
-  {
-    title: "Human review is a feature",
-    body:
-      "Selector Drift quarantines the first heal to any new selector and requires a human to promote it. A client who watches the system refuse to write questionable data trusts it more than one that never refuses.",
-    source: "Selector Drift — validation gate",
-  },
-  {
-    title: "Design for degraded operation",
-    body:
-      "Every system here declares and tests a degraded-mode floor. Agent Perimeter keeps ≥ 90% of finding classes with providers disabled; Ledger Sense extracts and validates digital PDFs end-to-end with the network blacked out.",
-    source: "Agent Perimeter & Ledger Sense — degraded mode",
   },
   {
     title: "Don’t hide caveats",

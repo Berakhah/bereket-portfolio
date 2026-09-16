@@ -34,17 +34,26 @@ test("pipeline scene has a pin wrapper, rail packet, six stations and a readout"
   assert.match(home, /<p class="station-readout mono" aria-hidden="true" data-readout>/);
 });
 
-test("work: sticky index links every panel; panels wipe in", () => {
-  assert.match(home, /<ol class="work-index mono" aria-label="Featured work index">/);
+test("work: five compact cards — two headline figures each, no evidence grid", () => {
   for (const slug of ["agent-perimeter", "ground-truth", "ledger-sense", "backoffice-kit", "selector-drift"]) {
-    assert.match(home, new RegExp(`data-index-for="card-${slug}"`));
-    assert.match(home, new RegExp(`<article class="project-card wipe[^"]*" id="card-${slug}" data-panel`));
+    assert.match(home, new RegExp(`<article class="project-card wipe" id="card-${slug}"`));
+    assert.match(home, new RegExp(`href="/work/${slug}.html"`));
   }
   assert.match(home, /<span class="pc-index mono" aria-hidden="true">\[01\]<\/span>/);
+  assert.equal((home.match(/<span class="pc-lead-item">/g) || []).length, 10);
+  assert.doesNotMatch(home, /class="metrics-row"|WHY IT’S DIFFERENT|HONEST CAVEAT|class="work-index/);
 });
 
-test("principles track, timeline rail, contact scan", () => {
-  assert.match(home, /<div class="principles-track" data-track>\s*<ol class="principles">/);
+test("evidence: rules stamp in; the Claim type lives on the BackOffice Kit case study", () => {
+  assert.equal((home.match(/<span class="stamp mono" aria-hidden="true">ENFORCED<\/span>/g) || []).length, 3);
+  assert.doesNotMatch(home, /class Claim\(BaseModel/);
+  assert.match(home, /href="\/work\/backoffice-kit.html#architecture"/);
+});
+
+test("four principles in a static grid, timeline rail, contact scan", () => {
+  assert.match(home, /<ol class="principles">/);
+  assert.equal((home.match(/<li class="principle rv"/g) || []).length, 4);
+  assert.doesNotMatch(home, /data-track/);
   assert.match(home, /<div class="modes-wrap">\s*<span class="modes-rail" aria-hidden="true"><\/span>\s*<ol class="modes">/);
   assert.equal((home.match(/<span class="scan" aria-hidden="true"><\/span>/g) || []).length, 4);
 });

@@ -76,6 +76,16 @@
       <span class="mono">Sole engineer — library design, threat modelling, design system</span>
     </div>
     <p class="pc-status-detail cs-status-detail rv" style="--d:.4s">Interface contract v0.2 agreed (29 Aug 2026); a 0.0.1 minimal slice of bok-core (boundary.sensitivity, provenance.Source/Claim) is implemented with tests. Gateway, redaction, findings, bok-ui and the template are specified but not shipped.</p>
+    <div class="pc-lower rv" style="--d:.43s">
+      <div class="pc-diff">
+        <h2 class="pc-lower-h mono">WHY IT’S DIFFERENT</h2>
+        <p>Library design driven by threat modelling: the R1 audit showed three redaction ‘controls’ from the original spec were tests that could not fail — the fixes (keyed surrogates, detector re-run, unrepresentable-unverified state) are argued in writing.</p>
+      </div>
+      <div class="pc-caveat">
+        <h2 class="pc-lower-h mono"><svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v5M12 18.2v.3"/></svg> HONEST CAVEAT</h2>
+        <p>Only the minimal slice is implemented: gateway, redaction, findings, bok-ui and the copier template are specified but not shipped to PyPI/npm. Publishing vs vendoring, unified CLI, and Supabase vs compose-only remain recorded open decisions.</p>
+      </div>
+    </div>
     <div class="cs-hero-flow rv" data-draw style="--d:.46s">
       
 <ol class="flow" role="list" aria-label="BackOffice Kit architecture flow">
@@ -140,25 +150,25 @@
     parents: list[Claim] = []   # for DERIVED
     caveat: str | None = None   # scope limitation, in the source's own terms</code></pre></div>
       
-<ol class="flow" role="list" aria-label="BackOffice Kit architecture flow">
-  <svg class="flow-line" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none"><line class="fl-h" x1="0" y1="50" x2="100" y2="50" pathLength="1"/><line class="fl-v" x1="50" y1="0" x2="50" y2="100" pathLength="1"/></svg>
-  <li class="flow-node" style="--i:0">
-      <span class="flow-dot" aria-hidden="true"></span>
-      <span class="flow-text"><span class="flow-label">Agent Perimeter</span></span>
-    </li><li class="flow-node" style="--i:1">
-      <span class="flow-dot" aria-hidden="true"></span>
-      <span class="flow-text"><span class="flow-label">Ground Truth</span></span>
-    </li><li class="flow-node" style="--i:2">
-      <span class="flow-dot" aria-hidden="true"></span>
-      <span class="flow-text"><span class="flow-label">Ledger Sense</span></span>
-    </li><li class="flow-node" style="--i:3">
-      <span class="flow-dot" aria-hidden="true"></span>
-      <span class="flow-text"><span class="flow-label">bok-core</span></span>
-    </li><li class="flow-node" style="--i:4">
-      <span class="flow-dot" aria-hidden="true"></span>
-      <span class="flow-text"><span class="flow-label">Claims, boundaries, findings</span></span>
-    </li>
-</ol>
+<div class="substrate" role="img" aria-label="Diagram: Agent Perimeter, Ground Truth and Ledger Sense all stand on the bok-core substrate — sensitivity boundary, provenance claims, findings, and the model gateway.">
+  <div class="substrate-top">
+    <div class="substrate-app"><span class="mono">AGENT PERIMETER</span><em>findings cite scope, CWE &amp; reproduction</em></div>
+    <div class="substrate-app"><span class="mono">GROUND TRUTH</span><em>every figure is a bootstrap interval</em></div>
+    <div class="substrate-app"><span class="mono">LEDGER SENSE</span><em>validation before routing</em></div>
+  </div>
+  <div class="substrate-links" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="substrate-core">
+    <div class="substrate-core-head"><span class="mono">bok-core</span><span class="substrate-core-sub">the shared substrate</span></div>
+    <div class="substrate-cells">
+      <div class="substrate-cell"><span class="mono">provenance</span><em>value · source · method · confidence · parents</em></div>
+      <div class="substrate-cell"><span class="mono">boundary</span><em>sensitivity labels, fail-closed capability matrix</em></div>
+      <div class="substrate-cell"><span class="mono">gateway</span><em>lanes, fallback chains, quota governor</em></div>
+      <div class="substrate-cell"><span class="mono">findings</span><em>severity ladder · SARIF 2.1.0</em></div>
+    </div>
+  </div>
+</div>
       <div class="code-block rv"><span class="code-label mono">repository layout</span><pre><code>bok-core (Python, PyPI)
   boundary/     Sensitivity (PUBLIC / SYNTHETIC / REDACTED /
                 CLIENT_CONFIDENTIAL) with explicit rank ordering;

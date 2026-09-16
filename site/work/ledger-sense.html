@@ -76,6 +76,16 @@
       <span class="mono">Sole engineer — domain modelling, implementation, security posture</span>
     </div>
     <p class="pc-status-detail cs-status-detail rv" style="--d:.4s">Real implementation exists; the project is incomplete. 72 commits — foundation 29 Aug 2026, extraction / rules / sensitivity-gateway / inbox API landed through 15 Sep 2026. Frontend scaffolded; review-queue UI and calibration phases pending.</p>
+    <div class="pc-lower rv" style="--d:.43s">
+      <div class="pc-diff">
+        <h2 class="pc-lower-h mono">WHY IT’S DIFFERENT</h2>
+        <p>Deterministic-first architecture: Decimal money handling (no floats in the money path), sensitivity boundaries enforced structurally, draft-only writeback, and a hard stop on bank-detail changes.</p>
+      </div>
+      <div class="pc-caveat">
+        <h2 class="pc-lower-h mono"><svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v5M12 18.2v.3"/></svg> HONEST CAVEAT</h2>
+        <p>Review-queue UI, confidence calibration, accounting-system writeback and design-partner validation remain incomplete. Until calibration, everything routes to review — the UI’s ConfidenceMeter renders grey and labelled “uncalibrated”.</p>
+      </div>
+    </div>
     <div class="cs-hero-flow rv" data-draw style="--d:.46s">
       
 <ol class="flow" role="list" aria-label="Ledger Sense architecture flow">
