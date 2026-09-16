@@ -95,7 +95,7 @@ export const project = {
       "Hardcoded model names break the moment a provider deletes a model — which free tiers do without notice.",
       "Trusting a provider’s terms from memory fails because terms change; a capability matrix must be verified and dated.",
       "Provenance-as-convention fails because a downstream product can always accidentally print an unsourced number — provenance has to live in types.",
-      "Redaction that re-searches for the strings it just replaced is a tautology that cannot fail — so it never catches its own misses.",
+      "Redaction that re-searches for the strings it replaced is a tautology that cannot fail — so it never catches its own misses.",
     ],
     architecture: {
       intro:
@@ -190,7 +190,7 @@ template/ (copier)
       "**Fail-closed-on-unknown provider capabilities**; violations quote the provider’s terms, URL and retrieval date.",
       "**HMAC-keyed stable surrogates** in redaction, with a verification pass that re-runs every detector and a result type that raises if unverified.",
       "**Quota governor that reserves before dispatch** over rolling 60s/24h windows with full-jitter backoff, priority lanes and a hard daily ceiling.",
-      "**Per-call ledger:** prompt hash, model actually used, provider, latency, tokens, quota, fingerprint, sensitivity, lane.",
+      "**Per-call ledger:** prompt hash, model used, provider, latency, tokens, quota, fingerprint, sensitivity, lane.",
     ],
     tradeoffs: [
       "**Design-first for a library** means the implemented surface is minimal today; the payoff is that consumers are already coded against a stable, audited contract.",

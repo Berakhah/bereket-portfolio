@@ -6,34 +6,34 @@ export const project = {
   name: "Agent Perimeter",
   tagline: "Security posture scanner for MCP servers and tool-using agents",
   statement:
-    "You wired an agent into internal systems. Agent Perimeter shows what that agent can actually be made to do.",
+    "You wired an agent into internal systems. Agent Perimeter shows what that agent can be made to do.",
   status: {
     code: "running",
     label: "RUNNING",
     detail:
-      "Implemented and demonstrably working: public repository, Apache-2.0, with a clean-machine reproduction of the README quickstart in CI. 175 commits, 11 Aug → 15 Sep 2026.",
+      "Implemented and demonstrably working: public repository, Apache-2.0, with a clean-machine reproduction of the README quickstart in CI. 181 commits, 11 Aug → 15 Sep 2026.",
   },
   category: ["Security", "Backend Systems", "Evidence"],
   role: "Sole engineer — design, implementation, verification, publication",
   tech: ["Python 3.12", "FastAPI", "Pydantic v2", "SQLAlchemy 2 + Alembic", "Postgres 16", "Next.js 15.5", "React 19", "TypeScript strict", "Tailwind v4", "Docker Compose", "GitHub Actions", "SARIF 2.1.0", "Playwright"],
-  flow: ["MCP server", "Discovery", "Capability graph", "34 checks · 7 families", "Findings + reproductions", "SARIF / HTML report"],
+  flow: ["MCP server", "Discovery", "Capability graph", "34 checks · 8 groups", "Findings + reproductions", "SARIF / HTML report"],
   links: { github: "https://github.com/Berakhah/agent-perimeter" },
   licence: "Apache-2.0",
 
   card: {
     differentiator:
-      "It doesn’t just flag suspicious text — it drives a live agent through the injection path and records demonstrated impact. And every published number is regenerable by someone who doesn’t trust it.",
+      "It flags suspicious text, then drives a live agent through the injection path and records demonstrated impact. And every published number is regenerable by someone who doesn’t trust it.",
     metrics: [
       {
         id: "ap-checks",
         value: "34",
-        label: "registered checks across 7 families",
+        label: "registered checks in 8 groups",
         context: "Deterministic first; LLM-judge only as escalation.",
         evidence: {
-          claim: "Agent Perimeter registers 34 checks across 7 families.",
+          claim: "Agent Perimeter registers 34 checks in 8 groups; its own test suite asserts the count.",
           method: "DETERMINISTIC",
           source: { label: "checks/all_checks.py", href: "https://github.com/Berakhah/agent-perimeter" },
-          basis: "Revision (12) · static (5) · descriptions (5) · secrets (3) · active (4, scope-gated) · injection (2) · drift (1) · policy (2).",
+          basis: "Revision (12) · static (5) · descriptions (5) · secrets (3) · active (4, scope-gated) · injection (2) · drift (1) · policy (2). tests/checks/test_all_checks.py asserts len(ALL_CHECKS) == 34.",
           observedAt: "2026-09",
           caveats: [],
         },
@@ -54,14 +54,14 @@ export const project = {
       },
       {
         id: "ap-tests",
-        value: "731",
+        value: "742",
         label: "test functions",
-        context: "~12,400 LOC of test code in 86 files; coverage floor 75% enforced in CI.",
+        context: "~12,500 LOC of test code in 87 files; coverage floor 75% enforced in CI.",
         evidence: {
-          claim: "The test suite contains 731 registered test functions across 86 files.",
+          claim: "The test suite contains 742 test functions across 87 files.",
           method: "DETERMINISTIC",
           source: { label: "Repository — tests/ count", href: "https://github.com/Berakhah/agent-perimeter" },
-          basis: "Counted from the repository tree. Coverage floor of 75% is enforced in CI.",
+          basis: "Counted from a clone of the public repository on 2026-09-16: 87 test files, 12,548 lines under tests/, 742 `def test_` functions. pyproject.toml sets --cov-fail-under=75.",
           observedAt: "2026-09",
           caveats: ["Counts test functions, not individual assertions."],
         },
@@ -103,7 +103,7 @@ export const project = {
     problem:
       "Teams are wiring LLM agents into internal systems through the Model Context Protocol (MCP). Every MCP server an agent connects to hands it a set of tools — and the descriptions of those tools are attacker-authored text that the agent reads as instructions. A poisoned description, a shadowed tool name, a leaked secret in a config file, or a server that silently drifts after approval can all make the agent do something nobody authorised.",
     whyFails: [
-      "Static flaggers stop at suspicion: they mark a description as suspicious and stop — reachability is inferred, not proven. Nobody can tell an auditor what the agent would actually do.",
+      "Static flaggers stop at suspicion: they mark a description as suspicious and stop — reachability is inferred, not proven. Nobody can tell an auditor what the agent would do.",
       "Census publishing is unreproducible: large “N% of MCP servers are vulnerable” numbers circulate, but the corpus and scripts never ship, so the number cannot be checked by anyone.",
       "Findings lack taxonomy and reproduction: a finding that doesn’t cite a CWE, a published taxonomy entry, and a reproduction command is an opinion, not a report.",
     ],
@@ -196,7 +196,7 @@ tests/fixtures/servers/   vulnerable-server fleet (Python + Node)`,
       "Coverage floor is 75% — enforced, but not the 85%+ this codebase’s sibling projects hold themselves to.",
     ],
     currentStatus:
-      "Built and running — 175 commits between 11 Aug and 15 Sep 2026, public repository, first public census report published 14 Sep 2026. The LLM-judge check remains registered-but-disabled (no paid provider account provisioned; decided 2026-09-14). Licence: Apache-2.0 — the patent grant matters for security tooling.",
+      "Built and running — 181 commits between 11 Aug and 15 Sep 2026, public repository, first public census report published 14 Sep 2026. The LLM-judge check remains registered-but-disabled (no paid provider account provisioned; decided 2026-09-14). Licence: Apache-2.0 — the patent grant matters for security tooling.",
     repoNote:
       "Public repository with a clean-machine reproduction. Clone it, run the README quickstart, and every published figure can be regenerated from the repo itself.",
   },

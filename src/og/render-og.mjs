@@ -1,6 +1,6 @@
 // Renders docs/og/og-card.html (1200×630) from content for screenshotting.
 //   node src/og/render-og.mjs
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { site, projects, heroMetrics } from "../content/index.mjs";
@@ -9,6 +9,8 @@ import { esc } from "../render/components.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const lines = bootLines({ site, projects, heroMetrics });
+// The card is opened from docs/og/ as a file, so font URLs must be relative to it.
+const fontCss = readFileSync(join(ROOT, "src", "css", "fonts.css"), "utf8").replaceAll("/assets/fonts/", "../../site/assets/fonts/");
 // First, "loading systems" and "verified figures" lines; the value after the
 // dot leader is highlighted.
 const boot = [lines[0], lines[1], lines[3]]
@@ -17,8 +19,7 @@ const boot = [lines[0], lines[1], lines[3]]
 
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><title>og-card</title>
-<link rel="stylesheet" href="../../site/assets/fonts/fonts.css">
-<style>
+<style>${fontCss}
   html, body { margin: 0; }
   body { width: 1200px; height: 630px; background: #0a0b0d; color: #e8eaed; font-family: Geist, system-ui, sans-serif; position: relative; overflow: hidden; }
   .grid { position: absolute; inset: 0; background: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1.2px) 0 0 / 24px 24px; -webkit-mask-image: radial-gradient(ellipse at 70% 50%, #000 20%, transparent 75%); mask-image: radial-gradient(ellipse at 70% 50%, #000 20%, transparent 75%); }

@@ -191,7 +191,7 @@ export const project = {
       "**Draft-only writeback; hard stop on bank-detail changes; no auto-merged vendors; no generated legal documents.**",
     ],
     tradeoffs: [
-      "**Deterministic-first** trades the ceiling of vision models for verifiable extraction on software-generated documents — the population this system actually serves.",
+      "**Deterministic-first** trades the ceiling of vision models for verifiable extraction on software-generated documents — the population this system serves.",
       "**Everything routes to review until calibration** trades short-term automation rates for never guessing with money.",
       "**Compose-profile separation (app vs app-demo)** costs one more service definition and buys a demo route that cannot exist in production.",
     ],

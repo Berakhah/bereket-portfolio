@@ -21,7 +21,7 @@ test("hero: canvas graph, graph data, boot block, hero-gated reveals", () => {
 });
 
 test("proof readouts: digits count up, everything else decodes", () => {
-  assert.match(home, /<span class="proof-value tnum" data-count="731">731<\/span>/);
+  assert.match(home, /<span class="proof-value tnum" data-count="742">742<\/span>/);
   assert.match(home, /<span class="proof-value tnum" data-count="31,953">31,953<\/span>/);
   assert.match(home, /<span class="proof-value tnum" data-decode>82 s<\/span>/);
 });

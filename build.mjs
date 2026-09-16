@@ -1,6 +1,7 @@
 // Zero-dependency static site builder.  node build.mjs
 // Renders index, résumé, 404 and /work/<slug> case studies from src/content.
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, unlinkSync, mkdirSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,9 +18,28 @@ import { bootLines, bootBlock, graphData, graphScript } from "./src/render/ops.m
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const OUT = join(ROOT, "site");
+const src = (...p) => readFileSync(join(ROOT, "src", ...p), "utf8");
 
-const page = ({ title, desc, path, bodyClass = "", main, jsonLd = null, extraScripts = [] }) => `${head({
-  title, desc, path, siteUrl: site.siteUrl, jsonLd,
+// ---------------------------------------------------------------------------
+// Assets.  CSS is inlined into every page (one fewer render-blocking request).
+// JS is one content-hashed bundle so it can be cached immutably: vendor
+// (pinned GSAP, ScrollTrigger, Lenis) + graph + main, each self-guarding.
+// ---------------------------------------------------------------------------
+
+const CSS = src("css", "fonts.css") + "\n" + src("css", "style.css");
+
+const BUNDLE_SRC = [
+  src("vendor", "gsap.min.js"),
+  src("vendor", "ScrollTrigger.min.js"),
+  src("vendor", "lenis.min.js"),
+  src("js", "graph.js"),
+  src("js", "main.js"),
+].join("\n;\n");
+const BUNDLE_HASH = createHash("sha256").update(BUNDLE_SRC).digest("hex").slice(0, 10);
+const BUNDLE_PATH = `/assets/js/app.${BUNDLE_HASH}.js`;
+
+const page = ({ title, desc, path, bodyClass = "", main, jsonLd = null }) => `${head({
+  title, desc, path, siteUrl: site.siteUrl, jsonLd, css: CSS,
 })}
 <body class="${bodyClass}">
 <div class="curtain" aria-hidden="true"></div>
@@ -30,7 +50,7 @@ ${main}
 ${footer(site)}
 ${evidenceDrawer()}
 ${evidenceScript(evidenceIndex)}
-${scripts(extraScripts)}
+${scripts(BUNDLE_PATH)}
 </body>
 </html>`;
 
@@ -212,7 +232,7 @@ ${pipelineScene()}
 <section class="section section-engineering" id="engineering" aria-labelledby="eng-h">
   <div class="wrap">
     ${sectionHead("§ 03 — HOW I THINK", `<span id="eng-h">Principles, with the systems that forced them</span>`,
-      "Not aphorisms — each one is a decision this portfolio can point to.")}
+      "Each one is a decision this portfolio can point to.")}
     <ol class="principles">
       ${principles
         .map(
@@ -253,7 +273,7 @@ ${pipelineScene()}
 
     <div class="subblock" aria-labelledby="stack-h">
       <h3 class="subblock-h" id="stack-h"><span class="mono eyebrow">§ 03.2</span> Stack</h3>
-      <p class="subblock-intro">Grouped by what it does — no logo wall, no percentage bars.</p>
+      <p class="subblock-intro">Grouped by what it does.</p>
       <div class="stack-grid">
         ${stack
           .map(
@@ -292,7 +312,7 @@ ${pipelineScene()}
 <section class="section section-contact" id="contact" aria-labelledby="contact-h">
   <div class="wrap">
     ${sectionHead("§ 05 — CONTACT", `<span id="contact-h">The fastest path is email.</span>`,
-      "No forms, no friction. One message with context gets a considered reply.")}
+      "One message with context gets a reply.")}
     <div class="contact-grid rv">
       <a class="contact-card" href="mailto:${esc(site.email)}">
         <span class="scan" aria-hidden="true"></span>
@@ -322,7 +342,6 @@ ${pipelineScene()}
     bodyClass: "page-home",
     main,
     jsonLd,
-    extraScripts: ["/assets/js/graph.js"],
   });
 };
 
@@ -592,6 +611,11 @@ const notFoundPage = () =>
 // Write everything
 // ---------------------------------------------------------------------------
 
+const JS_DIR = join(OUT, "assets", "js");
+mkdirSync(JS_DIR, { recursive: true });
+for (const f of readdirSync(JS_DIR)) if (/^app\.[0-9a-f]+\.js$/.test(f)) unlinkSync(join(JS_DIR, f));
+writeFileSync(join(JS_DIR, `app.${BUNDLE_HASH}.js`), BUNDLE_SRC);
+
 writeFileSync(join(OUT, "index.html"), indexPage());
 writeFileSync(join(OUT, "resume.html"), resumePage());
 writeFileSync(join(OUT, "404.html"), notFoundPage());
@@ -615,4 +639,4 @@ writeFileSync(
     .join("\n")}\n</urlset>\n`
 );
 
-console.log("built:", [...urls, "/404.html"].join(", "));
+console.log("built:", [...urls, "/404.html"].join(", "), "·", BUNDLE_PATH);
