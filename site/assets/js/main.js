@@ -149,12 +149,13 @@
   /* boot sequence: types each line; ~1.2 s total */
   const boot = (pre, onDone) => {
     const lines = $$(".boot-line", pre);
+    const done = () => { pre.classList.add("done"); if (onDone) onDone(); };
     if (!motion || !lines.length) {
       lines.forEach((l) => l.classList.add("typed"));
-      if (onDone) onDone();
+      done();
       return null;
     }
-    const tl = gsap.timeline({ onComplete: onDone });
+    const tl = gsap.timeline({ onComplete: done });
     const per = 1.2 / lines.length;
     lines.forEach((line) => {
       const full = line.textContent, state = { n: 0 };
@@ -263,16 +264,6 @@
     });
   }
 
-  /* work: sticky index follows the panel in view */
-  if (motion) {
-    $$("[data-panel]").forEach((card) => {
-      const link = $(`[data-index-for="${card.id}"]`);
-      if (!link) return;
-      ST.create({ trigger: card, start: "top 50%", end: "bottom 50%",
-        onToggle: (self) => link.classList.toggle("current", self.isActive) });
-    });
-  }
-
   /* flow steppers: line draws with scroll (or on load inside [data-draw]) */
   if (motion) {
     $$(".flow").forEach((flow) => {
@@ -287,30 +278,14 @@
     });
   }
 
-  /* evidence: the Claim type "compiles" line by line, then rules stamp in */
-  const claim = $(".claim-specimen");
+  /* evidence: rules stamp in one after another */
+  const claim = $(".claim-notes");
   if (claim && motion) {
-    const lines = $$(".cl", claim), rules = $$(".rule", claim);
+    const rules = $$(".rule", claim);
     ST.create({ trigger: claim, start: "top 75%", once: true, onEnter: () => {
       const tl = gsap.timeline();
-      lines.forEach((l) => tl.call(() => {
-        lines.forEach((x) => x.classList.remove("typing"));
-        l.classList.add("on", "typing");
-      }, null, ">.11"));
-      tl.call(() => lines.forEach((x) => x.classList.remove("typing")), null, ">.2");
       rules.forEach((r) => tl.call(() => r.classList.add("stamped"), null, ">.28"));
     } });
-  }
-
-  /* principles: pinned horizontal scrub on desktop */
-  const track = $("[data-track]");
-  if (track && motion) {
-    const list = $(".principles", track);
-    gsap.matchMedia().add(DESK, () => {
-      const dist = () => Math.max(0, list.scrollWidth - track.clientWidth);
-      gsap.to(list, { x: () => -dist(), ease: "none",
-        scrollTrigger: { trigger: track, pin: true, start: "center center", end: () => "+=" + dist(), scrub: .6, invalidateOnRefresh: true } });
-    });
   }
 
   /* timeline: rail draws, nodes ignite */

@@ -176,18 +176,9 @@ export const substrateDiagram = () => `
 </div>`;
 
 // ---------------------------------------------------------------------------
-// Claim specimen (Evidence section) — the anatomy of a Claim
+// Claim rules (Evidence section) — the invariants tests enforce on a Claim.
+// The type itself is shown on the BackOffice Kit case study.
 // ---------------------------------------------------------------------------
-
-const CLAIM_SRC = `class Claim(BaseModel, Generic[T]):
-    value: T
-    source: Source              # file+line, URL+retrieved_at,
-                                # model call id, or human
-    method: Method              # DETERMINISTIC | MODEL | HUMAN | DERIVED
-    confidence: float | None    # None for DETERMINISTIC; calibrated for MODEL
-    observed_at: datetime
-    parents: list[Claim] = []   # for DERIVED
-    caveat: str | None = None   # scope limitation, in the source's own terms`;
 
 const CLAIM_RULES = [
   "A `DERIVED` claim’s confidence never exceeds the minimum of its parents’.",
@@ -195,19 +186,11 @@ const CLAIM_RULES = [
   "A parent’s caveat — “sample size 51” — propagates to every child.",
 ];
 
-export const claimSpecimen = () => `
-<div class="claim-specimen">
-  <div class="claim-code">
-    <span class="mono claim-code-label">provenance.Claim — the type</span>
-<pre><code>${CLAIM_SRC.split("\n")
-  .map((l, i) => `<span class="cl" style="--i:${i}">${esc(l)}\n</span>`)
-  .join("")}</code></pre>
-  </div>
-  <div class="claim-notes">
-    <p>Rules enforced by tests, not comments:</p>
-    <ul class="rules">${CLAIM_RULES.map(
-      (r, i) => `<li class="rule" style="--i:${i}"><span class="stamp mono" aria-hidden="true">ENFORCED</span><span>${md(r)}</span></li>`
-    ).join("")}</ul>
-    <p class="claim-try">This page is built the same way: <strong>activate any underlined number</strong> to open its chain.</p>
-  </div>
+export const claimRules = () => `
+<div class="claim-notes">
+  <p>Rules enforced by tests, not comments:</p>
+  <ul class="rules">${CLAIM_RULES.map(
+    (r, i) => `<li class="rule" style="--i:${i}"><span class="stamp mono" aria-hidden="true">ENFORCED</span><span>${md(r)}</span></li>`
+  ).join("")}</ul>
+  <p class="claim-try">This page is built the same way: <strong>activate any underlined number</strong> to open its chain. The full <code>Claim</code> type is on the <a class="text-link" href="/work/backoffice-kit.html#architecture">BackOffice Kit case study</a>.</p>
 </div>`;

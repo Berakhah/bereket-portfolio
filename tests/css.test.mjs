@@ -18,7 +18,9 @@ let m;
 while ((m = re.exec(flat))) blocks.push({ sel: m[1].trim(), decl: m[2] });
 
 const HIDING = /(^|;)\s*(opacity\s*:\s*0(?![.\d])|opacity\s*:\s*0?\.[0-6](?!\d)|visibility\s*:\s*hidden|clip-path\s*:\s*inset\([^)]*100%)|transform\s*:[^;]*scale[XY]?\(0\)/;
-const ALLOW = /\.drawer-root(?!\.open)|\.drawer-backdrop|\.mobile-nav\[hidden\]|\.curtain|\.station-tip|\.scan|\.toc-bar|\.packet|\.eyebrow::after|\.proof-value::after|\.progress-bar|\.hero-graph|\.rail-line/;
+// .boot.done is set by main.js after the boot sequence (immediately without motion): the readout
+// collapses to its last line in every JS path; without JS all lines stay visible.
+const ALLOW = /\.boot\.done|\.drawer-root(?!\.open)|\.drawer-backdrop|\.mobile-nav\[hidden\]|\.curtain|\.station-tip|\.scan|\.toc-bar|\.packet|\.eyebrow::after|\.proof-value::after|\.progress-bar|\.hero-graph|\.rail-line/;
 
 test("every hiding rule is gated behind .motion (no-JS and reduced-motion stay visible)", () => {
   const offenders = blocks
