@@ -33,15 +33,15 @@ export const nav = [
 
 export const heroMetrics = [
   {
-    id: "m-tests-731",
-    value: "731",
+    id: "m-tests-742",
+    value: "742",
     label: "test functions",
-    context: "Agent Perimeter’s suite — 86 test files, ~12,400 LOC of tests.",
+    context: "Agent Perimeter’s suite — 87 test files, ~12,500 LOC of tests.",
     evidence: {
-      claim: "Agent Perimeter’s test suite contains 731 registered test functions.",
+      claim: "Agent Perimeter’s test suite contains 742 registered test functions.",
       method: "DETERMINISTIC",
       source: { label: "Repository — tests/ directory count", href: "https://github.com/Berakhah/agent-perimeter" },
-      basis: "Counted from the repository tree: 86 test files, ~12,400 lines of test code, 731 test functions.",
+      basis: "Counted from a clone of the public repository on 2026-09-16: 87 test files, 12,548 lines under tests/, 742 `def test_` functions.",
       observedAt: "2026-09",
       caveats: ["Counts test functions, not individual assertions."],
     },

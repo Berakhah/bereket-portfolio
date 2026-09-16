@@ -21,24 +21,30 @@ test("head declares the dark theme and drops the legacy view-transition meta", (
   assert.doesNotMatch(home, /name="view-transition"/);
 });
 
-test("vendor scripts are pinned, deferred, and precede main.js", () => {
-  const order = [
-    'src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" defer',
-    'src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js" defer',
-    'src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js" defer',
-    'src="/assets/js/main.js" defer',
-  ];
+test("one deferred, content-hashed bundle; no third-party script origins", () => {
+  const tags = home.match(/<script src="[^"]+"[^>]*>/g) || [];
+  assert.equal(tags.length, 1);
+  const m = tags[0].match(/^<script src="(\/assets\/js\/app\.[0-9a-f]{10}\.js)" defer>$/);
+  assert.ok(m, tags[0]);
+  assert.doesNotMatch(home, /https:\/\/cdn/);
+  const bundle = readFileSync(join(ROOT, "site", m[1]), "utf8");
+  // vendor first (in dependency order), then graph, then main
+  const order = ["gsap", "ScrollTrigger", "globalThis.Lenis=", 'getElementById("graph")', 'classList.add("js")'];
   let last = -1;
-  for (const s of order) {
-    const i = home.indexOf(s);
-    assert.ok(i > last, `missing or out of order: ${s}`);
-    last = i;
-  }
+  for (const s of order) { const i = bundle.indexOf(s); assert.ok(i > last, `missing or out of order: ${s}`); last = i; }
+  // the graph script is only wired to data on the home page
+  assert.match(home, /id="graph-data"/);
+  assert.doesNotMatch(cs, /id="graph-data"/);
 });
 
-test("graph.js loads on the home page only", () => {
-  assert.match(home, /src="\/assets\/js\/graph\.js" defer/);
-  assert.doesNotMatch(cs, /graph\.js/);
+test("CSS is inlined and the above-the-fold faces are preloaded", () => {
+  for (const html of [home, cs]) {
+    assert.doesNotMatch(html, /<link rel="stylesheet"/);
+    assert.match(html, /<style>@font-face \{/);
+    for (const f of ["geist-normal-300-700", "newsreader-italic-400", "plex-mono-normal-500"]) {
+      assert.match(html, new RegExp(`<link rel="preload" href="/assets/fonts/${f}.woff2" as="font" type="font/woff2" crossorigin>`));
+    }
+  }
 });
 
 test("every page has the transition curtain before the header", () => {

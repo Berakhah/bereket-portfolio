@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const css = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "..", "site/assets/css/style.css"), "utf8");
+const css = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "..", "src/css/style.css"), "utf8");
 
 // Flatten @media wrappers and drop @keyframes bodies, then split into
 // `selector { declarations }` blocks.
