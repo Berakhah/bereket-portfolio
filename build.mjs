@@ -613,6 +613,7 @@ const notFoundPage = () =>
 
 const JS_DIR = join(OUT, "assets", "js");
 mkdirSync(JS_DIR, { recursive: true });
+mkdirSync(join(OUT, "work"), { recursive: true });
 for (const f of readdirSync(JS_DIR)) if (/^app\.[0-9a-f]+\.js$/.test(f)) unlinkSync(join(JS_DIR, f));
 writeFileSync(join(JS_DIR, `app.${BUNDLE_HASH}.js`), BUNDLE_SRC);
 
