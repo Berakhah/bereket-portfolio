@@ -6,10 +6,11 @@ export const project = {
   slug: "selector-drift",
   name: "Selector Drift",
   tagline: "Self-healing extraction for business systems with no API",
+  plain: "Keeps data extraction from legacy business systems working when their screens change — and refuses to guess.",
   statement: "A wrong heal is worse than a broken selector.",
   status: {
     code: "running",
-    label: "RUNNING",
+    label: "Running",
     detail:
       "Five-rung resolution cascade, six-check validation gate, heal log and mutation test bench, built to the written brief and definition of done. Status per the author, 2026-09-16; public repository to follow.",
   },

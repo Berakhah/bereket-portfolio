@@ -5,10 +5,11 @@ export const project = {
   slug: "ledger-sense",
   name: "Ledger Sense",
   tagline: "Document intelligence with confidence routing, for construction progress billing",
+  plain: "Reads construction invoices, checks the arithmetic, and only lets a human approve anything that moves money.",
   statement: "The validation layer is the product.",
   status: {
     code: "running",
-    label: "RUNNING",
+    label: "Running",
     detail:
       "Running — 72 commits from the 29 Aug 2026 foundation: extraction, validation rules, sensitivity gateway, inbox API and review-queue UI. Status per the author, 2026-09-16; public repository to follow.",
   },
