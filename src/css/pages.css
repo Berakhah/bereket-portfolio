@@ -1,0 +1,87 @@
+/* -------------------------------------------------------------- case study */
+.cs-hero { padding-block: clamp(2rem, 6vw, 5rem) clamp(3rem, 6vw, 5rem); border-bottom: 1px solid var(--ink); }
+.cs-hero .wrap { display: grid; gap: 1.5rem; }
+.cs-num { font-size: var(--fs--1); color: var(--muted); letter-spacing: .12em; }
+.cs-title { font-family: var(--serif); font-weight: 500; font-size: var(--fs-hero); line-height: .95; letter-spacing: -.03em; max-width: 14ch; }
+.cs-tagline { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: var(--fs-3); line-height: 1.15; color: var(--muted); max-width: 30ch; }
+.cs-plain { font-size: var(--fs-2); line-height: 1.3; max-width: 34ch; }
+.cs-status { display: flex; gap: .6rem; align-items: baseline; font-size: var(--fs--1); max-width: 62ch; }
+.cs-status .dot { flex: none; width: .55rem; height: .55rem; border-radius: 50%; background: var(--signal); transform: translateY(-.05rem); }
+.cs-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: var(--fs--1); color: var(--muted); padding-top: 1.25rem; border-top: 1px solid var(--hair); }
+.cs-meta strong { color: var(--ink); font-weight: 500; }
+.cs-tech { display: flex; gap: .5rem; flex-wrap: wrap; }
+
+.cs-layout { display: grid; grid-template-columns: 14rem 1fr; gap: clamp(2rem, 6vw, 6rem); padding-block: var(--sect); }
+.cs-toc { position: sticky; top: calc(var(--head-h) + 1rem); align-self: start; display: grid; gap: .3rem; font-family: var(--mono); font-size: .75rem; }
+.toc-h { color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin-bottom: .75rem; }
+.cs-toc a { display: block; padding: .3rem 0 .3rem .75rem; color: var(--muted); border-left: 1px solid var(--hair); transition: color var(--t-fast), border-color var(--t-fast); }
+.cs-toc a:hover { color: var(--ink); }
+.cs-toc a.current { color: var(--signal); border-left-color: var(--signal); }
+.toc-back { margin-top: 1.5rem; }
+.cs-body { max-width: 44rem; display: grid; gap: clamp(3rem, 7vw, 5.5rem); }
+.cs-sec { display: grid; gap: 1.25rem; scroll-margin-top: calc(var(--head-h) + 1rem); }
+.cs-h { font-family: var(--serif); font-weight: 500; font-size: var(--fs-title); line-height: 1; letter-spacing: -.02em; }
+.cs-sec p { max-width: 62ch; }
+.cs-caveat { font-size: var(--fs-1); }
+.code-block { background: var(--paper-2); border-radius: 12px; padding: 1.25rem 1.5rem; overflow: auto; }
+.code-label { display: block; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
+.code-block pre { font-size: .8rem; line-height: 1.55; }
+.decisions { display: grid; gap: 1.5rem; }
+.decision { padding-top: 1.25rem; border-top: 1px solid var(--hair); }
+.decision dt { font-family: var(--serif); font-weight: 500; font-size: var(--fs-2); letter-spacing: -.01em; margin-bottom: .5rem; }
+.metrics-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 1.5rem; padding: 1.5rem 0; border-block: 1px solid var(--hair); }
+.metric { display: grid; gap: .3rem; }
+.metric-value { font-family: var(--mono); font-weight: 500; font-size: var(--fs-3); line-height: 1; text-align: left; justify-self: start; }
+.metric-label { font-size: var(--fs--1); }
+.metric-context { font-size: .8rem; color: var(--muted); }
+.status-block { display: grid; gap: .5rem; padding: 1.25rem 1.5rem; background: var(--paper-2); border-radius: 12px; }
+.repo-block { display: flex; gap: .75rem; flex-wrap: wrap; }
+.repo-note { color: var(--muted); }
+
+.substrate { display: grid; gap: 1rem; }
+.substrate-top { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+.substrate-app, .substrate-core { border: 1px solid var(--ink); border-radius: 12px; padding: 1rem; }
+.substrate-app em, .substrate-cell em { display: block; font-style: normal; font-size: .8rem; color: var(--muted); margin-top: .25rem; }
+.substrate-links { display: grid; grid-template-columns: repeat(3, 1fr); height: 1.5rem; }
+.substrate-links span { width: 1px; background: var(--ink); justify-self: center; }
+.substrate-core-head { display: flex; gap: .75rem; align-items: baseline; margin-bottom: .75rem; }
+.substrate-core-sub { font-size: .8rem; color: var(--muted); }
+.substrate-cells { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+.substrate-cell { background: var(--paper-2); border-radius: 8px; padding: .75rem; }
+
+.pager { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); }
+.pager-link { display: grid; gap: .5rem; padding: 2.5rem 0; }
+.pager-prev { text-align: left; padding-right: 2rem; }
+.pager-next { text-align: right; border-left: 1px solid var(--hair); padding-left: 2rem; }
+.pager-dir { font-size: .75rem; color: var(--muted); letter-spacing: .12em; }
+.pager-name { font-family: var(--serif); font-weight: 500; font-size: var(--fs-3); letter-spacing: -.02em; }
+.pager-link:hover .pager-name { color: var(--signal); }
+@media (max-width: 56em) {
+  .cs-layout { grid-template-columns: 1fr; }
+  .cs-toc { position: static; }
+  .substrate-top { grid-template-columns: 1fr; }
+  .substrate-links { display: none; }
+}
+
+/* ------------------------------------------------------------------ résumé */
+.resume-hero { padding-block: clamp(2rem, 6vw, 5rem) 2rem; }
+.resume-hero .wrap { display: grid; gap: 1.25rem; }
+.resume-ctas { display: flex; gap: .75rem; flex-wrap: wrap; }
+.resume-body { max-width: 48rem; display: grid; gap: 3rem; padding-block: 2rem var(--sect); }
+.resume-role { padding-top: 1.5rem; border-top: 1px solid var(--ink); display: grid; gap: .75rem; }
+.resume-role-head { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+.resume-title { font-family: var(--serif); font-weight: 500; font-size: var(--fs-3); letter-spacing: -.02em; }
+.resume-range { font-size: .75rem; color: var(--muted); }
+.resume-org { font-size: var(--fs--1); color: var(--muted); }
+.resume-points { font-size: var(--fs--1); }
+@media print {
+  .site-head, .site-foot, .curtain, .drawer-root, .resume-ctas, .menu-btn { display: none !important; }
+  html, body { background: #fff; color: #000; }
+  .resume-body { max-width: none; gap: 1.5rem; }
+  .resume-role { break-inside: avoid; }
+  a { color: inherit; }
+}
+
+/* --------------------------------------------------------------------- 404 */
+.nf { min-height: 60vh; display: grid; align-content: center; gap: 1rem; }
+.nf-h { font-family: var(--serif); font-weight: 500; font-size: var(--fs-hero); letter-spacing: -.03em; line-height: .95; }
