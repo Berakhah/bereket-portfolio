@@ -194,3 +194,18 @@ export const claimRules = () => `
   ).join("")}</ul>
   <p class="claim-try">This page is built the same way: <strong>activate any underlined number</strong> to open its chain. The full <code>Claim</code> type is on the <a class="text-link" href="/work/backoffice-kit.html#architecture">BackOffice Kit case study</a>.</p>
 </div>`;
+
+// ---------------------------------------------------------------------------
+// Portrait — responsive <picture>; renditions produced by src/og/portrait.py.
+// ---------------------------------------------------------------------------
+export const portrait = (size = 1200, cls = "", eager = false) => {
+  const srcset = (ext) => size >= 600
+    ? `/assets/img/bereket-600.${ext} 600w, /assets/img/bereket-1200.${ext} 1200w`
+    : `/assets/img/bereket-192.${ext} 192w`;
+  const sizes = size >= 600 ? "(max-width: 56em) 60vw, 40vw" : "96px";
+  const base = size >= 600 ? 1200 : 192;
+  return `<picture class="portrait ${cls}">
+  <source type="image/webp" srcset="${srcset("webp")}" sizes="${sizes}">
+  <img src="/assets/img/bereket-${base}.jpg" srcset="${srcset("jpg")}" sizes="${sizes}" width="${size}" height="${Math.round(size * 4 / 3)}" alt="Bereket Tilahun, arms folded, in a black floral shirt" ${eager ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
+</picture>`;
+};
