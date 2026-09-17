@@ -33,6 +33,8 @@ test("one deferred, content-hashed bundle; no graph script; no third-party origi
   for (const s of order) { const i = bundle.indexOf(s); assert.ok(i > last, `missing or out of order: ${s}`); last = i; }
   assert.doesNotMatch(bundle, /getElementById\("graph"\)/);
   assert.doesNotMatch(home, /id="graph-data"|data-boot/);
+  for (const s of ['querySelectorAll(".panel")', "prefers-reduced-motion", 'classList.add("motion")']) assert.ok(bundle.includes(s), `bundle missing ${s}`);
+  for (const s of ["data-boot", "GLYPHS", "station"]) assert.ok(!bundle.includes(s), `bundle still has ${s}`);
 });
 
 test("CSS is inlined; display, body and mono faces are preloaded; home preloads the portrait", () => {
