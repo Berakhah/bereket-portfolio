@@ -48,5 +48,5 @@ test("principles list, path + stack band, about with portrait, contact block", (
   assert.match(home, /<picture class="portrait about-portrait">/);
   assert.match(home, /<h2 class="contact-h rv" id="contact-h">Let’s talk\.<\/h2>/);
   assert.match(home, /<div class="contact-links rv">/);
-  assert.doesNotMatch(home, /contact-card|class="scan"|claim-notes|pipeline/);
+  assert.doesNotMatch(home, /contact-card|class="scan"|claim-notes|id="pipeline"|class="scene"/);
 });
