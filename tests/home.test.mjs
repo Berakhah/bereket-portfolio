@@ -12,53 +12,41 @@ before(() => {
   home = readFileSync(join(ROOT, "site", "index.html"), "utf8");
 });
 
-test("hero: canvas graph, graph data, boot block, hero-gated reveals", () => {
-  assert.match(home, /<canvas class="hero-graph" id="graph" aria-hidden="true"><\/canvas>/);
-  assert.match(home, /id="graph-data"/);
-  assert.match(home, /<pre class="boot mono" data-boot>/);
-  assert.match(home, /&gt; loading systems \.+ 5 found/);
-  assert.ok((home.match(/data-hero/g) || []).length >= 5);
+test("hero: serif headline with one signal emphasis, portrait, two CTAs", () => {
+  assert.match(home, /<h1 class="hero-h rv" id="hero-h">Systems that stay <em class="hero-em">trustworthy<\/em> when everything else changes\.<\/h1>/);
+  assert.match(home, /<picture class="portrait hero-portrait">/);
+  assert.match(home, /fetchpriority="high"/);
+  assert.match(home, /<a class="btn btn-signal" href="mailto:berekettilahun77@gmail.com">Email me/);
+  assert.match(home, /<a class="btn btn-ink" href="\/resume.html">Résumé/);
+  assert.doesNotMatch(home, /data-boot|hero-graph|hero-texture|class="scene"|data-hero/);
 });
 
-test("proof readouts: digits count up, everything else decodes", () => {
-  assert.match(home, /<span class="proof-value tnum" data-count="742">742<\/span>/);
-  assert.match(home, /<span class="proof-value tnum" data-count="31,953">31,953<\/span>/);
-  assert.match(home, /<span class="proof-value tnum" data-decode>82 s<\/span>/);
+test("proof strip: four big metrics with plain captions", () => {
+  assert.equal((home.match(/<div class="big-metric">/g) || []).length, 4);
+  assert.match(home, /data-evidence="m-tests-742"[^>]*>742<\/button>\s*<span class="big-plain">automated tests guard the flagship scanner<\/span>/);
 });
 
-test("pipeline scene has a pin wrapper, rail packet, six stations and a readout", () => {
-  assert.match(home, /<section class="scene" id="pipeline"/);
-  assert.match(home, /<div class="scene-pin">/);
-  assert.match(home, /<span class="packet"><\/span>/);
-  assert.equal((home.match(/<li class="station"/g) || []).length, 6);
-  assert.match(home, /<p class="station-readout mono" aria-hidden="true" data-readout>/);
-});
-
-test("work: five compact cards — two headline figures each, no evidence grid", () => {
+test("work: five sticky panels with plain + technical copy, two metrics, vertical flow, case-study link", () => {
+  const panels = home.match(/<article class="panel" id="panel-[a-z-]+"/g) || [];
+  assert.equal(panels.length, 5);
+  assert.match(home, /<span class="panel-num mono">01<\/span>/);
+  assert.match(home, /<p class="panel-plain">Scans the tools an AI agent can reach/);
+  assert.equal((home.match(/<p class="panel-tech">/g) || []).length, 5);
+  assert.equal((home.match(/<div class="panel-metrics">/g) || []).length, 5);
+  assert.equal((home.match(/<ol class="flow flow-v"/g) || []).length, 5);
   for (const slug of ["agent-perimeter", "ground-truth", "ledger-sense", "backoffice-kit", "selector-drift"]) {
-    assert.match(home, new RegExp(`<article class="project-card wipe" id="card-${slug}"`));
-    assert.match(home, new RegExp(`href="/work/${slug}.html"`));
+    assert.match(home, new RegExp(`<a class="panel-cta" href="/work/${slug}.html">`));
   }
-  assert.match(home, /<span class="pc-index mono" aria-hidden="true">\[01\]<\/span>/);
-  assert.equal((home.match(/<span class="pc-lead-item">/g) || []).length, 10);
-  assert.doesNotMatch(home, /class="metrics-row"|WHY IT’S DIFFERENT|HONEST CAVEAT|class="work-index/);
+  assert.doesNotMatch(home, /status-legend|class="badge|RUNNING|project-card/);
 });
 
-test("evidence: rules stamp in; the Claim type lives on the BackOffice Kit case study", () => {
-  assert.equal((home.match(/<span class="stamp mono" aria-hidden="true">ENFORCED<\/span>/g) || []).length, 3);
-  assert.doesNotMatch(home, /class Claim\(BaseModel/);
-  assert.match(home, /href="\/work\/backoffice-kit.html#architecture"/);
-});
-
-test("four principles in a static grid, timeline rail, contact scan", () => {
-  assert.match(home, /<ol class="principles">/);
+test("principles list, path + stack band, about with portrait, contact block", () => {
   assert.equal((home.match(/<li class="principle rv"/g) || []).length, 4);
-  assert.doesNotMatch(home, /data-track/);
-  assert.match(home, /<div class="modes-wrap">\s*<span class="modes-rail" aria-hidden="true"><\/span>\s*<ol class="modes">/);
-  assert.equal((home.match(/<span class="scan" aria-hidden="true"><\/span>/g) || []).length, 4);
-});
-
-test("no light-theme leftovers and no invented sections", () => {
-  assert.doesNotMatch(home, /hero-grid-bg/);
-  assert.doesNotMatch(home, /Writing|Notes<\/h2>/);
+  assert.match(home, /<section class="section" id="principles"/);
+  assert.equal((home.match(/<li class="mode rv"/g) || []).length, 5);
+  assert.equal((home.match(/<div class="stack-run rv">/g) || []).length, 5);
+  assert.match(home, /<picture class="portrait about-portrait">/);
+  assert.match(home, /<h2 class="contact-h rv" id="contact-h">Let’s talk\.<\/h2>/);
+  assert.match(home, /<div class="contact-links rv">/);
+  assert.doesNotMatch(home, /contact-card|class="scan"|claim-notes|pipeline/);
 });
