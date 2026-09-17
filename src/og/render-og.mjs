@@ -4,18 +4,12 @@ import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { site, projects, heroMetrics } from "../content/index.mjs";
-import { bootLines } from "../render/ops.mjs";
 import { esc } from "../render/components.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const lines = bootLines({ site, projects, heroMetrics });
 // The card is opened from docs/og/ as a file, so font URLs must be relative to it.
 const fontCss = readFileSync(join(ROOT, "src", "css", "fonts.css"), "utf8").replaceAll("/assets/fonts/", "../../site/assets/fonts/");
-// First, "loading systems" and "verified figures" lines; the value after the
-// dot leader is highlighted.
-const boot = [lines[0], lines[1], lines[3]]
-  .map((l) => esc(l).replace(/(\.\.+ )(.*)$/, "$1<b>$2</b>"))
-  .join("\n");
+const boot = "";
 
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><title>og-card</title>
