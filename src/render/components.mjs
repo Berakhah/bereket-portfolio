@@ -48,31 +48,11 @@ export const icon = (name, cls = "") =>
   `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${I[name] || I.info}</svg>`;
 
 // ---------------------------------------------------------------------------
-// Status badge — the unified status vocabulary as a real UI component.
-// ---------------------------------------------------------------------------
-
-const STATUS_KIND = {
-  running: { cls: "st-running", glyph: "pulse" },
-  "active-development": { cls: "st-active", glyph: "pulse" },
-  "audit-pending": { cls: "st-pending", glyph: "pulse" },
-  "design-complete": { cls: "st-design", glyph: "static" },
-  planned: { cls: "st-planned", glyph: "static" },
-};
-
-export const badge = (status, idSuffix = "") => {
-  const k = STATUS_KIND[status.code] || STATUS_KIND.planned;
-  return `<span class="badge ${k.cls}" role="img" aria-label="Status: ${esc(status.label)}">
-    <span class="badge-glyph ${k.glyph}" aria-hidden="true"></span>
-    <span class="badge-label">${esc(status.label)}</span>
-  </span>`;
-};
-
-// ---------------------------------------------------------------------------
 // Flow stepper — the architecture-flow diagram component (recomposed on mobile).
 // ---------------------------------------------------------------------------
 
-export const flowStepper = (nodes, label) => `
-<ol class="flow" role="list" aria-label="${esc(label)}">
+export const flowStepper = (nodes, label, variant = "h") => `
+<ol class="flow${variant === "v" ? " flow-v" : ""}" role="list" aria-label="${esc(label)}">
   <svg class="flow-line" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none"><line class="fl-h" x1="0" y1="50" x2="100" y2="50" pathLength="1"/><line class="fl-v" x1="50" y1="0" x2="50" y2="100" pathLength="1"/></svg>
   ${nodes
     .map(
@@ -102,6 +82,13 @@ export const metricEl = (m, size = "sm") => `
 
 export const metricsRow = (metrics) =>
   `<div class="metrics-row">${metrics.map((m) => metricEl(m)).join("")}</div>`;
+
+// Big metric — the home proof strip: mono numeral, plain-English caption.
+export const bigMetric = (m) => `
+<div class="big-metric">
+  <button class="big-value prov-trigger mono" type="button" data-evidence="${esc(m.id)}" aria-haspopup="dialog" aria-label="${esc(`${m.value} ${m.label} — show evidence`)}">${esc(m.value)}</button>
+  <span class="big-plain">${esc(m.plain || m.label)}</span>
+</div>`;
 
 // ---------------------------------------------------------------------------
 // Provenance underline wrapper for inline figures
@@ -173,26 +160,6 @@ export const substrateDiagram = () => `
       <div class="substrate-cell"><span class="mono">findings</span><em>severity ladder · SARIF 2.1.0</em></div>
     </div>
   </div>
-</div>`;
-
-// ---------------------------------------------------------------------------
-// Claim rules (Evidence section) — the invariants tests enforce on a Claim.
-// The type itself is shown on the BackOffice Kit case study.
-// ---------------------------------------------------------------------------
-
-const CLAIM_RULES = [
-  "A `DERIVED` claim’s confidence never exceeds the minimum of its parents’.",
-  "A `MODEL` claim with no confidence cannot render as a fact.",
-  "A parent’s caveat — “sample size 51” — propagates to every child.",
-];
-
-export const claimRules = () => `
-<div class="claim-notes">
-  <p>Rules enforced by tests, not comments:</p>
-  <ul class="rules">${CLAIM_RULES.map(
-    (r, i) => `<li class="rule" style="--i:${i}"><span class="stamp mono" aria-hidden="true">ENFORCED</span><span>${md(r)}</span></li>`
-  ).join("")}</ul>
-  <p class="claim-try">This page is built the same way: <strong>activate any underlined number</strong> to open its chain. The full <code>Claim</code> type is on the <a class="text-link" href="/work/backoffice-kit.html#architecture">BackOffice Kit case study</a>.</p>
 </div>`;
 
 // ---------------------------------------------------------------------------

@@ -10,11 +10,10 @@ import {
   projects, evidenceIndex,
 } from "./src/content/index.mjs";
 import {
-  esc, md, prose, bullets, icon, badge, flowStepper, metricsRow,
-  evidenceScript, evidenceDrawer, repoChip, substrateDiagram, claimRules, prov,
+  esc, md, prose, bullets, icon, flowStepper, metricsRow, bigMetric, portrait,
+  evidenceScript, evidenceDrawer, repoChip, substrateDiagram, prov,
 } from "./src/render/components.mjs";
 import { head, scripts, header, footer } from "./src/render/layout.mjs";
-import { bootLines, bootBlock } from "./src/render/ops.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const OUT = join(ROOT, "site");
@@ -62,21 +61,6 @@ const sectionHead = (eyebrow, title, intro = "") => `
   <p class="eyebrow mono">${eyebrow}</p>
   <h2 class="section-title">${title}</h2>
   ${intro ? `<p class="section-intro">${intro}</p>` : ""}
-</div>`;
-
-const STATUS_LEGEND = `
-<div class="status-legend rv" aria-label="Status vocabulary">
-  <p class="legend-title mono">STATUS VOCABULARY — USED AS STATED, EVERYWHERE</p>
-  <dl class="legend-grid">
-    <div><dt><span class="badge st-running"><span class="badge-glyph pulse" aria-hidden="true"></span>RUNNING</span></dt>
-      <dd>Implemented and demonstrably working — public repo + reproducible verification.</dd></div>
-    <div><dt><span class="badge st-active"><span class="badge-glyph pulse" aria-hidden="true"></span>ACTIVE DEVELOPMENT</span></dt>
-      <dd>Real implementation exists; project incomplete.</dd></div>
-    <div><dt><span class="badge st-design"><span class="badge-glyph static" aria-hidden="true"></span>DESIGN COMPLETE</span></dt>
-      <dd>Architecture/spec exists; implementation not started or incomplete.</dd></div>
-    <div><dt><span class="badge st-planned"><span class="badge-glyph static" aria-hidden="true"></span>PLANNED</span></dt>
-      <dd>Concept/design stage only.</dd></div>
-  </dl>
 </div>`;
 
 // ---------------------------------------------------------------------------
@@ -132,7 +116,7 @@ const projectCard = (p, i) => {
       <p class="pc-tagline mono">${esc(p.tagline)}</p>
       <h3 class="pc-name" id="pc-${p.slug}">${esc(p.name)}</h3>
     </div>
-    ${badge(p.status)}
+    <span class="status-line">${esc(p.status.label)}</span>
   </div>
   <p class="pc-statement">${esc(p.statement)}</p>
   <div class="pc-foot">
@@ -208,7 +192,6 @@ ${pipelineScene()}
   <div class="wrap">
     ${sectionHead("§ 01 — FEATURED WORK", `<span id="work-h">Five systems, one conviction</span>`,
       "Security, backend correctness, trustworthy automation and evidence — in the order they build on each other. Each card states its status and two headline figures; the case study carries the rest.")}
-    ${STATUS_LEGEND}
     <div class="project-stack">
       ${projects.map((p, i) => projectCard(p, i)).join("")}
     </div>
@@ -220,7 +203,6 @@ ${pipelineScene()}
   <div class="wrap">
     ${sectionHead("§ 02 — EVIDENCE", `<span id="evidence-h">A number that can’t show its work is decoration</span>`,
       "BackOffice Kit’s <code>Claim</code> type makes provenance structural: value, source, method, confidence, timestamp, inherited caveats, parent claims. The whole portfolio is built the same way.")}
-    ${claimRules()}
   </div>
 </section>
 
@@ -443,7 +425,7 @@ const caseSections = (p) => {
       <p class="eyebrow mono">§ 11 — STATUS</p>
       <h2 class="cs-h" id="st-h">Current status</h2>
       <div class="status-block">
-        ${badge(p.status)}
+        <span class="status-line">${esc(p.status.label)}</span>
         <p class="pc-status-detail">${md(p.status.detail)}</p>
       </div>
       ${prose(cs.currentStatus)}
@@ -481,7 +463,7 @@ const casePage = (p, i) => {
     <p class="cs-tagline rv" style="--d:.18s">${esc(p.tagline)}</p>
     <p class="cs-statement rv" style="--d:.26s">“${esc(p.statement)}”</p>
     <div class="cs-meta rv" style="--d:.34s">
-      ${badge(p.status)}
+      <span class="status-line">${esc(p.status.label)}</span>
       <span class="mono meta-sep" aria-hidden="true">/</span>
       <span class="mono">${esc(p.role)}</span>
     </div>
@@ -592,11 +574,6 @@ const notFoundPage = () =>
     main: `
 <section class="section nf">
   <div class="wrap">
-    ${bootBlock([
-      "> route lookup ........... refused",
-      "> policy ................. fail closed",
-      "> exit 404",
-    ])}
     <p class="eyebrow mono rv">404 — NO ROUTE</p>
     <h1 class="cs-title rv" style="--d:.08s">This page refuses to load.</h1>
     <p class="rv" style="--d:.16s">Fail-closed, in the spirit of the rest of the site. <a class="text-link" href="/">Back to the homepage</a>.</p>
