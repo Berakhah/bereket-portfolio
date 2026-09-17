@@ -67,6 +67,17 @@ strong { font-weight: 600; }
 .prov-trigger { text-decoration: underline dotted var(--hair-2); text-underline-offset: .22em; cursor: help; transition: text-decoration-color var(--t-fast); }
 .prov-trigger:hover { text-decoration-color: var(--signal); }
 .prov-inline { font-family: var(--mono); font-weight: 500; }
+/* Metric numerals are provenance triggers that open the evidence sheet:
+   dotted underline that turns signal on hover, and a click affordance. */
+.metric-value.prov-trigger, .big-value.prov-trigger {
+  cursor: pointer;
+  text-decoration: underline dotted var(--hair-2);
+  text-underline-offset: .18em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--t-fast);
+}
+.metric-value.prov-trigger:hover, .big-value.prov-trigger:hover,
+.metric-value.prov-trigger:focus-visible, .big-value.prov-trigger:focus-visible { text-decoration-color: var(--signal); }
 
 /* ------------------------------------------------------------------ shell */
 .skip-link { position: absolute; left: 1rem; top: -4rem; z-index: 100; padding: .6rem 1rem; background: var(--ink); color: var(--paper); border-radius: var(--radius); }
