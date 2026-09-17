@@ -231,114 +231,50 @@ const caseSections = (p) => {
   const cs = p.caseStudy;
   const toc = [
     ["problem", "Problem"],
-    ["why", "Why existing approaches fail"],
-    ["architecture", "System architecture"],
+    ["why", "Why the obvious approach fails"],
+    ["architecture", "Architecture"],
     ["threat", "Threat model"],
-    ["decisions", "Key decisions"],
+    ["decisions", "Decisions"],
     ["implementation", "Implementation"],
     ["evidence", "Evidence"],
     ["controls", "Security controls"],
     ["tradeoffs", "Trade-offs"],
-    ["limits", "Limitations"],
-    ["status", "Current status"],
-    ["repo", "Repository & demo"],
+    ["caveats", "Caveats & status"],
+    ["repo", "Repository"],
   ];
+  const sec = (id, title, body) => `
+    <section class="cs-sec rv" id="${id}" aria-labelledby="${id}-h">
+      <h2 class="cs-h" id="${id}-h">${title}</h2>
+      ${body}
+    </section>`;
   return `
 <div class="cs-layout wrap">
   <aside class="cs-toc" aria-label="Case study sections">
-    <p class="mono toc-h">CONTENTS</p>
-    <ol>
-      ${toc.map(([id, label]) => `<li><a href="#${id}"><span class="toc-bar" aria-hidden="true"></span>${esc(label)}</a></li>`).join("")}
-    </ol>
-    <a class="btn btn-quiet btn-sm toc-back" href="/#work">${icon("arrow")} All work</a>
+    <p class="toc-h">Contents</p>
+    ${toc.map(([id, label]) => `<a href="#${id}">${esc(label)}</a>`).join("\n    ")}
+    <a class="btn btn-ink btn-sm toc-back" href="/#work">${icon("arrow")} All work</a>
   </aside>
-
   <div class="cs-body">
-    <section class="cs-sec rv rv-clip" id="problem" aria-labelledby="problem-h">
-      <p class="eyebrow mono">§ 1 — PROBLEM</p>
-      <h2 class="cs-h" id="problem-h">The problem</h2>
-      ${prose(cs.problem)}
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="why" aria-labelledby="why-h">
-      <p class="eyebrow mono">§ 2 — PRIOR ART</p>
-      <h2 class="cs-h" id="why-h">Why existing approaches fail</h2>
-      ${bullets(cs.whyFails)}
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="architecture" aria-labelledby="arch-h">
-      <p class="eyebrow mono">§ 3 — ARCHITECTURE</p>
-      <h2 class="cs-h" id="arch-h">System architecture</h2>
+    ${sec("problem", "The problem", prose(cs.problem))}
+    ${sec("why", "Why the obvious approach fails", bullets(cs.whyFails))}
+    ${sec("architecture", "Architecture", `
       ${prose(cs.architecture.intro)}
-      ${cs.architecture.claimCode ? `<div class="code-block rv"><span class="code-label mono">the Claim type</span><pre><code>${esc(cs.architecture.claimCode)}</code></pre></div>` : ""}
-      ${p.substrate ? substrateDiagram() : flowStepper(p.flow, `${p.name} architecture flow`)}
-      <div class="code-block rv"><span class="code-label mono">repository layout</span><pre><code>${esc(cs.architecture.tree)}</code></pre></div>
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="threat" aria-labelledby="threat-h">
-      <p class="eyebrow mono">§ 4 — THREAT MODEL</p>
-      <h2 class="cs-h" id="threat-h">Threat model</h2>
-      ${bullets(cs.threatModel)}
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="decisions" aria-labelledby="dec-h">
-      <p class="eyebrow mono">§ 5 — DECISIONS</p>
-      <h2 class="cs-h" id="dec-h">Key decisions</h2>
-      <dl class="decisions">
-        ${cs.decisions.map((d) => `<div class="decision rv"><dt>${esc(d.title)}</dt><dd>${md(d.body)}</dd></div>`).join("")}
-      </dl>
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="implementation" aria-labelledby="impl-h">
-      <p class="eyebrow mono">§ 6 — IMPLEMENTATION</p>
-      <h2 class="cs-h" id="impl-h">Implementation</h2>
-      ${bullets(cs.implementation)}
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="evidence" aria-labelledby="ev-h">
-      <p class="eyebrow mono">§ 7 — EVIDENCE</p>
-      <h2 class="cs-h" id="ev-h">Evidence</h2>
-      ${metricsRow(p.card.metrics)}
-      ${bullets(cs.evidence)}
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="controls" aria-labelledby="ctl-h">
-      <p class="eyebrow mono">§ 8 — CONTROLS</p>
-      <h2 class="cs-h" id="ctl-h">Security controls</h2>
-      ${bullets(cs.securityControls)}
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="tradeoffs" aria-labelledby="tr-h">
-      <p class="eyebrow mono">§ 9 — TRADE-OFFS</p>
-      <h2 class="cs-h" id="tr-h">Trade-offs</h2>
-      ${bullets(cs.tradeoffs)}
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="limits" aria-labelledby="lim-h">
-      <p class="eyebrow mono">§ 10 — LIMITATIONS</p>
-      <h2 class="cs-h" id="lim-h">Limitations</h2>
+      ${p.substrate ? substrateDiagram() : flowStepper(p.flow, `${p.name} — how it works`)}
+      ${cs.architecture.claimCode ? `<div class="code-block"><span class="code-label">the Claim type</span><pre><code>${esc(cs.architecture.claimCode)}</code></pre></div>` : ""}
+      <div class="code-block"><span class="code-label">repository layout</span><pre><code>${esc(cs.architecture.tree)}</code></pre></div>`)}
+    ${sec("threat", "Threat model", bullets(cs.threatModel))}
+    ${sec("decisions", "Decisions", `<dl class="decisions">${cs.decisions.map((d) => `<div class="decision"><dt>${esc(d.title)}</dt><dd>${md(d.body)}</dd></div>`).join("")}</dl>`)}
+    ${sec("implementation", "Implementation", bullets(cs.implementation))}
+    ${sec("evidence", "Evidence", `${metricsRow(p.card.metrics)}${bullets(cs.evidence)}`)}
+    ${sec("controls", "Security controls", bullets(cs.securityControls))}
+    ${sec("tradeoffs", "Trade-offs", bullets(cs.tradeoffs))}
+    ${sec("caveats", "Caveats &amp; status", `
+      <p class="cs-caveat">${md(p.card.caveat)}</p>
       ${bullets(cs.limitations)}
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="status" aria-labelledby="st-h">
-      <p class="eyebrow mono">§ 11 — STATUS</p>
-      <h2 class="cs-h" id="st-h">Current status</h2>
-      <div class="status-block">
-        <span class="status-line">${esc(p.status.label)}</span>
-        <p class="pc-status-detail">${md(p.status.detail)}</p>
-      </div>
-      ${prose(cs.currentStatus)}
-    </section>
-
-    <section class="cs-sec rv rv-clip" id="repo" aria-labelledby="repo-h">
-      <p class="eyebrow mono">§ 12 — REPOSITORY</p>
-      <h2 class="cs-h" id="repo-h">Repository &amp; demo</h2>
-      <div class="repo-block">
-        ${repoChip(p)}
-        <span class="chip chip-muted mono">${esc(p.licence)}</span>
-      </div>
-      <p class="repo-note">${md(cs.repoNote)}</p>
-    </section>
+      <div class="status-block"><p><strong>${esc(p.status.label)}</strong> — ${md(p.status.detail)}</p>${prose(cs.currentStatus)}</div>`)}
+    ${sec("repo", "Repository", `
+      <div class="repo-block">${repoChip(p)}<span class="chip chip-muted">${esc(p.licence)}</span></div>
+      <p class="repo-note">${md(cs.repoNote)}</p>`)}
   </div>
 </div>`;
 };
@@ -346,58 +282,38 @@ const caseSections = (p) => {
 const casePage = (p, i) => {
   const prev = projects[(i - 1 + projects.length) % projects.length];
   const next = projects[(i + 1) % projects.length];
+  const n = String(i + 1).padStart(2, "0");
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
     headline: `${p.name} — ${p.tagline}`,
-    author: { "@type": "Person", name: "Bereket Tilahun" },
+    author: { "@type": "Person", name: site.name },
     about: p.category.join(", "),
   };
   const main = `
 <section class="cs-hero">
-  <div class="hero-texture" aria-hidden="true"></div>
   <div class="wrap">
-    <p class="eyebrow mono rv">CASE STUDY · ${esc(p.category.join(" · "))}</p>
-    <h1 class="cs-title rv" style="--d:.1s">${esc(p.name)}</h1>
-    <p class="cs-tagline rv" style="--d:.18s">${esc(p.tagline)}</p>
-    <p class="cs-statement rv" style="--d:.26s">“${esc(p.statement)}”</p>
-    <div class="cs-meta rv" style="--d:.34s">
-      <span class="status-line">${esc(p.status.label)}</span>
-      <span class="mono meta-sep" aria-hidden="true">/</span>
-      <span class="mono">${esc(p.role)}</span>
+    <span class="cs-num mono rv">${n}</span>
+    <h1 class="cs-title rv" style="--d:60ms">${esc(p.name)}</h1>
+    <p class="cs-tagline rv" style="--d:120ms">${esc(p.tagline)}</p>
+    <p class="cs-plain rv" style="--d:180ms">${esc(p.plain)}</p>
+    <p class="cs-status rv" style="--d:240ms"><span class="dot" aria-hidden="true"></span><span><strong>${esc(p.status.label)}</strong> — ${md(p.status.detail)}</span></p>
+    <div class="cs-meta rv" style="--d:300ms">
+      <span><strong>Role</strong> ${esc(p.role)}</span>
+      <span><strong>Licence</strong> ${esc(p.licence)}</span>
+      ${p.links && p.links.github ? `<a class="text-link" href="${esc(p.links.github)}" rel="noopener" target="_blank">GitHub ${icon("external", "icon-xs")}</a>` : ""}
     </div>
-    <p class="pc-status-detail cs-status-detail rv" style="--d:.4s">${md(p.status.detail)}</p>
-    <div class="pc-lower rv" style="--d:.43s">
-      <div class="pc-diff">
-        <h2 class="pc-lower-h mono">WHY IT’S DIFFERENT</h2>
-        <p>${md(p.card.differentiator)}</p>
-      </div>
-      <div class="pc-caveat">
-        <h2 class="pc-lower-h mono">${icon("alert", "icon-xs")} HONEST CAVEAT</h2>
-        <p>${md(p.card.caveat)}</p>
-      </div>
-    </div>
-    <div class="cs-hero-flow rv" data-draw style="--d:.46s">
-      ${flowStepper(p.flow, `${p.name} architecture flow`)}
-    </div>
-    <div class="cs-hero-tech rv" style="--d:.52s">
-      ${p.tech.map((t) => `<span class="tech-chip mono">${esc(t)}</span>`).join("")}
-    </div>
+    <div class="cs-tech rv" style="--d:360ms">${p.tech.map((t) => `<span class="chip">${esc(t)}</span>`).join("")}</div>
   </div>
 </section>
 ${caseSections(p)}
 <nav class="pager wrap" aria-label="More case studies">
-  <a class="pager-link pager-prev" href="/work/${prev.slug}.html">
-    <span class="mono pager-dir">← PREVIOUS</span><span class="pager-name">${esc(prev.name)}</span>
-  </a>
-  <a class="pager-link pager-next" href="/work/${next.slug}.html">
-    <span class="mono pager-dir">NEXT →</span><span class="pager-name">${esc(next.name)}</span>
-  </a>
+  <a class="pager-link pager-prev" href="/work/${prev.slug}.html"><span class="pager-dir mono">← PREVIOUS</span><span class="pager-name">${esc(prev.name)}</span></a>
+  <a class="pager-link pager-next" href="/work/${next.slug}.html"><span class="pager-dir mono">NEXT →</span><span class="pager-name">${esc(next.name)}</span></a>
 </nav>`;
-
   return page({
-    title: `${p.name} — Case Study — Bereket Tilahun`,
-    desc: `${p.tagline}. ${p.statement}`,
+    title: `${p.name} — Case study — ${site.name}`,
+    desc: p.plain,
     path: `/work/${p.slug}.html`,
     bodyClass: "page-case",
     main,
@@ -411,49 +327,31 @@ ${caseSections(p)}
 
 const resumePage = () => {
   const main = `
-<section class="section resume-hero">
+<section class="resume-hero">
   <div class="wrap">
-    <p class="eyebrow mono rv">CURRICULUM VITÆ — WEB EDITION</p>
-    <h1 class="cs-title rv" style="--d:.08s">Bereket Tilahun</h1>
-    <p class="cs-tagline rv" style="--d:.14s">${esc(site.title)} — ${esc(site.location)}</p>
-    <div class="rv" style="--d:.2s">
-      <a class="btn btn-ink" href="/assets/Bereket_Tilahun_Resume.pdf" download>Download PDF ${icon("download")}</a>
-      <a class="btn btn-quiet" href="mailto:${esc(site.email)}">${icon("mail")} ${esc(site.email)}</a>
+    <p class="eyebrow rv">Résumé</p>
+    <h1 class="cs-title rv" style="--d:60ms">${esc(site.name)}</h1>
+    <p class="cs-tagline rv" style="--d:120ms">${esc(site.title)} · ${esc(site.location)}</p>
+    <div class="resume-ctas rv" style="--d:180ms">
+      <a class="btn btn-signal" href="/assets/Bereket_Tilahun_Resume.pdf" download>Download PDF ${icon("download", "icon-xs")}</a>
+      <a class="btn btn-ink" href="mailto:${esc(site.email)}">${esc(site.email)}</a>
     </div>
   </div>
 </section>
-
-<section class="section"><div class="wrap resume-body">
-  ${experience.roles
-    .map(
-      (r, i) => `<section class="rv resume-role" aria-labelledby="rr${i}">
-    <div class="resume-role-head">
-      <h2 class="resume-title" id="rr${i}">${esc(r.title)}</h2>
-      <p class="resume-range mono">${esc(r.range)}</p>
-    </div>
-    <p class="resume-org mono">${esc(r.org)} · ${esc(r.loc)}</p>
+<div class="wrap resume-body">
+  ${experience.roles.map((r, i) => `<section class="resume-role rv" aria-labelledby="rr${i}">
+    <div class="resume-role-head"><h2 class="resume-title" id="rr${i}">${esc(r.title)}</h2><span class="resume-range mono">${esc(r.range)}</span></div>
+    <p class="resume-org">${esc(r.org)} · ${esc(r.loc)}</p>
     ${bullets(r.points, "bullets resume-points")}
-  </section>`
-    )
-    .join("")}
-
-  <section class="rv resume-role">
-    <h2 class="resume-title">Skills</h2>
-    <div class="stack-grid resume-stack">
-      ${stack.map((s) => `<div class="stack-group"><h3 class="stack-h mono">${esc(s.group)}</h3>
-        <ul class="stack-items">${s.items.map((it) => `<li>${esc(it)}</li>`).join("")}</ul></div>`).join("")}
-    </div>
+  </section>`).join("")}
+  <section class="resume-role rv"><h2 class="resume-title">Skills</h2>
+    <div class="stack-runs">${stack.map((s) => `<div class="stack-run"><p class="stack-h">${esc(s.group)}</p><p class="stack-items">${s.items.map(esc).join(" · ")}</p></div>`).join("")}</div>
   </section>
-
-  <section class="rv resume-role">
-    <h2 class="resume-title">Education</h2>
-    <p class="resume-org mono">${esc(about.education)}</p>
-  </section>
-</div></section>`;
-
+  <section class="resume-role rv"><h2 class="resume-title">Education</h2><p class="resume-org">${esc(about.education)}</p></section>
+</div>`;
   return page({
-    title: "Résumé — Bereket Tilahun",
-    desc: `Web résumé of ${site.name} — ${site.title}. Download the PDF.`,
+    title: `Résumé — ${site.name}`,
+    desc: `Résumé of ${site.name}, ${site.title}. Download the PDF.`,
     path: "/resume.html",
     bodyClass: "page-resume",
     main,
@@ -466,18 +364,15 @@ const resumePage = () => {
 
 const notFoundPage = () =>
   page({
-    title: "Not found — Bereket Tilahun",
-    desc: "This route does not exist.",
+    title: `Not found — ${site.name}`,
+    desc: "This page does not exist.",
     path: "/404.html",
     bodyClass: "page-404",
     main: `
-<section class="section nf">
-  <div class="wrap">
-    <p class="eyebrow mono rv">404 — NO ROUTE</p>
-    <h1 class="cs-title rv" style="--d:.08s">This page refuses to load.</h1>
-    <p class="rv" style="--d:.16s">Fail-closed, in the spirit of the rest of the site. <a class="text-link" href="/">Back to the homepage</a>.</p>
-  </div>
-</section>`,
+<section class="section nf"><div class="wrap">
+  <h1 class="nf-h rv">Nothing here.</h1>
+  <p class="rv" style="--d:80ms">The page you asked for doesn’t exist. <a class="text-link" href="/">Back to the start</a>.</p>
+</div></section>`,
   });
 
 // ---------------------------------------------------------------------------
