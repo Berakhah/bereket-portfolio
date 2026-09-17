@@ -25,7 +25,7 @@ const src = (...p) => readFileSync(join(ROOT, "src", ...p), "utf8");
 // (pinned GSAP, ScrollTrigger, Lenis) + graph + main, each self-guarding.
 // ---------------------------------------------------------------------------
 
-const CSS = src("css", "fonts.css") + "\n" + src("css", "style.css");
+const CSS = ["fonts", "tokens", "base", "home", "pages", "motion"].map((f) => src("css", `${f}.css`)).join("\n");
 
 const BUNDLE_SRC = [
   src("vendor", "gsap.min.js"),

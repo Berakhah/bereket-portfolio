@@ -1,0 +1,18 @@
+/* Every hidden-until-revealed state lives under .motion (set by main.js
+   only when GSAP loaded and reduced motion is off). Without it the site is
+   fully visible and static. */
+.curtain { position: fixed; inset: 0; z-index: 90; background: var(--paper); pointer-events: none; transform: scaleY(0); transform-origin: 50% 0; }
+.motion .curtain.in { transform: scaleY(1); transform-origin: 50% 100%; transition: transform 420ms var(--ease); }
+.motion .curtain.out { transform: scaleY(0); transform-origin: 50% 0; transition: transform 420ms var(--ease); }
+
+.motion .rv { opacity: 0; transform: translateY(24px); transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease); transition-delay: var(--d, 0ms); }
+.motion .rv.in-view { opacity: 1; transform: none; }
+
+.motion .flow-line line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.2s var(--ease); }
+.motion .in-view .flow-line line, .motion .flow.drawn .flow-line line { stroke-dashoffset: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .curtain { display: none; }
+}
