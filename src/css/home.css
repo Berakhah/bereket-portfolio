@@ -15,7 +15,7 @@
 /* ------------------------------------------------------------- proof strip */
 .proof { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: var(--sect); padding-top: 2.5rem; border-top: 1px solid var(--ink); }
 .big-metric { display: grid; gap: .5rem; align-content: start; }
-.big-value { font-size: var(--fs-num); line-height: 1; letter-spacing: -.02em; text-align: left; justify-self: start; }
+.big-value { font-family: var(--mono); font-weight: 500; font-variant-numeric: tabular-nums; font-size: var(--fs-num); line-height: 1; letter-spacing: -.02em; text-align: left; justify-self: start; }
 .big-plain { font-size: var(--fs--1); color: var(--muted); max-width: 22ch; }
 @media (max-width: 56em) { .proof { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; } }
 
