@@ -14,7 +14,7 @@ import {
   evidenceScript, evidenceDrawer, repoChip, substrateDiagram, claimRules, prov,
 } from "./src/render/components.mjs";
 import { head, scripts, header, footer } from "./src/render/layout.mjs";
-import { bootLines, bootBlock, graphData, graphScript } from "./src/render/ops.mjs";
+import { bootLines, bootBlock } from "./src/render/ops.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const OUT = join(ROOT, "site");
@@ -32,18 +32,17 @@ const BUNDLE_SRC = [
   src("vendor", "gsap.min.js"),
   src("vendor", "ScrollTrigger.min.js"),
   src("vendor", "lenis.min.js"),
-  src("js", "graph.js"),
   src("js", "main.js"),
 ].join("\n;\n");
 const BUNDLE_HASH = createHash("sha256").update(BUNDLE_SRC).digest("hex").slice(0, 10);
 const BUNDLE_PATH = `/assets/js/app.${BUNDLE_HASH}.js`;
 
-const page = ({ title, desc, path, bodyClass = "", main, jsonLd = null }) => `${head({
-  title, desc, path, siteUrl: site.siteUrl, jsonLd, css: CSS,
+const page = ({ title, desc, path, bodyClass = "", main, jsonLd = null, preloadPortrait = false }) => `${head({
+  title, desc, path, siteUrl: site.siteUrl, jsonLd, css: CSS, preloadPortrait,
 })}
 <body class="${bodyClass}">
 <div class="curtain" aria-hidden="true"></div>
-${header(path)}
+${header(path, nav, site)}
 <main id="main">
 ${main}
 </main>
@@ -167,11 +166,8 @@ const indexPage = () => {
   const main = `
 <!-- ============================ 1 · IDENTITY ============================ -->
 <section class="hero" aria-labelledby="hero-h">
-  <canvas class="hero-graph" id="graph" aria-hidden="true"></canvas>
   <div class="hero-texture" aria-hidden="true"></div>
-  ${graphScript(graphData(projects))}
   <div class="wrap hero-inner">
-    ${bootBlock(bootLines({ site, projects, heroMetrics }))}
     <p class="eyebrow mono rv" data-hero style="--d:.05s">${esc(site.name)} · ${esc(site.title)} · ${esc(site.location)}</p>
     <h1 class="hero-h" id="hero-h">
       <span class="line-mask" data-hero style="--d:.12s">Systems that know what they are</span>
@@ -342,6 +338,7 @@ ${pipelineScene()}
     bodyClass: "page-home",
     main,
     jsonLd,
+    preloadPortrait: true,
   });
 };
 

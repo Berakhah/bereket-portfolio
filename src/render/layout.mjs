@@ -1,21 +1,22 @@
-// Page shell: head (SEO/OG/JSON-LD), vendor scripts, header, footer.
-// Consumed by build.mjs.
-import { esc, icon } from "./components.mjs";
+// Page shell: head (SEO/OG/JSON-LD), scripts, header, footer. Consumed by build.mjs.
+import { esc, icon, portrait } from "./components.mjs";
 
-// One deferred, content-hashed bundle (vendor + site JS) — see build.mjs.
 export const scripts = (bundlePath) => `<script src="${bundlePath}" defer></script>`;
 
-// Faces needed above the fold on every page: body/headline, hero italic, eyebrows.
+// Above-the-fold faces on every page: body, display serif, mono numerals.
 const PRELOAD_FONTS = [
   "/assets/fonts/geist-normal-300-700.woff2",
-  "/assets/fonts/newsreader-italic-400.woff2",
+  "/assets/fonts/newsreader-normal-500.woff2",
   "/assets/fonts/plex-mono-normal-500.woff2",
 ];
 
-export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogType = "website", css = "" }) => {
+export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogType = "website", css = "", preloadPortrait = false }) => {
   const canon = siteUrl ? `\n<link rel="canonical" href="${esc(siteUrl + path)}">` : "";
   const ogUrl = siteUrl ? `\n<meta property="og:url" content="${esc(siteUrl + path)}">` : "";
   const ogImg = siteUrl ? `\n<meta property="og:image" content="${esc(siteUrl + "/assets/img/og-card.png")}">\n<meta name="twitter:image" content="${esc(siteUrl + "/assets/img/og-card.png")}">` : "";
+  const img = preloadPortrait
+    ? `\n<link rel="preload" as="image" href="/assets/img/bereket-1200.webp" type="image/webp" imagesrcset="/assets/img/bereket-600.webp 600w, /assets/img/bereket-1200.webp 1200w" imagesizes="(max-width: 56em) 60vw, 40vw">`
+    : "";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -31,85 +32,56 @@ export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogT
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
-<meta name="theme-color" content="#0a0b0d">
-<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#f4f1ea">
+<meta name="color-scheme" content="light dark">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
-${PRELOAD_FONTS.map((f) => `<link rel="preload" href="${f}" as="font" type="font/woff2" crossorigin>`).join("\n")}
+${PRELOAD_FONTS.map((f) => `<link rel="preload" href="${f}" as="font" type="font/woff2" crossorigin>`).join("\n")}${img}
 <style>${css}</style>${canon}
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>` : ""}
 </head>`;
 };
 
-export const header = (path = "/") => {
-  const here = (href) => {
-    if (path === "/") return href.startsWith("/#") ? `href="${href}"` : `href="/${href}"`;
-    return `href="/${href.replace(/^\//, "")}"`;
-  };
-  return `
+export const header = (path, nav, site) => `
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="progress" aria-hidden="true"><span class="progress-bar"></span></div>
 <header class="site-head">
   <div class="wrap head-row">
-    <a class="brand" href="/" aria-label="Bereket Tilahun — home">
-      <span class="brand-mark mono" aria-hidden="true">BT</span>
-      <span class="brand-name">Bereket Tilahun</span>
-      <span class="brand-role mono">Backend Security Engineer</span>
-    </a>
+    <a class="brand" href="/" aria-label="Bereket Tilahun — home">${esc(site.name)}</a>
     <nav class="site-nav" aria-label="Primary">
-      <a href="/#work">Work</a>
-      <a href="/#engineering">Engineering</a>
-      <a href="/#about">About</a>
-      <a href="/#contact">Contact</a>
+      ${nav.map((n) => `<a href="${esc(n.href)}">${esc(n.label)}</a>`).join("\n      ")}
+      <a href="/resume.html">Résumé</a>
     </nav>
-    <div class="head-utils">
-      <a class="util-icon" href="https://github.com/Berakhah" rel="noopener" target="_blank" aria-label="GitHub profile">${icon("github")}</a>
-      <a class="util-icon" href="https://www.linkedin.com/in/bereket-tilahun-488003232/" rel="noopener" target="_blank" aria-label="LinkedIn profile">${icon("linkedin")}</a>
-      <a class="btn btn-quiet btn-sm" href="/resume.html">${icon("file")}<span>Résumé</span></a>
-    </div>
+    <a class="btn btn-signal btn-sm head-cta" href="mailto:${esc(site.email)}">Email</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">${icon("menu")}</button>
   </div>
   <div class="mobile-nav" id="mobile-nav" hidden>
     <nav aria-label="Primary, mobile">
-      <a href="/#work">Work</a>
-      <a href="/#engineering">Engineering</a>
-      <a href="/#about">About</a>
-      <a href="/#contact">Contact</a>
+      ${nav.map((n) => `<a href="${esc(n.href)}">${esc(n.label)}</a>`).join("\n      ")}
       <a href="/resume.html">Résumé</a>
-      <a href="https://github.com/Berakhah" rel="noopener" target="_blank">GitHub</a>
-      <a href="https://www.linkedin.com/in/bereket-tilahun-488003232/" rel="noopener" target="_blank">LinkedIn</a>
+      <a href="${esc(site.github)}" rel="noopener" target="_blank">GitHub</a>
+      <a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>
     </nav>
   </div>
 </header>`;
-};
 
 export const footer = (site) => `
 <footer class="site-foot">
-  <div class="wrap foot-grid">
-    <div class="foot-col foot-brand">
-      <span class="brand-mark mono" aria-hidden="true">BT</span>
-      <p>Bereket Tilahun — Backend Security Engineer &amp; Software Engineer, Addis Ababa.</p>
-      <p class="foot-availability">${esc(site.availability)}</p>
+  <div class="wrap foot-row">
+    <div class="foot-sign">
+      ${portrait(192, "foot-portrait")}
+      <div>
+        <p class="foot-name serif">${esc(site.name)}</p>
+        <p class="foot-meta">${esc(site.title)} · ${esc(site.location)}</p>
+      </div>
     </div>
-    <div class="foot-col">
-      <h2 class="foot-h mono">SITE</h2>
-      <a href="/#work">Work</a>
-      <a href="/#engineering">Engineering</a>
-      <a href="/#about">About</a>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>
+      <a href="${esc(site.github)}" rel="noopener" target="_blank">GitHub</a>
+      <a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>
       <a href="/resume.html">Résumé</a>
-    </div>
-    <div class="foot-col">
-      <h2 class="foot-h mono">ELSEWHERE</h2>
-      <a href="https://github.com/Berakhah" rel="noopener" target="_blank">GitHub — @Berakhah</a>
-      <a href="https://www.linkedin.com/in/bereket-tilahun-488003232/" rel="noopener" target="_blank">LinkedIn</a>
-      <a href="mailto:berekettilahun77@gmail.com">berekettilahun77@gmail.com</a>
-    </div>
-    <div class="foot-col foot-colophon">
-      <h2 class="foot-h mono">COLOPHON</h2>
-      <p>Set in Newsreader, Geist and IBM Plex Mono. Static site — no trackers, no analytics. Every figure carries provenance; statuses are stated, not implied.</p>
-    </div>
+    </nav>
   </div>
   <div class="wrap foot-base mono">
-    <span>© <span id="year">2026</span> Bereket Tilahun</span>
-    <span>Document reviewed ${esc(site.reviewed)} · Apache-2.0 projects unless noted</span>
+    <span>© <span id="year">2026</span> ${esc(site.name)}</span>
+    <span>Reviewed ${esc(site.reviewed)} · No trackers · Every figure carries its source</span>
   </div>
 </footer>`;
