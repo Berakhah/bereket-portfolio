@@ -259,7 +259,10 @@ strong { font-weight: 600; }
 @media (max-width: 56em) {
   .site-nav { display: none; }
   .menu-btn { display: grid; }
-  .head-cta { position: fixed; right: 1rem; bottom: 1rem; z-index: 45; box-shadow: 0 0 0 4px var(--paper); }
+  /* The floating fixed-position CTA used to sit on top of scrolled content
+     (e.g. the hero headline on first paint) — dropped in favour of the
+     Email link already in the mobile-nav drawer and the hero's own CTA. */
+  .head-cta { display: none; }
 }
 
 .site-foot { border-top: 1px solid var(--ink); padding-block: 3.5rem 2rem; }
@@ -560,6 +563,7 @@ html.drawer-open { overflow: hidden; }
       <a href="/#about">About</a>
       <a href="/#contact">Contact</a>
       <a href="/resume.html">Résumé</a>
+      <a href="mailto:berekettilahun77@gmail.com">Email</a>
       <a href="https://github.com/Berakhah" rel="noopener" target="_blank">GitHub</a>
       <a href="https://www.linkedin.com/in/bereket-tilahun-488003232/" rel="noopener" target="_blank">LinkedIn</a>
     </nav>
@@ -862,28 +866,28 @@ html.drawer-open { overflow: hidden; }
 </div>
     <ol class="principles">
       <li class="principle rv" style="--d:0ms">
-        <span class="principle-num mono" aria-hidden="true">№ 1</span>
+        <span class="principle-num mono" aria-hidden="true">No. 1</span>
         <div>
           <h3 class="principle-title">Make unsafe states impossible</h3>
           <p class="principle-body">The best error handling is a state that cannot exist. BackOffice Kit’s redaction result type raises on read if verification never ran — “forgot to check the flag” is unrepresentable, because the type itself refuses.</p>
           <p class="principle-src">BackOffice Kit — boundary/redact</p>
         </div>
       </li><li class="principle rv" style="--d:60ms">
-        <span class="principle-num mono" aria-hidden="true">№ 2</span>
+        <span class="principle-num mono" aria-hidden="true">No. 2</span>
         <div>
           <h3 class="principle-title">Fail closed</h3>
           <p class="principle-body">Agent Perimeter refuses active probing without a scope file — CLI and HTTP API go through the same authorisation function, and the API returns 422 authorization_required, never a silent skip. Its census records an un-cursored page as a suspected pagination bug, never as a completed population.</p>
           <p class="principle-src">Agent Perimeter — scope gate &amp; census</p>
         </div>
       </li><li class="principle rv" style="--d:120ms">
-        <span class="principle-num mono" aria-hidden="true">№ 3</span>
+        <span class="principle-num mono" aria-hidden="true">No. 3</span>
         <div>
           <h3 class="principle-title">A metric without provenance is decoration</h3>
           <p class="principle-body">BackOffice Kit’s Claim model makes value, source, method, confidence, timestamp and inherited caveats part of the type. A DERIVED claim’s confidence can never exceed the minimum of its parents’.</p>
           <p class="principle-src">BackOffice Kit — provenance.Claim</p>
         </div>
       </li><li class="principle rv" style="--d:180ms">
-        <span class="principle-num mono" aria-hidden="true">№ 4</span>
+        <span class="principle-num mono" aria-hidden="true">No. 4</span>
         <div>
           <h3 class="principle-title">Don’t hide caveats</h3>
           <p class="principle-body">Ground Truth’s methodology opens by stating that its population is synthetic and external validity is unmeasured by design. Agent Perimeter reports census zeros with Wilson intervals so a zero never reads as “none”.</p>
