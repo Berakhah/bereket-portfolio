@@ -3,7 +3,7 @@
 .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(2rem, 6vw, 6rem); align-items: center; }
 .hero-copy { display: grid; gap: 1.75rem; }
 .hero-h { font-family: var(--serif); font-weight: 500; font-size: var(--fs-hero); line-height: .95; letter-spacing: -.025em; text-wrap: balance; font-optical-sizing: auto; }
-.hero-em { font-style: italic; font-weight: 400; color: var(--signal); }
+.hero-em { font-style: italic; font-weight: 400; color: var(--signal-text); }
 .hero-lede { font-size: var(--fs-1); color: var(--muted); max-width: 44ch; }
 .hero-ctas { display: flex; gap: .75rem; flex-wrap: wrap; }
 .hero-portrait { width: 100%; max-width: 34rem; justify-self: end; aspect-ratio: 3 / 4; }

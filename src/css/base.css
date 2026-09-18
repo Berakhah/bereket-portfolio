@@ -46,7 +46,7 @@ strong { font-weight: 600; }
   transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
 .btn:hover { transform: translateY(-1px); }
-.btn-signal { background: var(--signal); border-color: var(--signal); color: var(--signal-ink); }
+.btn-signal { background: var(--signal-cta); border-color: var(--signal-cta); color: var(--signal-ink); }
 .btn-signal:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .btn-ink { background: transparent; color: var(--ink); }
 .btn-ink:hover { background: var(--ink); color: var(--paper); }
