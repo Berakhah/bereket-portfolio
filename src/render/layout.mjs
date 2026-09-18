@@ -59,6 +59,7 @@ export const header = (path, nav, site) => `
     <nav aria-label="Primary, mobile">
       ${nav.map((n) => `<a href="${esc(n.href)}">${esc(n.label)}</a>`).join("\n      ")}
       <a href="/resume.html">Résumé</a>
+      <a href="mailto:${esc(site.email)}">Email</a>
       <a href="${esc(site.github)}" rel="noopener" target="_blank">GitHub</a>
       <a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>
     </nav>

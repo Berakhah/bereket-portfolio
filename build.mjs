@@ -149,7 +149,7 @@ const indexPage = () => {
     ${sectionHead("principles-h", "How I work.", "Four rules, each with the system that forced it.")}
     <ol class="principles">
       ${principles.map((pr, i) => `<li class="principle rv" style="--d:${i * 60}ms">
-        <span class="principle-num mono" aria-hidden="true">№ ${i + 1}</span>
+        <span class="principle-num mono" aria-hidden="true">No. ${i + 1}</span>
         <div>
           <h3 class="principle-title">${esc(pr.title)}</h3>
           <p class="principle-body">${md(pr.body)}</p>
