@@ -105,8 +105,8 @@
 @media (max-width: 56em) { .path-grid { grid-template-columns: 1fr; } }
 
 /* ------------------------------------------------------------------- about */
-.about-grid { display: grid; grid-template-columns: 6rem 1fr; gap: 2rem; align-items: start; }
-.about-portrait { width: 6rem; aspect-ratio: 1; }
+.about-grid { display: grid; grid-template-columns: 4.5rem 1fr; gap: 1.5rem; align-items: start; }
+.about-portrait { width: 4.5rem; aspect-ratio: 1; }
 .about-lede { font-family: var(--serif); font-weight: 500; font-size: var(--fs-3); line-height: 1.15; letter-spacing: -.02em; max-width: 26ch; margin-bottom: 1.5rem; }
 .about-p { max-width: 62ch; margin-bottom: 1rem; }
 .about-edu { font-size: var(--fs--1); color: var(--muted); margin-top: 1.5rem; }

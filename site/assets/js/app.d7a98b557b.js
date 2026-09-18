@@ -55,6 +55,29 @@
   win.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
+  /* theme toggle: flips the FOUC-safe data-theme attribute set by the inline
+     head script, persists the explicit choice, and only enables the CSS
+     colour-transition for the brief moment of the switch itself. */
+  const themeBtn = $(".theme-btn");
+  if (themeBtn) {
+    const syncThemeBtn = () => {
+      const dark = root.getAttribute("data-theme") === "dark";
+      themeBtn.setAttribute("aria-pressed", String(dark));
+      themeBtn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+    };
+    syncThemeBtn();
+    themeBtn.addEventListener("click", () => {
+      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      if (!reduced.matches) {
+        root.classList.add("theme-transition");
+        win.setTimeout(() => root.classList.remove("theme-transition"), 340);
+      }
+      root.setAttribute("data-theme", next);
+      try { win.localStorage.setItem("theme", next); } catch { /* private mode / blocked storage */ }
+      syncThemeBtn();
+    });
+  }
+
   const menuBtn = $(".menu-btn"), mobileNav = $("#mobile-nav");
   if (menuBtn && mobileNav) {
     const setOpen = (open) => { menuBtn.setAttribute("aria-expanded", String(open)); mobileNav.hidden = !open; };

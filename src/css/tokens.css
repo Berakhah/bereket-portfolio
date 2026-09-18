@@ -50,3 +50,30 @@
     --signal-cta: #ff6a40;     /* already ≥4.5:1 on dark paper */
   }
 }
+
+/* Explicit theme override (site-header toggle) — takes precedence over the
+   OS media query above via selector specificity, not source order. */
+:root[data-theme="light"] {
+  --paper: #f4f1ea;
+  --paper-2: #ebe6dc;
+  --ink: #16130f;
+  --muted: #6b655c;
+  --hair: rgba(22, 19, 15, .12);
+  --hair-2: rgba(22, 19, 15, .28);
+  --signal: #ff4d1c;
+  --signal-ink: #f4f1ea;
+  --signal-text: #f2470f;
+  --signal-cta: #c2380f;
+}
+:root[data-theme="dark"] {
+  --paper: #121110;
+  --paper-2: #1a1816;
+  --ink: #efeae0;
+  --muted: #9d968a;
+  --hair: rgba(239, 234, 224, .14);
+  --hair-2: rgba(239, 234, 224, .3);
+  --signal: #ff6a40;
+  --signal-ink: #121110;
+  --signal-text: #ff6a40;
+  --signal-cta: #ff6a40;
+}
