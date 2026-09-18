@@ -5,6 +5,8 @@
   "scripts": {
     "build": "node build.mjs",
     "test": "node --test --test-concurrency=1 tests/",
-    "og": "node src/og/render-og.mjs"
+    "og": "node src/og/render-og.mjs",
+    "portrait": "python src/og/portrait.py",
+    "fonts": "python src/og/fonts.py"
   }
 }

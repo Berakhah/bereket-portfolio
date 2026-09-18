@@ -5,11 +5,12 @@ export const project = {
   slug: "agent-perimeter",
   name: "Agent Perimeter",
   tagline: "Security posture scanner for MCP servers and tool-using agents",
+  plain: "Scans the tools an AI agent can reach and proves — not guesses — which ones an attacker could hijack.",
   statement:
     "You wired an agent into internal systems. Agent Perimeter shows what that agent can be made to do.",
   status: {
     code: "running",
-    label: "RUNNING",
+    label: "Running",
     detail:
       "Implemented and demonstrably working: public repository, Apache-2.0, with a clean-machine reproduction of the README quickstart in CI. 181 commits, 11 Aug → 15 Sep 2026.",
   },

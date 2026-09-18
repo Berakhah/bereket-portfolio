@@ -1,0 +1,79 @@
+/* Editorial Signal — tokens. Light is the design; dark honours the OS. */
+:root {
+  --paper: #f4f1ea;
+  --paper-2: #ebe6dc;
+  --ink: #16130f;
+  --muted: #6b655c;
+  --hair: rgba(22, 19, 15, .12);
+  --hair-2: rgba(22, 19, 15, .28);
+  --signal: #ff4d1c;
+  --signal-ink: #f4f1ea;      /* text on signal */
+  --signal-text: #f2470f;     /* signal as large text on paper — WCAG AA large-text (3:1) */
+  --signal-cta: #c2380f;      /* signal as small-text button fill — WCAG AA text (4.5:1) */
+
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --sans: "Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", "Courier New", monospace;
+
+  --fs--1: .8125rem;
+  --fs-0: 1.0625rem;
+  --fs-1: 1.1875rem;
+  --fs-2: 1.5rem;
+  --fs-3: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+  --fs-title: clamp(2.2rem, 1.6rem + 2.4vw, 4rem);
+  --fs-panel: clamp(2.6rem, 2rem + 3vw, 5rem);
+  --fs-hero: clamp(3rem, 2rem + 6vw, 7.5rem);
+  --fs-num: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+
+  --wrap: 80rem;
+  --gutter: clamp(1rem, 5vw, 4rem);
+  --sect: clamp(5rem, 12vw, 11rem);
+  --head-h: 4.5rem;
+  --radius: 999px;
+
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --t-fast: 160ms;
+  --t-med: 320ms;
+  --t-slow: 600ms;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #121110;
+    --paper-2: #1a1816;
+    --ink: #efeae0;
+    --muted: #9d968a;
+    --hair: rgba(239, 234, 224, .14);
+    --hair-2: rgba(239, 234, 224, .3);
+    --signal: #ff6a40;
+    --signal-ink: #121110;
+    --signal-text: #ff6a40;    /* already ≥3:1 on dark paper */
+    --signal-cta: #ff6a40;     /* already ≥4.5:1 on dark paper */
+  }
+}
+
+/* Explicit theme override (site-header toggle) — takes precedence over the
+   OS media query above via selector specificity, not source order. */
+:root[data-theme="light"] {
+  --paper: #f4f1ea;
+  --paper-2: #ebe6dc;
+  --ink: #16130f;
+  --muted: #6b655c;
+  --hair: rgba(22, 19, 15, .12);
+  --hair-2: rgba(22, 19, 15, .28);
+  --signal: #ff4d1c;
+  --signal-ink: #f4f1ea;
+  --signal-text: #f2470f;
+  --signal-cta: #c2380f;
+}
+:root[data-theme="dark"] {
+  --paper: #121110;
+  --paper-2: #1a1816;
+  --ink: #efeae0;
+  --muted: #9d968a;
+  --hair: rgba(239, 234, 224, .14);
+  --hair-2: rgba(239, 234, 224, .3);
+  --signal: #ff6a40;
+  --signal-ink: #121110;
+  --signal-text: #ff6a40;
+  --signal-cta: #ff6a40;
+}

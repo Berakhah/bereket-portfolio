@@ -6,11 +6,12 @@ export const project = {
   slug: "ground-truth",
   name: "Ground Truth",
   tagline: "Eval & regression harness for document-field extraction accuracy",
+  plain: "A test bench that says how accurate a document-reading model really is, with error bars anyone can recompute.",
   statement:
     "A benchmark is only useful when you can inspect how the number was produced.",
   status: {
     code: "running",
-    label: "RUNNING",
+    label: "Running",
     detail:
       "Harness, statistics, publication pipeline and all six UI screens are built and running — 94 commits, 18 Sep 2025 → 9 Sep 2026. Status per the author, 2026-09-16; public repository to follow.",
   },
