@@ -8,6 +8,8 @@
   --hair-2: rgba(22, 19, 15, .28);
   --signal: #ff4d1c;
   --signal-ink: #f4f1ea;      /* text on signal */
+  --signal-text: #f2470f;     /* signal as large text on paper — WCAG AA large-text (3:1) */
+  --signal-cta: #c2380f;      /* signal as small-text button fill — WCAG AA text (4.5:1) */
 
   --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
   --sans: "Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -44,5 +46,7 @@
     --hair-2: rgba(239, 234, 224, .3);
     --signal: #ff6a40;
     --signal-ink: #121110;
+    --signal-text: #ff6a40;    /* already ≥3:1 on dark paper */
+    --signal-cta: #ff6a40;     /* already ≥4.5:1 on dark paper */
   }
 }
