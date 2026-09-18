@@ -6,11 +6,12 @@ export const project = {
   slug: "backoffice-kit",
   name: "BackOffice Kit",
   tagline: "The shared substrate: a core library, a design system, a repo template",
+  plain: "The shared foundation under the other four: every number carries where it came from and how sure it is.",
   statement:
     "Every number that reaches a user is a Claim — never a bare float. Value, source, method, confidence, timestamp, caveat, parent claims.",
   status: {
     code: "running",
-    label: "RUNNING",
+    label: "Running",
     detail:
       "Interface contract v0.2 agreed 29 Aug 2026; bok-core (sensitivity boundary, provenance Claim, model gateway, findings), bok-ui and the copier template are in use by the three consumer projects. Status per the author, 2026-09-16; public repository to follow.",
   },

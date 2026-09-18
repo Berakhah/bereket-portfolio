@@ -3,9 +3,9 @@
 
 export const site = {
   name: "Bereket Tilahun",
-  title: "Backend Security Engineer & Software Engineer",
+  title: "Backend Security Engineer",
   positioning:
-    "I build secure backend systems, evaluation infrastructure, and automation that remains trustworthy when the inputs, models, interfaces, or environments change.",
+    "I build backend and security systems that stay trustworthy when the inputs, models and environments around them change.",
   location: "Addis Ababa, Ethiopia",
   reviewed: "2026-09-15",
   email: "berekettilahun77@gmail.com",
@@ -21,7 +21,7 @@ export const site = {
 
 export const nav = [
   { label: "Work", href: "/#work" },
-  { label: "Engineering", href: "/#engineering" },
+  { label: "How I work", href: "/#principles" },
   { label: "About", href: "/#about" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -36,6 +36,7 @@ export const heroMetrics = [
     id: "m-tests-742",
     value: "742",
     label: "test functions",
+    plain: "automated tests guard the flagship scanner",
     context: "Agent Perimeter’s suite — 87 test files, ~12,500 LOC of tests.",
     evidence: {
       claim: "Agent Perimeter’s test suite contains 742 registered test functions.",
@@ -50,6 +51,7 @@ export const heroMetrics = [
     id: "m-pr-100",
     value: "1.00 / 1.00",
     label: "precision · recall",
+    plain: "precision and recall on every check class, rebuilt each commit",
     context: "Across all 12 evaluated check classes — regenerated every commit; CI fails if it drifts.",
     evidence: {
       claim: "Agent Perimeter scores 1.00 precision and 1.00 recall on all 12 evaluated check classes.",
@@ -64,6 +66,7 @@ export const heroMetrics = [
     id: "m-quickstart-82",
     value: "82 s",
     label: "clean-machine quickstart",
+    plain: "from a clean machine to a working install",
     context: "Public repo cloned onto a fresh Ubuntu VM; README quickstart run verbatim — green.",
     evidence: {
       claim: "A clean machine can clone and run Agent Perimeter’s quickstart end-to-end in 82 seconds.",
@@ -78,6 +81,7 @@ export const heroMetrics = [
     id: "m-census-31953",
     value: "31,953",
     label: "MCP Registry entries censused",
+    plain: "MCP servers surveyed in one reproducible census",
     context: "Full pagination — 320 pages, 0 failures, 23-minute collection window.",
     evidence: {
       claim: "The published census covered the full 31,953-entry population of the official MCP Registry.",
@@ -95,6 +99,7 @@ export const heroMetrics = [
     id: "m-degraded-90",
     value: "≥ 90%",
     label: "degraded-mode floor",
+    plain: "of findings still fire with every AI model switched off",
     context: "Finding classes that survive with every model provider disabled.",
     evidence: {
       claim: "At least 90% of Agent Perimeter’s finding classes still fire with all model providers disabled.",
@@ -109,6 +114,7 @@ export const heroMetrics = [
     id: "m-latency-195",
     value: "340 → 195 ms",
     label: "p95 latency, auth path",
+    plain: "p95 latency after caching, in production",
     context: "Production services at DZ — Redis caching at 84% hit rate, 420 req/min peak.",
     evidence: {
       claim: "Redis caching dropped p95 latency on the auth verification path from ~340 ms to ~195 ms under peak load.",
@@ -163,7 +169,7 @@ export const timeline = [
     range: "2022 – 2023",
     heading: "Junior Software Engineer · DZ Software Engineering PLC",
     body:
-      "Triaged 10–12 Tier 1 incidents daily across Python, Java and C++ services. Authored runbooks, automated recurring health checks, and cut recurring failures by 15% across enterprise environments. Established observability baselines later adopted across 3 production environments.",
+      "Triaged 10–12 Tier-1 incidents a day across Python, Java and C++ services; wrote the runbooks and automated health checks that cut recurring failures by 15%.",
     kind: "operate",
   },
   {
@@ -171,7 +177,7 @@ export const timeline = [
     range: "2021 – 2023",
     heading: "Software Engineer · Independent, remote",
     body:
-      "Shipped 15+ production backend systems spanning AI evaluation, collaboration and security on FastAPI, Django REST and Spring Boot — serving 100+ concurrent users at sub-200 ms API targets. Included a multilingual code search backend with authorization-before-query checks and AES-256 tenant-scoped encryption.",
+      "Shipped 15+ production backends on FastAPI, Django REST and Spring Boot at sub-200 ms for 100+ concurrent users — including a multilingual code search with authorisation-before-query and tenant-scoped AES-256.",
     kind: "build",
   },
   {
@@ -179,7 +185,7 @@ export const timeline = [
     range: "2023 – present",
     heading: "Senior Software Engineer · DZ Software Engineering PLC",
     body:
-      "Hardened 47 API endpoints with schema-enforced validation, parameterized queries, rate limiting and Bandit/pip-audit pre-merge gates — closing 9 High/Critical CVEs with no recurrence. Led a Zero Trust migration: 11 long-lived secrets replaced with short-lived, scope-limited OIDC tokens; Trivy image scans as a hard deploy gate; append-only audit pipeline dropping incident reconstruction to under 20 minutes.",
+      "Hardened 47 API endpoints and closed 9 High/Critical CVEs with no recurrence; led a Zero Trust migration — 11 long-lived secrets replaced with short-lived OIDC tokens, incident reconstruction under 20 minutes.",
     kind: "harden",
   },
   {
@@ -187,7 +193,7 @@ export const timeline = [
     range: "2023 – present",
     heading: "Evaluation & benchmark infrastructure · production",
     body:
-      "Architected an LLM evaluation pipeline and CI gate benchmarking correctness, reliability and runtime across five languages — rolled out as an automated quality gate on 11 production services, cutting manual review by 40% with zero correctness regressions. Built a benchmark curation pipeline over PostgreSQL telemetry and Redis event streams: MTTD down 30%, 1,200+ labeled records for fine-tuning.",
+      "Built the LLM evaluation pipeline and CI gate now guarding 11 production services — 40% less manual review, zero correctness regressions — and a benchmark curation pipeline that cut MTTD by 30%.",
     kind: "measure",
   },
   {
@@ -195,7 +201,7 @@ export const timeline = [
     range: "2025 – present",
     heading: "The five systems in this portfolio",
     body:
-      "Agent Perimeter, Ground Truth, Ledger Sense, BackOffice Kit and Selector Drift — independent systems that treat security, evidence and failure behaviour as first-class design inputs. Each case study documents its threat model, key decisions and honest current status.",
+      "Agent Perimeter, Ground Truth, Ledger Sense, BackOffice Kit and Selector Drift — five systems that treat security, evidence and failure behaviour as first-class design inputs.",
     kind: "design",
     href: "/#work",
   },
@@ -230,11 +236,10 @@ export const stack = [
 
 export const about = {
   lede:
-    "I build systems that know what they are allowed to do, know when they are uncertain, preserve evidence, and fail safely.",
+    "I build systems that know what they are allowed to do, know when they are uncertain, and fail safely.",
   body: [
-    "I’m a backend engineer in Addis Ababa. Over four years I’ve operated production services, built them, hardened them, and measured them — the timeline on this page is that progression, stated as modes rather than dates.",
-    "The five systems in this portfolio are the current stage of that progression. They share one conviction: correctness, security, evidence and failure behaviour are first-class design inputs, not post-build concerns. A benchmark that can’t show how its number was produced is marketing; an automation that can’t say when it is uncertain is a liability; a scanner that can’t reproduce its findings is a rumour.",
-    "So these systems are built to be distrusted — scope files before probing, hash-committed splits before leaderboards, quarantine before writes, provenance before publication. The statuses on the work page say exactly where each one stands, including what is not finished.",
+    "I’m a backend engineer in Addis Ababa. Over four years I’ve operated production services, built them, hardened them and measured them — and I’ve come to believe that correctness, security and evidence are design inputs, not things you add after.",
+    "The five systems here are where that belief has ended up. Each one is designed to be checked: scope files before probing, sealed splits before leaderboards, a review queue before any money moves, provenance before publication. The case studies say exactly where each one stands, including what isn’t finished.",
   ],
   education: "B.Sc. Computer Science — HiLCoE School of Computer Science & Technology, Addis Ababa",
 };

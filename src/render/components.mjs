@@ -42,37 +42,19 @@ const I = {
   branch: '<circle cx="6" cy="5" r="2.5"/><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 7.5v9M18 11.5a9 9 0 0 1-9 7"/>',
   menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
   book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
+  sun: '<circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M4.7 4.7l1.4 1.4M17.9 17.9l1.4 1.4M2.5 12h2M19.5 12h2M4.7 19.3l1.4-1.4M17.9 6.1l1.4-1.4"/>',
+  moon: '<path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/>',
 };
 
 export const icon = (name, cls = "") =>
   `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${I[name] || I.info}</svg>`;
 
 // ---------------------------------------------------------------------------
-// Status badge — the unified status vocabulary as a real UI component.
-// ---------------------------------------------------------------------------
-
-const STATUS_KIND = {
-  running: { cls: "st-running", glyph: "pulse" },
-  "active-development": { cls: "st-active", glyph: "pulse" },
-  "audit-pending": { cls: "st-pending", glyph: "pulse" },
-  "design-complete": { cls: "st-design", glyph: "static" },
-  planned: { cls: "st-planned", glyph: "static" },
-};
-
-export const badge = (status, idSuffix = "") => {
-  const k = STATUS_KIND[status.code] || STATUS_KIND.planned;
-  return `<span class="badge ${k.cls}" role="img" aria-label="Status: ${esc(status.label)}">
-    <span class="badge-glyph ${k.glyph}" aria-hidden="true"></span>
-    <span class="badge-label">${esc(status.label)}</span>
-  </span>`;
-};
-
-// ---------------------------------------------------------------------------
 // Flow stepper — the architecture-flow diagram component (recomposed on mobile).
 // ---------------------------------------------------------------------------
 
-export const flowStepper = (nodes, label) => `
-<ol class="flow" role="list" aria-label="${esc(label)}">
+export const flowStepper = (nodes, label, variant = "h") => `
+<ol class="flow${variant === "v" ? " flow-v" : ""}" role="list" aria-label="${esc(label)}">
   <svg class="flow-line" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none"><line class="fl-h" x1="0" y1="50" x2="100" y2="50" pathLength="1"/><line class="fl-v" x1="50" y1="0" x2="50" y2="100" pathLength="1"/></svg>
   ${nodes
     .map(
@@ -102,6 +84,13 @@ export const metricEl = (m, size = "sm") => `
 
 export const metricsRow = (metrics) =>
   `<div class="metrics-row">${metrics.map((m) => metricEl(m)).join("")}</div>`;
+
+// Big metric — the home proof strip: mono numeral, plain-English caption.
+export const bigMetric = (m) => `
+<div class="big-metric">
+  <button class="big-value prov-trigger mono" type="button" data-evidence="${esc(m.id)}" aria-haspopup="dialog" aria-label="${esc(`${m.value} ${m.label} — show evidence`)}">${esc(m.value)}</button>
+  <span class="big-plain">${esc(m.plain || m.label)}</span>
+</div>`;
 
 // ---------------------------------------------------------------------------
 // Provenance underline wrapper for inline figures
@@ -176,21 +165,16 @@ export const substrateDiagram = () => `
 </div>`;
 
 // ---------------------------------------------------------------------------
-// Claim rules (Evidence section) — the invariants tests enforce on a Claim.
-// The type itself is shown on the BackOffice Kit case study.
+// Portrait — responsive <picture>; renditions produced by src/og/portrait.py.
 // ---------------------------------------------------------------------------
-
-const CLAIM_RULES = [
-  "A `DERIVED` claim’s confidence never exceeds the minimum of its parents’.",
-  "A `MODEL` claim with no confidence cannot render as a fact.",
-  "A parent’s caveat — “sample size 51” — propagates to every child.",
-];
-
-export const claimRules = () => `
-<div class="claim-notes">
-  <p>Rules enforced by tests, not comments:</p>
-  <ul class="rules">${CLAIM_RULES.map(
-    (r, i) => `<li class="rule" style="--i:${i}"><span class="stamp mono" aria-hidden="true">ENFORCED</span><span>${md(r)}</span></li>`
-  ).join("")}</ul>
-  <p class="claim-try">This page is built the same way: <strong>activate any underlined number</strong> to open its chain. The full <code>Claim</code> type is on the <a class="text-link" href="/work/backoffice-kit.html#architecture">BackOffice Kit case study</a>.</p>
-</div>`;
+export const portrait = (size = 1200, cls = "", eager = false) => {
+  const srcset = (ext) => size >= 600
+    ? `/assets/img/bereket-600.${ext} 600w, /assets/img/bereket-1200.${ext} 1200w`
+    : `/assets/img/bereket-192.${ext} 192w`;
+  const sizes = size >= 600 ? "(max-width: 56em) 60vw, 40vw" : "96px";
+  const base = size >= 600 ? 1200 : 192;
+  return `<picture class="portrait ${cls}">
+  <source type="image/webp" srcset="${srcset("webp")}" sizes="${sizes}">
+  <img src="/assets/img/bereket-${base}.jpg" srcset="${srcset("jpg")}" sizes="${sizes}" width="${size}" height="${Math.round(size * 4 / 3)}" alt="Bereket Tilahun, arms folded, in a black floral shirt" ${eager ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
+</picture>`;
+};
