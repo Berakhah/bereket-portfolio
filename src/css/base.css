@@ -1,6 +1,13 @@
 /* ------------------------------------------------------------------ reset */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; background: var(--paper); }
+
+/* Seamless theme switch: briefly enabled by main.js around a toggle click
+   only (never on first paint, never under reduced-motion — see main.js). */
+html.theme-transition, html.theme-transition * {
+  transition: background-color var(--t-med) var(--ease), color var(--t-med) var(--ease),
+    border-color var(--t-med) var(--ease), fill var(--t-med) var(--ease) !important;
+}
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
@@ -90,6 +97,11 @@ strong { font-weight: 600; }
 .site-nav a { padding-block: .3rem; border-bottom: 1px solid transparent; transition: border-color var(--t-fast); }
 .site-nav a:hover, .site-nav a.current { border-bottom-color: var(--signal); }
 .head-cta { flex: none; }
+.theme-btn { position: relative; flex: none; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid var(--hair); border-radius: var(--radius); background: transparent; color: var(--ink); transition: border-color var(--t-fast); }
+.theme-btn:hover { border-color: var(--hair-2); }
+.theme-btn .icon-moon { display: none; }
+:root[data-theme="dark"] .theme-btn .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-btn .icon-moon { display: block; }
 .menu-btn { display: none; width: 2.75rem; height: 2.75rem; border: 1px solid var(--hair); border-radius: var(--radius); place-items: center; }
 .mobile-nav { border-top: 1px solid var(--hair); background: var(--paper); }
 .mobile-nav[hidden] { display: none; }

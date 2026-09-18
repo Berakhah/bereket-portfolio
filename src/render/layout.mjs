@@ -22,6 +22,7 @@ export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogT
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 <meta name="author" content="Bereket Tilahun">
@@ -50,6 +51,7 @@ export const header = (path, nav, site) => `
       ${nav.map((n) => `<a href="${esc(n.href)}">${esc(n.label)}</a>`).join("\n      ")}
       <a href="/resume.html">Résumé</a>
     </nav>
+    <button class="theme-btn" type="button" aria-pressed="false" aria-label="Switch to dark theme">${icon("sun", "icon-sun")}${icon("moon", "icon-moon")}</button>
     <a class="btn btn-signal btn-sm head-cta" href="mailto:${esc(site.email)}">Email</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">${icon("menu")}</button>
   </div>
