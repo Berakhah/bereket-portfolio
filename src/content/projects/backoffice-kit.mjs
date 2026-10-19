@@ -13,7 +13,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Interface contract v0.2 agreed 29 Aug 2026; bok-core (sensitivity boundary, provenance Claim, model gateway, findings), bok-ui and the copier template are in use by the three consumer projects. Status per the author, 2026-09-16; public repository to follow.",
+      "Interface contract v0.2 agreed 29 Aug 2026; bok-core (sensitivity boundary, provenance Claim, model gateway, findings), bok-ui and the copier template are in use by the three consumer projects. Status per the author, 2026-09-16.",
   },
   category: ["Systems Design", "Evidence", "Security"],
   role: "Sole engineer — library design, threat modelling, design system",
@@ -202,7 +202,7 @@ template/ (copier)
       "Publishing vs vendoring, unified bok CLI vs four CLIs, and Supabase vs compose-only remain recorded open decisions.",
     ],
     currentStatus:
-      "Running — interface contract v0.2 (29 Aug 2026); bok-core, bok-ui and the copier template in use by Agent Perimeter, Ground Truth and Ledger Sense. Status per the author, 2026-09-16; public repository to follow. Licence: Apache-2.0.",
+      "Running — interface contract v0.2 (29 Aug 2026); bok-core, bok-ui and the copier template in use by Agent Perimeter, Ground Truth and Ledger Sense. Status per the author, 2026-09-16. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/backoffice-kit.",
   },

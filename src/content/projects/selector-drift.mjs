@@ -12,7 +12,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Five-rung resolution cascade, six-check validation gate, heal log and mutation test bench, built to the written brief and definition of done. Status per the author, 2026-09-16; public repository to follow.",
+      "Five-rung resolution cascade, six-check validation gate, heal log and mutation test bench, built to the written brief and definition of done. Status per the author, 2026-09-16.",
   },
   category: ["Systems Design", "Trustworthy Automation"],
   role: "Sole engineer — threat modelling, architecture, test strategy",
@@ -171,7 +171,7 @@ web/             Targets · Task spec editor · Run timeline · Heal log
       "Visual grounding depends on client opt-in; without it, rung 5 escalates to humans.",
     ],
     currentStatus:
-      "Running — resolution cascade, validation gate, heal log and mutation test bench, built to the written brief and definition of done. Status per the author, 2026-09-16; public repository to follow. Licence: Apache-2.0.",
+      "Running — resolution cascade, validation gate, heal log and mutation test bench, built to the written brief and definition of done. Status per the author, 2026-09-16. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/selector-drift.",
   },

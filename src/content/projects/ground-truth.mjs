@@ -13,7 +13,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Harness, statistics, publication pipeline and all six UI screens are built and running — 94 commits, 18 Sep 2025 → 9 Sep 2026. Status per the author, 2026-09-16; public repository to follow.",
+      "Harness, statistics, publication pipeline and all six UI screens are built and running — 94 commits, 18 Sep 2025 → 9 Sep 2026. Status per the author, 2026-09-16.",
   },
   category: ["AI & Evaluation", "Evidence"],
   role: "Sole engineer — design, statistics, implementation, publication",
@@ -203,7 +203,7 @@ web/            leaderboard · items · judge · calibration · regression · tr
       "External validity is unmeasured by design and stated as such on the methodology page.",
     ],
     currentStatus:
-      "Running — harness, statistics, publication pipeline and all six UI screens; 94 commits between 18 Sep 2025 and 9 Sep 2026. Status per the author, 2026-09-16; public repository to follow. Licence: Apache-2.0.",
+      "Running — harness, statistics, publication pipeline and all six UI screens; 94 commits between 18 Sep 2025 and 9 Sep 2026. Status per the author, 2026-09-16. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/ground-truth.",
   },

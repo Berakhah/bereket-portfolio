@@ -137,7 +137,7 @@ const indexPage = () => {
 
 <section class="section section-work" id="work" aria-labelledby="work-h">
   <div class="wrap work-head">
-    ${sectionHead("work-h", "Five systems, built to be distrusted.", "Each one is designed to be checked, not believed. Every figure opens its source; every case study says what isn’t finished.")}
+    ${sectionHead("work-h", "Six systems, built to be distrusted.", "Each one is designed to be checked, not believed. Every figure opens its source; every case study says what isn’t finished.")}
   </div>
   <div class="panels">
     ${projects.map(panel).join("")}

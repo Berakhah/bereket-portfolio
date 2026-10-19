@@ -5,9 +5,10 @@ import { project as groundTruth } from "./projects/ground-truth.mjs";
 import { project as ledgerSense } from "./projects/ledger-sense.mjs";
 import { project as backofficeKit } from "./projects/backoffice-kit.mjs";
 import { project as selectorDrift } from "./projects/selector-drift.mjs";
+import { project as aztdp } from "./projects/aztdp.mjs";
 
 // Narrative order (fixed by the brief), not alphabetical.
-const projects = [agentPerimeter, groundTruth, ledgerSense, backofficeKit, selectorDrift];
+const projects = [agentPerimeter, groundTruth, ledgerSense, backofficeKit, selectorDrift, aztdp];
 
 // All evidence chains, keyed by metric id — embedded per page as JSON for the
 // Claim → Evidence drawer.
@@ -22,5 +23,5 @@ for (const p of projects) {
 export {
   site, nav, heroMetrics, principles, timeline, stack, about, experience,
   projects, evidenceIndex,
-  agentPerimeter, groundTruth, ledgerSense, backofficeKit, selectorDrift,
+  agentPerimeter, groundTruth, ledgerSense, backofficeKit, selectorDrift, aztdp,
 };
