@@ -11,7 +11,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Running — 72 commits from the 29 Aug 2026 foundation: extraction, validation rules, sensitivity gateway, inbox API and review-queue UI. Status per the author, 2026-09-16; public repository to follow.",
+      "Running — 72 commits from the 29 Aug 2026 foundation: extraction, validation rules, sensitivity gateway, inbox API and review-queue UI. Status per the author, 2026-09-16.",
   },
   category: ["Trustworthy Automation", "Backend Systems", "Security"],
   role: "Sole engineer — domain modelling, implementation, security posture",
@@ -201,7 +201,7 @@ export const project = {
       "The synthetic corpus is the demo; real-document baselines are run per client under the baseline study protocol.",
     ],
     currentStatus:
-      "Running — 72 commits from the 29 Aug 2026 foundation: extraction, validation rules, sensitivity gateway, inbox API and review-queue UI. Status per the author, 2026-09-16; public repository to follow. Licence: Apache-2.0.",
+      "Running — 72 commits from the 29 Aug 2026 foundation: extraction, validation rules, sensitivity gateway, inbox API and review-queue UI. Status per the author, 2026-09-16. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/ledger-sense.",
   },

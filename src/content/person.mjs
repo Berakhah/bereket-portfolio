@@ -199,9 +199,9 @@ export const timeline = [
   {
     mode: "Design Systems",
     range: "2025 – present",
-    heading: "The five systems in this portfolio",
+    heading: "The six systems in this portfolio",
     body:
-      "Agent Perimeter, Ground Truth, Ledger Sense, BackOffice Kit and Selector Drift — five systems that treat security, evidence and failure behaviour as first-class design inputs.",
+      "Agent Perimeter, Ground Truth, Ledger Sense, BackOffice Kit, Selector Drift and AZTDP — six systems that treat security, evidence and failure behaviour as first-class design inputs.",
     kind: "design",
     href: "/#work",
   },
@@ -239,7 +239,7 @@ export const about = {
     "I build systems that know what they are allowed to do, know when they are uncertain, and fail safely.",
   body: [
     "I’m a backend engineer in Addis Ababa. Over four years I’ve operated production services, built them, hardened them and measured them — and I’ve come to believe that correctness, security and evidence are design inputs, not things you add after.",
-    "The five systems here are where that belief has ended up. Each one is designed to be checked: scope files before probing, sealed splits before leaderboards, a review queue before any money moves, provenance before publication. The case studies say exactly where each one stands, including what isn’t finished.",
+    "The six systems here are where that belief has ended up. Each one is designed to be checked: scope files before probing, sealed splits before leaderboards, a review queue before any money moves, provenance before publication. The case studies say exactly where each one stands, including what isn’t finished.",
   ],
   education: "B.Sc. Computer Science — HiLCoE School of Computer Science & Technology, Addis Ababa",
 };
