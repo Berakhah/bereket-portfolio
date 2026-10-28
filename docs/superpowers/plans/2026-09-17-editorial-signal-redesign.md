@@ -37,7 +37,7 @@
 | `src/css/pages.css` | case study, résumé (+ print), 404 |
 | `src/css/motion.css` | `.motion` reveals, curtain, sticky-stack, reduced-motion |
 | `src/render/layout.mjs` | head/header/footer (rewritten) |
-| `src/render/components.mjs` | keeps `esc md prose bullets icon flowStepper metricEl metricsRow prov evidenceScript evidenceDrawer repoChip substrateDiagram`; adds `portrait`, `bigMetric`; drops `badge`, `claimRules` |
+| `src/render/components.mjs` | keeps `esc md prose bullets icon flowStepper metricEl metricsRow prov evidenceScript evidenceDrawer repoChip`; adds `portrait`, `bigMetric`; drops `badge`, `claimRules` |
 | `src/render/ops.mjs`, `src/js/graph.js` | **deleted** |
 | `src/js/main.js` | layer 0 (nav, drawer, anchors) + layer 1 (Lenis, reveals, curtain, sticky-stack, TOC) |
 | `build.mjs` | CSS/JS assembly, `indexPage`, `casePage`, `resumePage`, `notFoundPage` (rewritten) |
@@ -162,7 +162,7 @@ git commit -m "design: Editorial Signal design system and Stitch reference scree
 
 **Files:**
 - Modify: `src/content/person.mjs` (`site.positioning`, `site.title`, `heroMetrics[*].plain`, `timeline[*].body`, `about`, `nav`)
-- Modify: `src/content/projects/agent-perimeter.mjs`, `ground-truth.mjs`, `ledger-sense.mjs`, `backoffice-kit.mjs`, `selector-drift.mjs` (add `plain`, sentence-case `status.label`)
+- Modify: `src/content/projects/agent-perimeter.mjs`, `ground-truth.mjs`, `ledger-sense.mjs`, `selector-drift.mjs` (add `plain`, sentence-case `status.label`)
 - Create: `tests/content.test.mjs`
 
 **Interfaces:**
@@ -226,10 +226,6 @@ In each project file, directly under `tagline:` add `plain:`; change `label: "RU
 ```js
   plain: "Reads construction invoices, checks the arithmetic, and only lets a human approve anything that moves money.",
 ```
-`backoffice-kit.mjs`:
-```js
-  plain: "The shared foundation under the other four: every number carries where it came from and how sure it is.",
-```
 `selector-drift.mjs`:
 ```js
   plain: "Keeps data extraction from legacy business systems working when their screens change — and refuses to guess.",
@@ -271,7 +267,7 @@ Replace the five `timeline[*].body` values:
 // Measure
     body: "Built the LLM evaluation pipeline and CI gate now guarding 11 production services — 40% less manual review, zero correctness regressions — and a benchmark curation pipeline that cut MTTD by 30%.",
 // Design Systems
-    body: "Agent Perimeter, Ground Truth, Ledger Sense, BackOffice Kit and Selector Drift — five systems that treat security, evidence and failure behaviour as first-class design inputs.",
+    body: "Agent Perimeter, Ground Truth, Ledger Sense and Selector Drift — four systems that treat security, evidence and failure behaviour as first-class design inputs.",
 ```
 
 Replace `about`:
@@ -768,7 +764,7 @@ In `build.mjs`: delete the `import { bootLines, bootBlock, graphData, graphScrip
 ```js
 import {
   esc, md, prose, bullets, icon, flowStepper, metricsRow, bigMetric, portrait,
-  evidenceScript, evidenceDrawer, repoChip, substrateDiagram,
+  evidenceScript, evidenceDrawer, repoChip,
 } from "./src/render/components.mjs";
 ```
 Stub the old callers so the build runs until Tasks 7–8 replace them: replace every `${badge(p.status)}` with `<span class="status-line">${esc(p.status.label)}</span>`; delete `${STATUS_LEGEND}` and the `STATUS_LEGEND` const; delete `${claimRules()}`; replace `${bootBlock(bootLines({ site, projects, heroMetrics }))}` with nothing; in `notFoundPage` delete the `${bootBlock([...])}` block.
@@ -797,7 +793,7 @@ git commit -m "components: bigMetric, vertical flow variant; drop badge, claim r
 - Modify: `build.mjs` `CSS` const; `tests/css.test.mjs` (replace whole file)
 
 **Interfaces:**
-- Produces the class names used by Tasks 7–9: `.wrap .eyebrow .serif .mono .section .section-title .section-head .section-intro .btn .btn-signal .btn-ink .btn-sm .chip .chip-muted .text-link .rv .curtain .site-head .site-nav .head-cta .menu-btn .mobile-nav .site-foot .foot-* .portrait .hero .hero-grid .hero-copy .hero-h .hero-em .hero-lede .hero-ctas .hero-portrait .proof .big-metric .big-value .big-plain .section-work .work-head .panels .panel .panel-grid .panel-copy .panel-num .panel-name .panel-plain .panel-tech .panel-metrics .metric .metric-value .metric-label .panel-chips .panel-cta .panel-flow .flow .flow-v .principles .principle .principle-num .principle-title .principle-body .principle-src .path-grid .subblock-h .modes .mode .mode-range .mode-kind .mode-heading .mode-text .stack-runs .stack-run .stack-h .stack-items .about-grid .about-portrait .about-lede .about-p .about-edu .contact .contact-h .contact-links .contact-avail .cs-hero .cs-num .cs-title .cs-tagline .cs-plain .cs-status .dot .cs-meta .cs-tech .cs-layout .cs-toc .toc-h .toc-back .cs-body .cs-sec .cs-h .cs-caveat .code-block .code-label .decisions .decision .metrics-row .metric-context .status-block .repo-block .repo-note .substrate* .pager .pager-link .pager-prev .pager-next .pager-dir .pager-name .resume-hero .resume-ctas .resume-body .resume-role .resume-role-head .resume-title .resume-range .resume-org .resume-points .nf .nf-h .drawer-* .ev-*`.
+- Produces the class names used by Tasks 7–9: `.wrap .eyebrow .serif .mono .section .section-title .section-head .section-intro .btn .btn-signal .btn-ink .btn-sm .chip .chip-muted .text-link .rv .curtain .site-head .site-nav .head-cta .menu-btn .mobile-nav .site-foot .foot-* .portrait .hero .hero-grid .hero-copy .hero-h .hero-em .hero-lede .hero-ctas .hero-portrait .proof .big-metric .big-value .big-plain .section-work .work-head .panels .panel .panel-grid .panel-copy .panel-num .panel-name .panel-plain .panel-tech .panel-metrics .metric .metric-value .metric-label .panel-chips .panel-cta .panel-flow .flow .flow-v .principles .principle .principle-num .principle-title .principle-body .principle-src .path-grid .subblock-h .modes .mode .mode-range .mode-kind .mode-heading .mode-text .stack-runs .stack-run .stack-h .stack-items .about-grid .about-portrait .about-lede .about-p .about-edu .contact .contact-h .contact-links .contact-avail .cs-hero .cs-num .cs-title .cs-tagline .cs-plain .cs-status .dot .cs-meta .cs-tech .cs-layout .cs-toc .toc-h .toc-back .cs-body .cs-sec .cs-h .cs-caveat .code-block .code-label .decisions .decision .metrics-row .metric-context .status-block .repo-block .repo-note .pager .pager-link .pager-prev .pager-next .pager-dir .pager-name .resume-hero .resume-ctas .resume-body .resume-role .resume-role-head .resume-title .resume-range .resume-org .resume-points .nf .nf-h .drawer-* .ev-*`.
 
 - [ ] **Step 1: Rewrite the CSS test**
 
@@ -1218,16 +1214,6 @@ html.drawer-open { overflow: hidden; }
 .repo-block { display: flex; gap: .75rem; flex-wrap: wrap; }
 .repo-note { color: var(--muted); }
 
-.substrate { display: grid; gap: 1rem; }
-.substrate-top { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
-.substrate-app, .substrate-core { border: 1px solid var(--ink); border-radius: 12px; padding: 1rem; }
-.substrate-app em, .substrate-cell em { display: block; font-style: normal; font-size: .8rem; color: var(--muted); margin-top: .25rem; }
-.substrate-links { display: grid; grid-template-columns: repeat(3, 1fr); height: 1.5rem; }
-.substrate-links span { width: 1px; background: var(--ink); justify-self: center; }
-.substrate-core-head { display: flex; gap: .75rem; align-items: baseline; margin-bottom: .75rem; }
-.substrate-core-sub { font-size: .8rem; color: var(--muted); }
-.substrate-cells { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
-.substrate-cell { background: var(--paper-2); border-radius: 8px; padding: .75rem; }
 
 .pager { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); }
 .pager-link { display: grid; gap: .5rem; padding: 2.5rem 0; }
@@ -1238,8 +1224,6 @@ html.drawer-open { overflow: hidden; }
 @media (max-width: 56em) {
   .cs-layout { grid-template-columns: 1fr; }
   .cs-toc { position: static; }
-  .substrate-top { grid-template-columns: 1fr; }
-  .substrate-links { display: none; }
 }
 
 /* ------------------------------------------------------------------ résumé */
@@ -1363,7 +1347,7 @@ test("work: five sticky panels with plain + technical copy, two metrics, vertica
   assert.equal((home.match(/<p class="panel-tech">/g) || []).length, 5);
   assert.equal((home.match(/<div class="panel-metrics">/g) || []).length, 5);
   assert.equal((home.match(/<ol class="flow flow-v"/g) || []).length, 5);
-  for (const slug of ["agent-perimeter", "ground-truth", "ledger-sense", "backoffice-kit", "selector-drift"]) {
+  for (const slug of ["agent-perimeter", "ground-truth", "ledger-sense", "selector-drift"]) {
     assert.match(home, new RegExp(`<a class="panel-cta" href="/work/${slug}.html">`));
   }
   assert.doesNotMatch(home, /status-legend|class="badge|RUNNING|project-card/);
@@ -1577,7 +1561,7 @@ git commit -m "home: editorial hero with portrait, four-figure proof strip, five
 - Modify: `tests/pages.test.mjs` (replace whole file)
 
 **Interfaces:**
-- Consumes: `project.plain`, `status.label` ("Running"), `flowStepper(nodes, label)` horizontal, `metricsRow`, `substrateDiagram`, `repoChip`, `bullets`, `prose`, `md`, `esc`, `icon`.
+- Consumes: `project.plain`, `status.label` ("Running"), `flowStepper(nodes, label)` horizontal, `metricsRow`, `repoChip`, `bullets`, `prose`, `md`, `esc`, `icon`.
 - Produces: `site/work/<slug>.html`, `site/resume.html`, `site/404.html`.
 
 - [ ] **Step 1: Rewrite the pages test**
@@ -1593,11 +1577,10 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(join(ROOT, "site", p), "utf8");
-let cs, bok, nf, resume;
+let cs, nf, resume;
 before(() => {
   execFileSync(process.execPath, ["build.mjs"], { cwd: ROOT, stdio: "pipe" });
   cs = read("work/ledger-sense.html");
-  bok = read("work/backoffice-kit.html");
   nf = read("404.html");
   resume = read("resume.html");
 });
@@ -1618,7 +1601,6 @@ test("case study body: 11 sections in order, caveat section carries card.caveat,
   for (const id of ids) assert.match(cs, new RegExp(`<a href="#${id}">`));
   assert.match(cs, /<section class="cs-sec rv" id="caveats"[\s\S]*?<p class="cs-caveat">/);
   assert.match(cs, /<ol class="flow" role="list"/);
-  assert.match(bok, /<div class="substrate"/);
   assert.match(cs, /<nav class="pager wrap"/);
 });
 
@@ -1675,7 +1657,7 @@ const caseSections = (p) => {
     ${sec("why", "Why the obvious approach fails", bullets(cs.whyFails))}
     ${sec("architecture", "Architecture", `
       ${prose(cs.architecture.intro)}
-      ${p.substrate ? substrateDiagram() : flowStepper(p.flow, `${p.name} — how it works`)}
+      ${flowStepper(p.flow, `${p.name} — how it works`)}
       ${cs.architecture.claimCode ? `<div class="code-block"><span class="code-label">the Claim type</span><pre><code>${esc(cs.architecture.claimCode)}</code></pre></div>` : ""}
       <div class="code-block"><span class="code-label">repository layout</span><pre><code>${esc(cs.architecture.tree)}</code></pre></div>`)}
     ${sec("threat", "Threat model", bullets(cs.threatModel))}
@@ -2116,7 +2098,7 @@ Expected: `built: /, /resume.html, /work/... ` and every test green.
 - [ ] **Step 2: Serve and screenshot every page at desktop and mobile**
 
 Run in the background: `python -m http.server 4173 -d site`.
-With chrome-devtools MCP, for each of `/`, `/work/agent-perimeter.html`, `/work/backoffice-kit.html`, `/resume.html`, `/404.html`:
+With chrome-devtools MCP, for each of `/`, `/work/agent-perimeter.html`, `/resume.html`, `/404.html`:
 - `resize_page` 1440×900 → `take_screenshot`; on `/` also scroll to the third panel (`evaluate_script`: `document.getElementById('panel-ledger-sense').scrollIntoView()`) and screenshot mid-stack.
 - `resize_page` 390×844 → `take_screenshot`.
 - `emulate` `prefers-color-scheme: dark` on `/` → screenshot.
