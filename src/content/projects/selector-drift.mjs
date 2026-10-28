@@ -16,7 +16,7 @@ export const project = {
   },
   category: ["Systems Design", "Trustworthy Automation"],
   role: "Sole engineer — threat modelling, architecture, test strategy",
-  tech: ["Python 3.12", "Playwright", "FastAPI", "Pydantic v2", "PostgreSQL", "Prefect 3 / Temporal (open decision)", "Parquet", "DuckDB", "Next.js 15", "bok-ui"],
+  tech: ["Python 3.12", "Playwright", "FastAPI", "Pydantic v2", "PostgreSQL", "Prefect 3 / Temporal (open decision)", "Parquet", "DuckDB", "Next.js 15"],
   flow: ["Cached selector", "Accessibility tree", "Semantic anchors", "Structural heuristics", "Visual grounding (last resort)"],
   links: { github: "https://github.com/Berakhah/selector-drift" },
   licence: "Apache-2.0",
@@ -145,7 +145,7 @@ web/             Targets · Task spec editor · Run timeline · Heal log
       "Design complete: full brief, hard constraints, architecture, resolution cascade, validation gate, test strategy and a ten-item definition of done with a week-20 target.",
       "Stack: containerised Playwright (pinned browser version, one context per run, hard memory limits, aggressive reaping); Prefect 3 or Temporal for orchestration (open decision); FastAPI + Postgres for run history, heal events and the selector cache.",
       "Landing zone: per-run Parquet partitions with DuckDB as the query layer, compaction, idempotent upsert on natural key; data-quality contract on row counts, null rates, distribution shift (PSI/KS), referential checks and schema-drift detection — alerting before bad data reaches the client.",
-      "Frontend: Next.js 15 on the shared bok-ui design system; Monaco YAML editor with schema validation plus a form view for non-engineers.",
+      "Frontend: Next.js 15; Monaco YAML editor with schema validation plus a form view for non-engineers.",
       "Repo: github.com/Berakhah/selector-drift.",
     ],
     evidence: [

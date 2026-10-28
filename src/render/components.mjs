@@ -140,31 +140,6 @@ export const repoChip = (p) => {
 };
 
 // ---------------------------------------------------------------------------
-// Substrate diagram (BackOffice Kit) — three systems on one core
-// ---------------------------------------------------------------------------
-
-export const substrateDiagram = () => `
-<div class="substrate" role="img" aria-label="Diagram: Agent Perimeter, Ground Truth and Ledger Sense all stand on the bok-core substrate — sensitivity boundary, provenance claims, findings, and the model gateway.">
-  <div class="substrate-top">
-    <div class="substrate-app"><span class="mono">AGENT PERIMETER</span><em>findings cite scope, CWE &amp; reproduction</em></div>
-    <div class="substrate-app"><span class="mono">GROUND TRUTH</span><em>every figure is a bootstrap interval</em></div>
-    <div class="substrate-app"><span class="mono">LEDGER SENSE</span><em>validation before routing</em></div>
-  </div>
-  <div class="substrate-links" aria-hidden="true">
-    <span></span><span></span><span></span>
-  </div>
-  <div class="substrate-core">
-    <div class="substrate-core-head"><span class="mono">bok-core</span><span class="substrate-core-sub">the shared substrate</span></div>
-    <div class="substrate-cells">
-      <div class="substrate-cell"><span class="mono">provenance</span><em>value · source · method · confidence · parents</em></div>
-      <div class="substrate-cell"><span class="mono">boundary</span><em>sensitivity labels, fail-closed capability matrix</em></div>
-      <div class="substrate-cell"><span class="mono">gateway</span><em>lanes, fallback chains, quota governor</em></div>
-      <div class="substrate-cell"><span class="mono">findings</span><em>severity ladder · SARIF 2.1.0</em></div>
-    </div>
-  </div>
-</div>`;
-
-// ---------------------------------------------------------------------------
 // Portrait — responsive <picture>; renditions produced by src/og/portrait.py.
 // ---------------------------------------------------------------------------
 export const portrait = (size = 1200, cls = "", eager = false) => {

@@ -11,7 +11,7 @@ import {
 } from "./src/content/index.mjs";
 import {
   esc, md, prose, bullets, icon, flowStepper, metricsRow, bigMetric, portrait,
-  evidenceScript, evidenceDrawer, repoChip, substrateDiagram, prov,
+  evidenceScript, evidenceDrawer, repoChip, prov,
 } from "./src/render/components.mjs";
 import { head, scripts, header, footer } from "./src/render/layout.mjs";
 
@@ -137,7 +137,7 @@ const indexPage = () => {
 
 <section class="section section-work" id="work" aria-labelledby="work-h">
   <div class="wrap work-head">
-    ${sectionHead("work-h", "Six systems, built to be distrusted.", "Each one is designed to be checked, not believed. Every figure opens its source; every case study says what isn’t finished.")}
+    ${sectionHead("work-h", "Five systems, built to be distrusted.", "Each one is designed to be checked, not believed. Every figure opens its source; every case study says what isn’t finished.")}
   </div>
   <div class="panels">
     ${projects.map(panel).join("")}
@@ -259,7 +259,7 @@ const caseSections = (p) => {
     ${sec("why", "Why the obvious approach fails", bullets(cs.whyFails))}
     ${sec("architecture", "Architecture", `
       ${prose(cs.architecture.intro)}
-      ${p.substrate ? substrateDiagram() : flowStepper(p.flow, `${p.name} — how it works`)}
+      ${flowStepper(p.flow, `${p.name} — how it works`)}
       ${cs.architecture.claimCode ? `<div class="code-block"><span class="code-label">the Claim type</span><pre><code>${esc(cs.architecture.claimCode)}</code></pre></div>` : ""}
       <div class="code-block"><span class="code-label">repository layout</span><pre><code>${esc(cs.architecture.tree)}</code></pre></div>`)}
     ${sec("threat", "Threat model", bullets(cs.threatModel))}

@@ -38,16 +38,6 @@
 .repo-block { display: flex; gap: .75rem; flex-wrap: wrap; }
 .repo-note { color: var(--muted); }
 
-.substrate { display: grid; gap: 1rem; }
-.substrate-top { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
-.substrate-app, .substrate-core { border: 1px solid var(--ink); border-radius: 12px; padding: 1rem; }
-.substrate-app em, .substrate-cell em { display: block; font-style: normal; font-size: .8rem; color: var(--muted); margin-top: .25rem; }
-.substrate-links { display: grid; grid-template-columns: repeat(3, 1fr); height: 1.5rem; }
-.substrate-links span { width: 1px; background: var(--ink); justify-self: center; }
-.substrate-core-head { display: flex; gap: .75rem; align-items: baseline; margin-bottom: .75rem; }
-.substrate-core-sub { font-size: .8rem; color: var(--muted); }
-.substrate-cells { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
-.substrate-cell { background: var(--paper-2); border-radius: 8px; padding: .75rem; }
 
 .pager { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); }
 .pager-link { display: grid; gap: .5rem; padding: 2.5rem 0; }
@@ -59,8 +49,6 @@
 @media (max-width: 56em) {
   .cs-layout { grid-template-columns: 1fr; }
   .cs-toc { position: static; }
-  .substrate-top { grid-template-columns: 1fr; }
-  .substrate-links { display: none; }
 }
 
 /* ------------------------------------------------------------------ résumé */

@@ -133,10 +133,10 @@ export const heroMetrics = [
 
 export const principles = [
   {
-    title: "Make unsafe states impossible",
+    title: "No floats in the money path",
     body:
-      "The best error handling is a state that cannot exist. BackOffice Kit’s redaction result type raises on read if verification never ran — “forgot to check the flag” is unrepresentable, because the type itself refuses.",
-    source: "BackOffice Kit — boundary/redact",
+      "Ledger Sense treats money as Decimal with contract-supplied rounding, enforced by a ruff lint rule, a dedicated CI job, and hypothesis property tests over every arithmetic rule — the wrong type is rejected before it can reach a total.",
+    source: "Ledger Sense — money path",
   },
   {
     title: "Fail closed",
@@ -145,10 +145,10 @@ export const principles = [
     source: "Agent Perimeter — scope gate & census",
   },
   {
-    title: "A metric without provenance is decoration",
+    title: "A wrong heal is worse than a broken selector",
     body:
-      "BackOffice Kit’s Claim model makes value, source, method, confidence, timestamp and inherited caveats part of the type. A DERIVED claim’s confidence can never exceed the minimum of its parents’.",
-    source: "BackOffice Kit — provenance.Claim",
+      "Selector Drift’s resolution cascade exists to heal; its validation gate exists to stop bad heals. Type assertions outrank model confidence, and distributional checks catch the adjacent-column lock-on that per-value checks cannot.",
+    source: "Selector Drift — validation gate",
   },
   {
     title: "Don’t hide caveats",
@@ -199,9 +199,9 @@ export const timeline = [
   {
     mode: "Design Systems",
     range: "2025 – present",
-    heading: "The six systems in this portfolio",
+    heading: "The five systems in this portfolio",
     body:
-      "Agent Perimeter, Ground Truth, Ledger Sense, BackOffice Kit, Selector Drift and AZTDP — six systems that treat security, evidence and failure behaviour as first-class design inputs.",
+      "Agent Perimeter, Ground Truth, Ledger Sense, Selector Drift and AZTDP — five systems that treat security, evidence and failure behaviour as first-class design inputs.",
     kind: "design",
     href: "/#work",
   },
@@ -239,7 +239,7 @@ export const about = {
     "I build systems that know what they are allowed to do, know when they are uncertain, and fail safely.",
   body: [
     "I’m a backend engineer in Addis Ababa. Over four years I’ve operated production services, built them, hardened them and measured them — and I’ve come to believe that correctness, security and evidence are design inputs, not things you add after.",
-    "The six systems here are where that belief has ended up. Each one is designed to be checked: scope files before probing, sealed splits before leaderboards, a review queue before any money moves, provenance before publication. The case studies say exactly where each one stands, including what isn’t finished.",
+    "The five systems here are where that belief has ended up. Each one is designed to be checked: scope files before probing, sealed splits before leaderboards, a review queue before any money moves, provenance before publication. The case studies say exactly where each one stands, including what isn’t finished.",
   ],
   education: "B.Sc. Computer Science — HiLCoE School of Computer Science & Technology, Addis Ababa",
 };

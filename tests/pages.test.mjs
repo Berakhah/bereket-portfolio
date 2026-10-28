@@ -7,11 +7,10 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(join(ROOT, "site", p), "utf8");
-let cs, bok, nf, resume;
+let cs, nf, resume;
 before(() => {
   execFileSync(process.execPath, ["build.mjs"], { cwd: ROOT, stdio: "pipe" });
   cs = read("work/ledger-sense.html");
-  bok = read("work/backoffice-kit.html");
   nf = read("404.html");
   resume = read("resume.html");
 });
@@ -32,7 +31,6 @@ test("case study body: 11 sections in order, caveat section carries card.caveat,
   for (const id of ids) assert.match(cs, new RegExp(`<a href="#${id}">`));
   assert.match(cs, /<section class="cs-sec rv" id="caveats"[\s\S]*?<p class="cs-caveat">/);
   assert.match(cs, /<ol class="flow" role="list"/);
-  assert.match(bok, /<div class="substrate"/);
   assert.match(cs, /<nav class="pager wrap"/);
 });
 
