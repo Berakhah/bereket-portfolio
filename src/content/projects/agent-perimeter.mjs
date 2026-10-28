@@ -12,7 +12,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Implemented and demonstrably working: public repository, Apache-2.0, with a clean-machine reproduction of the README quickstart in CI. 181 commits, 11 Aug → 15 Sep 2026.",
+      "Implemented and demonstrably working: public repository, Apache-2.0, with a clean-machine reproduction of the README quickstart in CI. 210 commits, 11 Aug → 15 Sep 2026.",
   },
   category: ["Security", "Backend Systems", "Evidence"],
   role: "Sole engineer — design, implementation, verification, publication",
@@ -197,7 +197,7 @@ tests/fixtures/servers/   vulnerable-server fleet (Python + Node)`,
       "Coverage floor is 75% — enforced, but not the 85%+ this codebase’s sibling projects hold themselves to.",
     ],
     currentStatus:
-      "Built and running — 181 commits between 11 Aug and 15 Sep 2026, public repository, first public census report published 14 Sep 2026. The LLM-judge check remains registered-but-disabled (no paid provider account provisioned; decided 2026-09-14). Licence: Apache-2.0 — the patent grant matters for security tooling.",
+      "Built and running — 210 commits between 11 Aug and 15 Sep 2026, public repository, first public census report published 14 Sep 2026. The LLM-judge check remains registered-but-disabled (no paid provider account provisioned; decided 2026-09-14). Licence: Apache-2.0 — the patent grant matters for security tooling.",
     repoNote:
       "Public repository with a clean-machine reproduction. Clone it, run the README quickstart, and every published figure can be regenerated from the repo itself.",
   },
