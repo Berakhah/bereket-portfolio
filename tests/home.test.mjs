@@ -26,15 +26,15 @@ test("proof strip: four big metrics with plain captions", () => {
   assert.match(home, /data-evidence="m-tests-742"[^>]*>742<\/button>\s*<span class="big-plain">automated tests guard the flagship scanner<\/span>/);
 });
 
-test("work: six sticky panels with plain + technical copy, two metrics, vertical flow, case-study link", () => {
+test("work: five sticky panels with plain + technical copy, two metrics, vertical flow, case-study link", () => {
   const panels = home.match(/<article class="panel" id="panel-[a-z-]+"/g) || [];
-  assert.equal(panels.length, 6);
+  assert.equal(panels.length, 5);
   assert.match(home, /<span class="panel-num mono">01<\/span>/);
   assert.match(home, /<p class="panel-plain">Scans the tools an AI agent can reach/);
-  assert.equal((home.match(/<p class="panel-tech">/g) || []).length, 6);
-  assert.equal((home.match(/<div class="panel-metrics">/g) || []).length, 6);
-  assert.equal((home.match(/<ol class="flow flow-v"/g) || []).length, 6);
-  for (const slug of ["agent-perimeter", "ground-truth", "ledger-sense", "backoffice-kit", "selector-drift", "aztdp"]) {
+  assert.equal((home.match(/<p class="panel-tech">/g) || []).length, 5);
+  assert.equal((home.match(/<div class="panel-metrics">/g) || []).length, 5);
+  assert.equal((home.match(/<ol class="flow flow-v"/g) || []).length, 5);
+  for (const slug of ["agent-perimeter", "ground-truth", "ledger-sense", "selector-drift", "aztdp"]) {
     assert.match(home, new RegExp(`<a class="panel-cta" href="/work/${slug}.html">`));
   }
   assert.doesNotMatch(home, /status-legend|class="badge|RUNNING|project-card/);
