@@ -119,7 +119,7 @@ export const heroMetrics = [
     evidence: {
       claim: "Redis caching dropped p95 latency on the auth verification path from ~340 ms to ~195 ms under peak load.",
       method: "HUMAN",
-      source: { label: "Résumé — DZ Software Engineering PLC, Mar 2023 – Present" },
+      source: { label: "Résumé — DZ Software Engineering PLC, Jul 2023 – Present" },
       basis: "Self-reported from production telemetry: 15 containerized backend services, Redis-backed caching with 84% hit rate on hot paths, peak ~420 req/min.",
       observedAt: "2023 – present",
       caveats: ["Self-reported figure from production dashboards; the measurement window is not published."],
@@ -175,7 +175,7 @@ export const timeline = [
   {
     mode: "Build",
     range: "2021 – 2023",
-    heading: "Software Engineer · Independent, remote",
+    heading: "Freelance Backend Engineer (part-time) · Independent, remote",
     body:
       "Shipped 15+ production backends on FastAPI, Django REST and Spring Boot at sub-200 ms for 100+ concurrent users — including a multilingual code search with authorisation-before-query and tenant-scoped AES-256.",
     kind: "build",
@@ -242,6 +242,9 @@ export const about = {
     "The five systems here are where that belief has ended up. Each one is designed to be checked: scope files before probing, sealed splits before leaderboards, a review queue before any money moves, provenance before publication. The case studies say exactly where each one stands, including what isn’t finished.",
   ],
   education: "B.Sc. Computer Science — HiLCoE School of Computer Science & Technology, Addis Ababa",
+  // Résumé-only: the about section keeps the shorter line above.
+  educationResume: "B.Sc. Computer Science — HiLCoE School of Computer Science & Technology, Addis Ababa · Jul 2026",
+  educationNote: "Completed while working as a software engineer at DZ Software Engineering (2022–2026).",
 };
 
 export const experience = {
@@ -249,8 +252,9 @@ export const experience = {
     {
       title: "Senior Software Engineer",
       org: "DZ Software Engineering PLC",
-      range: "Mar 2023 – Present",
+      range: "Jul 2023 – Present",
       loc: "Addis Ababa, Ethiopia",
+      note: "Promoted from Junior Software Engineer after 16 months. Completed my BSc in Computer Science at HiLCoE alongside this role.",
       points: [
         "Built and operated 15 containerized backend services on FastAPI and Django REST, shipping through CI/CD; layered Redis caching (84% hit rate) to drop p95 latency from 340ms to 195ms at 420 req/min peak.",
         "Architected an LLM evaluation pipeline and CI gate benchmarking correctness, reliability and runtime across Python, JavaScript, Java, C++ and Rust submissions — rolled out as an automated quality gate on 11 production services, cutting manual review by 40% with zero correctness regressions since launch.",
@@ -261,26 +265,27 @@ export const experience = {
       ],
     },
     {
-      title: "Software Engineer",
-      org: "Remote (Independent)",
-      range: "Mar 2021 – Feb 2023",
+      title: "Junior Software Engineer",
+      org: "DZ Software Engineering PLC",
+      range: "Mar 2022 – Jun 2023",
       loc: "Addis Ababa, Ethiopia",
+      points: [
+        "Triaged 10–12 Tier 1 incidents daily across Python, Java and C++ services; authored runbooks and automated recurring health checks, cutting recurring failures by 15% across enterprise environments.",
+        "Diagnosed and resolved OS, network and distributed-service failures end-to-end, establishing observability baselines that were later adopted across 3 production environments.",
+      ],
+    },
+    {
+      title: "Freelance Backend Engineer (part-time)",
+      org: "Remote (Independent)",
+      range: "Mar 2021 – Jun 2023",
+      loc: "Addis Ababa, Ethiopia",
+      note: "Client work I took on before joining DZ, and continued part-time alongside it until mid-2023.",
       points: [
         "Shipped 15+ production backend systems spanning AI evaluation, collaboration and security on FastAPI, Django REST and Spring Boot, with React/Node.js frontends — serving 100+ concurrent users at sub-200ms API targets.",
         "Engineered a multilingual code search backend with BM25 and TF-IDF retrieval; enforced authorization-before-query checks to neutralize timing-oracle attacks and applied AES-256 tenant-scoped encryption at rest.",
         "Built a distributed real-time evaluation platform using PostgreSQL row-level optimistic locking, async Python orchestration and a WebSocket notification layer — hitting a 79% cache hit rate and pulling p95 latency from 210ms down to 48ms under 85 concurrent connections.",
         "Designed an agent-assisted evaluation pipeline using async Python workers and LLM-generated test scaffolds across 12 services, lifting throughput by 18%.",
         "Folded correctness scoring, latency profiling and reliability checks into a unified CI/CD-gated pipeline, eliminating manual handoffs between frontend, API and backend stages.",
-      ],
-    },
-    {
-      title: "Junior Software Engineer",
-      org: "DZ Software Engineering PLC",
-      range: "Apr 2022 – Feb 2023",
-      loc: "Addis Ababa, Ethiopia",
-      points: [
-        "Triaged 10–12 Tier 1 incidents daily across Python, Java and C++ services; authored runbooks and automated recurring health checks, cutting recurring failures by 15% across enterprise environments.",
-        "Diagnosed and resolved OS, network and distributed-service failures end-to-end, establishing observability baselines that were later adopted across 3 production environments.",
       ],
     },
   ],
