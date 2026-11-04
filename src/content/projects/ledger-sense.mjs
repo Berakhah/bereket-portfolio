@@ -1,5 +1,5 @@
 // Ledger Sense — trustworthy automation / business-domain case study.
-// RUNNING per the author (2026-09-16). Source: docs/portfolio/ledger-sense.md
+// RUNNING. Re-verified against the repo and its 2026-10-15 system audit on 2026-11-04.
 
 export const project = {
   slug: "ledger-sense",
@@ -11,7 +11,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Running — 252 commits from the 29 Aug 2026 foundation: extraction, validation rules, sensitivity gateway, inbox API and review-queue UI. Status per the author, 2026-09-16.",
+      "Running — 257 commits, 29 Aug → 4 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI and the bank-change hard stop. A 15 Oct self-audit found it not yet ready for client writeback; its fixes are under way.",
   },
   category: ["Trustworthy Automation", "Backend Systems", "Security"],
   role: "Sole engineer — domain modelling, implementation, security posture",
@@ -22,7 +22,7 @@ export const project = {
 
   card: {
     differentiator:
-      "Deterministic-first architecture: Decimal money handling (no floats in the money path), sensitivity boundaries enforced structurally, draft-only writeback, and a hard stop on bank-detail changes.",
+      "Deterministic-first architecture: Decimal money handling (no floats in the money path), sensitivity boundaries enforced structurally, writeback that never approves or pays, and a hard stop on bank-detail changes that only an attested human confirmation can clear.",
     metrics: [
       {
         id: "ls-rules",
@@ -40,15 +40,15 @@ export const project = {
       },
       {
         id: "ls-tests",
-        value: "405",
+        value: "921",
         label: "test functions",
-        context: "~5,600 LOC of test code in 49 files; hypothesis property tests over every arithmetic rule.",
+        context: "~14,600 LOC of test code in 91 files; hypothesis property tests over every arithmetic rule.",
         evidence: {
-          claim: "Ledger Sense’s test suite contains 405 registered test functions.",
+          claim: "Ledger Sense’s test suite contains 921 registered test functions.",
           method: "DETERMINISTIC",
-          source: { label: "Repository — tests/ count" },
-          basis: "Counted from the repository tree. Property-based coverage routes hypothesis invariants over every arithmetic rule through the real run_rules() entry point.",
-          observedAt: "2026-09",
+          source: { label: "Repository — tests/ count", href: "https://github.com/Berakhah/ledger-sense" },
+          basis: "Counted from a clone of the public repository on 2026-11-04: 91 test files, 14,647 lines under tests/, 921 `def test_` functions. Property-based coverage routes hypothesis invariants over every arithmetic rule through the real run_rules() entry point.",
+          observedAt: "2026-11",
           caveats: [],
         },
       },
@@ -68,16 +68,16 @@ export const project = {
       },
       {
         id: "ls-gates",
-        value: "8",
+        value: "9",
         label: "independent CI gates",
-        context: "Licence audit, backend, degraded-mode, no-float, aia-guard, secrets, frontend, supply-chain.",
+        context: "Licence audit, backend, degraded-mode, no-float, aia-guard, secrets, frontend, e2e, supply-chain.",
         evidence: {
-          claim: "Eight independent CI jobs gate every change.",
+          claim: "Nine independent CI jobs gate every push and pull request.",
           method: "DETERMINISTIC",
-          source: { label: ".github/workflows/ci.yml" },
-          basis: "Licence audit (rejects AGPL by SPDX and by native shared-object), backend coverage floors per module, degraded-mode, no-float, aia-guard, gitleaks, frontend, supply-chain (pip-audit + CycloneDX SBOM).",
-          observedAt: "2026-09",
-          caveats: [],
+          source: { label: ".github/workflows/ci.yml", href: "https://github.com/Berakhah/ledger-sense" },
+          basis: "Licence audit (rejects AGPL by SPDX and by native shared-object), backend coverage floors per module, degraded-mode, no-float, aia-guard, gitleaks, frontend, Playwright e2e (including a 375px no-overflow check), supply-chain (pip-audit + CycloneDX SBOM). Read from ci.yml on 2026-11-04.",
+          observedAt: "2026-11",
+          caveats: ["A tenth job, a nightly QuickBooks sandbox smoke test, runs on schedule only and is allowed to fail, so it is not counted as a gate."],
         },
       },
       {
@@ -96,7 +96,7 @@ export const project = {
       },
     ],
     caveat:
-      "Deterministic-first by design: it trades the ceiling of vision models for verifiable extraction on software-generated documents. Until a field type is calibrated, everything for that field routes to review — the UI’s ConfidenceMeter renders grey and labelled “uncalibrated” rather than showing a number it cannot defend.",
+      "A self-audit on 15 Oct 2026 concluded it is not yet ready for client accounting writeback; LS-01–LS-10 and LS-13 have fixes, while LS-11, LS-12, LS-14, LS-15 and LS-34 remain open. Until a field type is calibrated, everything for that field routes to review — the UI’s ConfidenceMeter renders grey and labelled “uncalibrated” rather than showing a number it cannot defend.",
   },
 
   caseStudy: {
@@ -158,9 +158,19 @@ export const project = {
           "Every field carries a match_quality score built from four explicit booleans — documented as evidence bits, not a probability, until calibration exists. Routing on an uncalibrated confidence score is guessing while displaying a number, so everything routes to review until Ground Truth supplies a reliability curve.",
       },
       {
-        title: "Draft-only writeback; hard stops where money moves",
+        title: "Writeback never approves or pays; hard stops where money moves",
         body:
-          "A human approves inside the accounting system; Ledger Sense never posts a transaction. Bank-detail changes are a hard stop and vendor merges are never automatic — surface, require confirmation, keep merges reversible. Lien waivers carry statutory language, so no legal documents are ever generated: extract, validate, flag deviation, stop.",
+          "QuickBooks Online has no draft state for Bills, so the earlier “draft-only” wording was wrong and was corrected (LS-08): a write creates an unpaid Bill stamped AWAITING REVIEW, which posts to Accounts Payable at once, and Ledger Sense never creates a BillPayment. A human approves by paying inside QuickBooks; the CSV/IIF export is the path with no ledger effect. A test now fails the build if the README promises a draft state. Vendor merges are never automatic, and no legal documents are ever generated: extract, validate, flag deviation, stop.",
+      },
+      {
+        title: "A bank-detail change stops everything until a human attests",
+        body:
+          "Remit-block bank details are extracted by label anchor and compared with the vendor’s confirmed history. A first-seen or changed account raises the I3 hard stop from the document itself. Accept, edit and reject are inert on it; the only way through is the bank-change panel, which shows the diff and requires an attested confirmation. Undo keeps the evidence, and whole account numbers are compared, never truncated ones.",
+      },
+      {
+        title: "Audit the system, then fix it in the open",
+        body:
+          "A 15 Oct 2026 audit (docs/system-audit-2026-10-15.md) reproduced a critical cross-tenant defect: a reversal trusted a caller-supplied deletion key and could delete another tenant’s export. It also found high-severity gaps in idempotency scoping, export concurrency, payable amounts, review authorisation and confidence routing. Each fix commit is tagged with its finding ID (LS-01…LS-13), and the open findings are listed rather than buried.",
       },
       {
         title: "Demo and client deployments physically differ",
@@ -169,9 +179,10 @@ export const project = {
       },
     ],
     implementation: [
-      "Python 3.12, FastAPI, Pydantic v2, SQLAlchemy 2 + Alembic (5 migrations), PostgreSQL (SQLite WAL for dev). Next.js 15.5 / React 19 frontend with self-hosted pdf.js worker — no CDN, so the demo runs offline and emits no document-read telemetry.",
-      "~6,200 LOC of non-test Python across 127 files; ~5,600 LOC of test code with 405 test functions.",
-      "Security posture ahead of the first document: envelope-encrypted blob store, Argon2 sessions, per-tenant retention with audited purge, closed-period refusal, resource-capped PDF parsing in a killable child process.",
+      "Python 3.12, FastAPI, Pydantic v2, SQLAlchemy 2 + Alembic (10 migrations), PostgreSQL (SQLite WAL for dev). Next.js 15.5 / React 19 frontend with self-hosted pdf.js worker — no CDN, so the demo runs offline and emits no document-read telemetry. The app boots in a dark instrument theme; print stays light.",
+      "~14,600 LOC of test code with 921 test functions across 91 files.",
+      "Security posture ahead of the first document: envelope-encrypted blob store, accounting OAuth tokens encrypted under their own key, Argon2 sessions, per-tenant retention with audited purge plus an operator erasure command for client requests, closed-period refusal, a boot probe that rejects placeholder payment HMAC keys, resource-capped PDF parsing in a killable child process.",
+      "Every extracted field is now routed (LS-09): cleared fields pass, uncleared ones queue for review, and an audit holdback samples cleared fields to produce audit-basis labels.",
       "Domain modelling as typed rules: retainage stepping at 50% / substantial completion, stored materials that must leave the stored column when installed, approved change orders reconciling to the adjusted contract sum.",
       "The t-interval uses a table to 200 df, not 1.96; loaded-rate uncertainty propagates — supply a low/high hourly rate and the interval widens, supply one figure and the report says verbatim that the interval holds it fixed.",
       "Baseline study is the billable first week: times real document handling, computes cost-per-document with a 95% Student’s t interval (minimum 8 samples enforced), and renders a print-ready report carrying its own method statement.",
@@ -180,7 +191,8 @@ export const project = {
       "**Property-based validation:** hypothesis invariants run over every arithmetic rule, routed through the real run_rules() entry point — not a parallel test-only code path.",
       "**Every rule ships with a fixture that must trip it and a clean control that must not.**",
       "**Boundary enforcement you can read:** tests walk the AST to prove single insert site, single writer, no HTTP client outside the gateway seam (tests/boundary/).",
-      "**8 independent CI gates** including supply-chain (pip-audit + CycloneDX SBOM) and licence audit that rejects AGPL by SPDX identifier and by native shared-object inspection.",
+      "**A published self-audit with a reproduced critical finding:** a cross-tenant reversal bug, written up with its reproduction and fixed by commit LS-01; the remaining findings are tracked by ID.",
+      "**9 independent CI gates** including supply-chain (pip-audit + CycloneDX SBOM) and licence audit that rejects AGPL by SPDX identifier and by native shared-object inspection.",
       "**Straight-through rate published including the misses** — never claiming full automation.",
     ],
     securityControls: [
@@ -188,7 +200,8 @@ export const project = {
       "**Envelope-encrypted blob store** with per-tenant keys; per-tenant retention with audited purge; closed-period refusal.",
       "**Argon2 sessions; 404-not-403 ownership checks on every route.**",
       "**Resource-capped, killable child-process PDF parsing** with request-body cap before spool.",
-      "**Draft-only writeback; hard stop on bank-detail changes; no auto-merged vendors; no generated legal documents.**",
+      "**Writeback never approves or pays (unpaid Bills only, never a BillPayment); I3 hard stop on bank-detail changes cleared only by attested confirmation; no auto-merged vendors; no generated legal documents.**",
+      "**Tenant-scoped writeback:** idempotency keys and audit lookups are scoped to the tenant, and reversals use the audited key, never the caller’s (LS-01, LS-02).",
     ],
     tradeoffs: [
       "**Deterministic-first** trades the ceiling of vision models for verifiable extraction on software-generated documents — the population this system serves.",
@@ -197,11 +210,12 @@ export const project = {
     ],
     limitations: [
       "Calibration curves (isotonic/Platt per field type) are consumed from the Ground Truth project; an uncalibrated field type routes to review.",
-      "Accounting-system writeback ships as draft bills plus a CSV/IIF fallback — it never posts directly.",
+      "Accounting-system writeback creates unpaid QuickBooks Bills that post to Accounts Payable immediately (QBO has no draft Bill), so the client signs off on that effect; the CSV/IIF export is the no-ledger-effect fallback.",
+      "Open audit findings: extraction still runs outside the parser’s resource boundary (LS-11), valid text-rich PDFs can be rejected by the parser queue (LS-12), reconciliation reads demo-only state (LS-14), baseline studies are not yet durable or resumable (LS-15), and QBO reversal lacks durable recovery (LS-34).",
       "The synthetic corpus is the demo; real-document baselines are run per client under the baseline study protocol.",
     ],
     currentStatus:
-      "Running — 252 commits from the 29 Aug 2026 foundation: extraction, validation rules, sensitivity gateway, inbox API and review-queue UI. Status per the author, 2026-09-16. Licence: Apache-2.0.",
+      "Running — 257 commits between 29 Aug and 4 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI, field routing and the I3 bank-change hard stop. Not yet ready for client writeback, per its own 15 Oct 2026 audit; five findings remain open. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/ledger-sense.",
   },

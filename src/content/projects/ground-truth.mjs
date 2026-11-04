@@ -1,5 +1,5 @@
-// Ground Truth — measurement discipline case study. RUNNING per the author
-// (2026-09-16); harness, statistics, publication pipeline and UI.
+// Ground Truth — measurement discipline case study. RUNNING; harness, statistics,
+// judge path, publication pipeline and UI. Re-verified against the repo 2026-11-04.
 // Source: docs/portfolio/ground-truth.md
 
 export const project = {
@@ -13,7 +13,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Harness, statistics, publication pipeline and all six UI screens are built and running — 182 commits, 18 Sep 2025 → 9 Sep 2026. Status per the author, 2026-09-16.",
+      "Harness, statistics, LLM-judge path, publication pipeline and all six UI screens are built and running — 184 commits, 29 Aug → 4 Nov 2026. The real provider sweep has not run yet.",
   },
   category: ["AI & Evaluation", "Evidence"],
   role: "Sole engineer — design, statistics, implementation, publication",
@@ -42,15 +42,15 @@ export const project = {
       },
       {
         id: "gt-tests",
-        value: "408",
+        value: "683",
         label: "test functions",
-        context: "~5,000 LOC of test code in 50 files; coverage floor 75% enforced by the compose smoke test.",
+        context: "~9,600 LOC of test code in 61 files; coverage floor 75% enforced in CI and by the compose smoke test.",
         evidence: {
-          claim: "Ground Truth’s test suite contains 408 registered test functions.",
+          claim: "Ground Truth’s test suite contains 683 registered test functions.",
           method: "DETERMINISTIC",
-          source: { label: "Repository — tests/ count" },
-          basis: "Counted from the repository tree: 50 test files, ~5,000 lines of test code. Docker Compose ‘up’ runs the full suite with coverage as the smoke test.",
-          observedAt: "2026-09",
+          source: { label: "Repository — tests/ count", href: "https://github.com/Berakhah/ground-truth" },
+          basis: "Counted from a clone of the public repository on 2026-11-04: 61 test files, 9,617 lines under tests/, 683 `def test_` functions. CI and Docker Compose ‘up’ both run the suite with --cov-fail-under=75.",
+          observedAt: "2026-11",
           caveats: [],
         },
       },
@@ -98,7 +98,7 @@ export const project = {
       },
     ],
     caveat:
-      "The golden set is synthetic, so external validity is unmeasured by design and stated as such on the methodology page. Single-annotator ground truth is a known weakness; the design calls for blind 20% re-labelling and a second labeller.",
+      "No leaderboard figure comes from a real model run yet: the provider sweep (9,000 generation and 5,400 judge calls) is scheduled but waits on provider accounts, and the views currently show a simulated run behind a SIMULATED banner. The golden set is synthetic and single-annotator; the methodology page states both.",
   },
 
   caseStudy: {
@@ -166,6 +166,16 @@ web/            leaderboard · items · judge · calibration · regression · tr
           "A 92%-accurate intent with a $4 cost of error is automatable; a 97%-accurate one with a $40,000 cost of error is not. The report quotes the client’s own cost-of-error assumption and marks the recommendation that would flip under a plausible alternative as flipping.",
       },
       {
+        title: "Judge verdicts are counted per judge, and only once",
+        body:
+          "The one judged field (LINE_ITEM_DESCRIPTION) is scored from the judge’s majority vote on each slot’s modal output. Agreement is decided per judge; an unassessed judge never scores; a judged field counts toward the headline only when every current target is judged; and a re-grade supersedes the old verdict instead of being counted twice. A deterministic re-grade that disagrees with a stored verdict raises GradingConflict rather than being ignored. The rule change was cut as analysis plan v4, not an edit to the merged v3.",
+      },
+      {
+        title: "Rehearse the pipeline before spending a real call",
+        body:
+          "A simulated sweep (including a “contested” scenario with overlapping models and a rejected weak judge) runs through the real pipeline and views behind a SIMULATED banner. A Phase 0 probe then makes one synthetic call per provider slot, never a golden item, to replace desk-research rate limits with measured ones before the sweep is scheduled.",
+      },
+      {
         title: "Admit when a version can’t be pinned",
         body:
           "On free tiers there is often no model fingerprint; the observation record says so rather than implying a version was tracked.",
@@ -176,7 +186,8 @@ web/            leaderboard · items · judge · calibration · regression · tr
       "~4,900 LOC of non-test Python across 122 files; ~1,700 LOC TypeScript with 34 Playwright specs.",
       "5 deterministic graders (exact, numeric tolerance, normalised, schema, arithmetic); LLM-as-judge only where deterministic graders cannot reach.",
       "scripts/reproduce.py — stdlib-only, no repo checkout needed — recomputes every leaderboard row from the published per-item verdicts and exits 0 on zero differences.",
-      "Docker Compose ‘up’ runs the full test suite with coverage as the smoke test; weekly regression-watch cron; ruff, mypy --strict, gitleaks, no-float gate on the money path.",
+      "Docker Compose ‘up’ runs the full test suite with coverage as the smoke test; weekly regression-watch cron that skips placeholder data and never opens the same issue twice; ruff, mypy --strict, gitleaks, no-float gate on the money path.",
+      "Fail-closed publish gate: fixture routes return 404 unless explicitly enabled, and a publish fails if a fixture page is exported. A two-stage release gate lets a tagged release pass only after the reproducibility and contamination checks.",
       "Six accessible screens with a WCAG 2.2 AA gate, keyboard paths and print stylesheets; the latency free-tier caveat is exposed to assistive technology, not only on hover.",
     ],
     evidence: [
@@ -198,12 +209,13 @@ web/            leaderboard · items · judge · calibration · regression · tr
     ],
     limitations: [
       "The golden set is synthetic — there is no real-invoice corpus to validate against.",
-      "Single-annotator ground truth is a known weakness; the design calls for blind 20% re-labelling and a second labeller.",
+      "Single-annotator ground truth: the rubric has one author and the judged field’s human labels come from one annotator, so inter- and intra-rater agreement are unmeasured. Stated in the methodology’s Scope section since 28 Oct 2026 and guarded by a test.",
+      "The real provider sweep has not run: no provider keys are provisioned, so published views show a simulated run, labelled as such.",
       "The provider audit (terms, training-on-input, list prices with dated sources) is re-run whenever a provider changes its catalogue.",
       "External validity is unmeasured by design and stated as such on the methodology page.",
     ],
     currentStatus:
-      "Running — harness, statistics, publication pipeline and all six UI screens; 182 commits between 18 Sep 2025 and 9 Sep 2026. Status per the author, 2026-09-16. Licence: Apache-2.0.",
+      "Running — harness, statistics, LLM-judge path, publication pipeline and all six UI screens; 184 commits between 29 Aug and 4 Nov 2026. Next: the Phase 0 provider probe and the real sweep, drafted in docs/run-schedule.md. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/ground-truth.",
   },
