@@ -342,12 +342,13 @@ const resumePage = () => {
   ${experience.roles.map((r, i) => `<section class="resume-role rv" aria-labelledby="rr${i}">
     <div class="resume-role-head"><h2 class="resume-title" id="rr${i}">${esc(r.title)}</h2><span class="resume-range mono">${esc(r.range)}</span></div>
     <p class="resume-org">${esc(r.org)} · ${esc(r.loc)}</p>
+    ${r.note ? `<p class="resume-org">${esc(r.note)}</p>` : ""}
     ${bullets(r.points, "bullets resume-points")}
   </section>`).join("")}
   <section class="resume-role rv"><h2 class="resume-title">Skills</h2>
     <div class="stack-runs">${stack.map((s) => `<div class="stack-run"><p class="stack-h">${esc(s.group)}</p><p class="stack-items">${s.items.map(esc).join(" · ")}</p></div>`).join("")}</div>
   </section>
-  <section class="resume-role rv"><h2 class="resume-title">Education</h2><p class="resume-org">${esc(about.education)}</p></section>
+  <section class="resume-role rv"><h2 class="resume-title">Education</h2><p class="resume-org">${esc(about.educationResume ?? about.education)}</p>${about.educationNote ? `<p class="resume-org">${esc(about.educationNote)}</p>` : ""}</section>
 </div>`;
   return page({
     title: `Résumé — ${site.name}`,
