@@ -12,12 +12,12 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Implemented and demonstrably working: public repository, Apache-2.0, with a clean-machine reproduction of the README quickstart in CI. 210 commits, 11 Aug → 15 Sep 2026.",
+      "Implemented and demonstrably working: public repository, Apache-2.0, with a clean-machine reproduction of the README quickstart in CI, and usable as a GitHub Action. 213 commits, 11 Aug → 4 Nov 2026.",
   },
   category: ["Security", "Backend Systems", "Evidence"],
   role: "Sole engineer — design, implementation, verification, publication",
   tech: ["Python 3.12", "FastAPI", "Pydantic v2", "SQLAlchemy 2 + Alembic", "Postgres 16", "Next.js 15.5", "React 19", "TypeScript strict", "Tailwind v4", "Docker Compose", "GitHub Actions", "SARIF 2.1.0", "Playwright"],
-  flow: ["MCP server", "Discovery", "Capability graph", "34 checks · 8 groups", "Findings + reproductions", "SARIF / HTML report"],
+  flow: ["MCP server", "Discovery", "Capability graph", "34 checks · 8 groups", "Findings + reproductions", "SARIF / HTML / CI drift gate"],
   links: { github: "https://github.com/Berakhah/agent-perimeter" },
   licence: "Apache-2.0",
 
@@ -55,15 +55,15 @@ export const project = {
       },
       {
         id: "ap-tests",
-        value: "742",
+        value: "759",
         label: "test functions",
-        context: "~12,500 LOC of test code in 87 files; coverage floor 75% enforced in CI.",
+        context: "~12,750 LOC of test code in 88 files; coverage floor 75% enforced in CI.",
         evidence: {
-          claim: "The test suite contains 742 test functions across 87 files.",
+          claim: "The test suite contains 759 test functions across 88 files.",
           method: "DETERMINISTIC",
           source: { label: "Repository — tests/ count", href: "https://github.com/Berakhah/agent-perimeter" },
-          basis: "Counted from a clone of the public repository on 2026-09-16: 87 test files, 12,548 lines under tests/, 742 `def test_` functions. pyproject.toml sets --cov-fail-under=75.",
-          observedAt: "2026-09",
+          basis: "Counted from a clone of the public repository on 2026-11-04: 88 test files, 12,751 lines under tests/, 759 `def test_` functions. pyproject.toml sets --cov-fail-under=75.",
+          observedAt: "2026-11",
           caveats: ["Counts test functions, not individual assertions."],
         },
       },
@@ -97,7 +97,7 @@ export const project = {
       },
     ],
     caveat:
-      "The LLM-judge check is registered but runs in its disabled lane — no paid provider account is provisioned yet. Census Tier 3 (live discovery against third-party servers) is implemented and tested but deliberately unwired pending code review.",
+      "The LLM-judge check is registered but runs in its disabled lane — no paid provider account is provisioned yet. The census is passive-only: Tier 3 (live discovery against third-party servers) was dropped permanently on 23 Sep 2026 because it could not satisfy the scope-file rule.",
   },
 
   caseStudy: {
@@ -120,9 +120,10 @@ export const project = {
                · active (4, scope-gated) · injection (2) · drift (1) · policy (2)
   graph/       capability graph + policy evaluation
   report/      sarif.py, html.py, census_report.py
-  census/      registry fetch, artifact detection, seeded sampling, tier-3
+  census/      registry fetch, artifact detection, seeded sampling (passive only)
   api/         FastAPI
 web/           Next.js: scan → findings / graph / drift pages
+action.yml     composite GitHub Action: drift gate + SARIF upload
 tests/fixtures/servers/   vulnerable-server fleet (Python + Node)`,
     },
     threatModel: [
@@ -160,6 +161,11 @@ tests/fixtures/servers/   vulnerable-server fleet (Python + Node)`,
           "A registry page that returns a full page with no cursor is recorded as a suspected pagination bug, never as a completed population. The methodology doc documents the exact nextCursor trap that would otherwise silently truncate a 30k-entry census to ~2%.",
       },
       {
+        title: "Drop a feature rather than carve out a safety rule",
+        body:
+          "Code review of the census’s Tier 3 found it sent a live, unauthenticated discovery probe to each sampled third-party host with no scope-file check, the one active-probe path that skipped require_scope(). A scope file records one authorising party consenting to one named target; nobody can sign one for a random sample of unrelated servers. Fixing it meant giving up either random sampling or per-target consent, so Tier 3 was deleted (tier3.py and its tests) on 23 Sep 2026 and the ruling recorded in docs/census/CHANGELOG.md.",
+      },
+      {
         title: "Honest re-scoping, recorded in writing",
         body:
           "A competitive inventory led to dropping “enterprise deployment posture” as a differentiator when the evidence didn’t support it, and narrowing “evidence-graded reporting” to reproducibility rather than volume — recorded in docs/methodology.md with dated rationale. 14 open design decisions are closed in docs/open-decisions.md.",
@@ -170,6 +176,8 @@ tests/fixtures/servers/   vulnerable-server fleet (Python + Node)`,
       "A vulnerable-server fixture fleet (one flaw each, plus clean controls) drives golden SARIF files and the precision/recall table CI rebuilds on every commit.",
       "Every finding cites a CWE plus at least one published taxonomy entry (OWASP LLM Top 10, OWASP MCP Top 10, CoSAI, NSA CSI, MITRE ATLAS) and ships with a reproduction command.",
       "Output: SARIF 2.1.0 (schema-validated, renders in GitHub code scanning), an HTML report, and a one-pager.",
+      "Ships as a composite GitHub Action (uses: Berakhah/agent-perimeter@v1): scans a server in CI, uploads SARIF, and fails the job on drift. A dedicated action-selftest workflow exercises it.",
+      "Ops-console web redesign (Sep 2026): type-scale and elevation tokens, stat-tile grids on the findings and live-scan screens, drift sparklines that never fabricate a zero line, and motion that respects reduced-motion and print.",
       "~12,300 LOC of non-test Python across 231 files; ~3,900 LOC TypeScript with 47 Playwright/Vitest specs; mypy --strict, ruff, gitleaks pre-commit, hypothesis.",
     ],
     evidence: [
@@ -193,11 +201,11 @@ tests/fixtures/servers/   vulnerable-server fleet (Python + Node)`,
     ],
     limitations: [
       "The competitive table was compiled via web search after the build, not primary-source repo reads; the methodology page says so.",
-      "Census Tier 3 (live discovery against third-party servers) is implemented and tested but unwired pending code review.",
+      "The census is passive-only by ruling: with Tier 3 dropped, it measures what registries and published artifacts declare, not how live servers behave.",
       "Coverage floor is 75% — enforced, but not the 85%+ this codebase’s sibling projects hold themselves to.",
     ],
     currentStatus:
-      "Built and running — 210 commits between 11 Aug and 15 Sep 2026, public repository, first public census report published 14 Sep 2026. The LLM-judge check remains registered-but-disabled (no paid provider account provisioned; decided 2026-09-14). Licence: Apache-2.0 — the patent grant matters for security tooling.",
+      "Built and running — 213 commits between 11 Aug and 4 Nov 2026, public repository, first public census report published 14 Sep 2026, GitHub Action wrapper shipped 16 Sep 2026, census made passive-only 23 Sep 2026. The LLM-judge check remains registered-but-disabled (no paid provider account provisioned; decided 2026-09-14). Licence: Apache-2.0 — the patent grant matters for security tooling.",
     repoNote:
       "Public repository with a clean-machine reproduction. Clone it, run the README quickstart, and every published figure can be regenerated from the repo itself.",
   },

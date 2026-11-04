@@ -1,5 +1,5 @@
-// Selector Drift — trustworthy-automation case study. RUNNING per the author
-// (2026-09-16). The ninety-day heal log is a commitment, not a published figure.
+// Selector Drift — trustworthy-automation case study. RUNNING; re-verified against
+// the repo 2026-11-04. The ninety-day heal log is a commitment, not a published figure.
 // Source: docs/portfolio/selector-drift.md
 
 export const project = {
@@ -12,11 +12,11 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Five-rung resolution cascade, six-check validation gate, heal log and mutation test bench, built to the written brief and definition of done. Status per the author, 2026-09-16.",
+      "Five-rung resolution cascade, six-check validation gate, assembled pipeline, heal-log evidence store and mutation test bench with a hardened scorer — 153 commits, 29 Aug → 4 Nov 2026. The web UI and HTTP API are not built yet.",
   },
   category: ["Systems Design", "Trustworthy Automation"],
   role: "Sole engineer — threat modelling, architecture, test strategy",
-  tech: ["Python 3.12", "Playwright", "FastAPI", "Pydantic v2", "PostgreSQL", "Prefect 3 / Temporal (open decision)", "Parquet", "DuckDB", "Next.js 15"],
+  tech: ["Python 3.12", "Playwright", "Pydantic v2", "PostgreSQL", "Alembic", "Prefect 3", "Parquet", "DuckDB", "Docker Compose"],
   flow: ["Cached selector", "Accessibility tree", "Semantic anchors", "Structural heuristics", "Visual grounding (last resort)"],
   links: { github: "https://github.com/Berakhah/selector-drift" },
   licence: "Apache-2.0",
@@ -67,6 +67,20 @@ export const project = {
           caveats: ["Reported by the author; the public repository is the verification path."],
         },
       },
+      {
+        id: "sd-rungs",
+        value: "60 runs",
+        label: "bench campaign, rung shares published",
+        context: "rung1 16.9% · rung2 69.7% · rung3 0% · rung4 13.1% · rung5 0% — 15 runs held and discarded by the gate.",
+        evidence: {
+          claim: "A 60-run bench campaign measured which rung resolved each field, and how often the gate rejected a heal.",
+          method: "DETERMINISTIC",
+          source: { label: "docs/methodology.md — The rung distribution (B11)", href: "https://github.com/Berakhah/selector-drift" },
+          basis: "scripts/bench_rung_campaign.py 60 (2026-10-15): the assembled product ran once per simulated day for 60 days against the bench portal on its production mutation schedule, 6 fields per run. Outcomes: 7 completed on rung 1, 33 healed and written, 5 held then promoted, 15 held then discarded. Of the 15 discards, 6 were adversarial days correctly rejected and 9 were benign days rejected by RowKeyContinuity — reported as false rejections.",
+          observedAt: "2026-10-15",
+          caveats: ["Bench, not production: the bench mutates every day, so rung 1’s share is low by design.", "Simulated calendar days against the project’s own portal — not the ninety-day live heal log."],
+        },
+      },
     ],
     caveat:
       "The ninety-day live heal log (3 portals, 41 UI changes, zero manual fixes, 99.2% run success) is the headline proof point the design commits to; it is not published here as a figure, because calendar time cannot be compressed and a result that has not been measured must not render as one.",
@@ -88,18 +102,22 @@ export const project = {
   spec/          semantic task spec: navigation, targets,
                  schema, assertions, schedule
   browser/       Playwright driver, containerised, session + MFA handling
-  resolve/       cascade.py (five rungs) · cache.py (with provenance)
-                 · validate.py (post-heal gate) · quarantine.py
+  resolve/       cascade (five rungs) · selector cache with provenance
+  validate/      post-heal gate · quarantine, promote / discard
+  credentials/   envelope-encrypted credential ladder
   extract/       typed extraction into Pydantic schemas
   quality/       schema drift, null rates, row counts, distribution shift
   land/          Parquet writer, DuckDB catalog, idempotent upsert
-  orchestrate/   flows, scheduling, retries, quota accounting
-  heallog/       heal events, evidence storage, redaction, diffing
-  api/           FastAPI
+  orchestrate/   resolve → gate → land → log pipeline (Prefect 3),
+                 rung statistics
+  heallog/       evidence store: scrub, redact, verify; word-level DOM
+                 diff; replay; daily evidence retention
+  api/           (not built yet)
 testbench/       deliberately mutating portal + mutation engine
+                 + bench scorer with an answer key
                  ← shipped open-source artifact
-web/             Targets · Task spec editor · Run timeline · Heal log
-                 · Data quality · Quarantine`,
+web/             (planned) Targets · Task spec editor · Run timeline
+                 · Heal log · Data quality · Quarantine`,
     },
     threatModel: [
       "**The headline feature is the worst failure mode.** Self-healing can heal wrongly; the design identifies this first and builds the product around the validation gate rather than the heal.",
@@ -142,13 +160,17 @@ web/             Targets · Task spec editor · Run timeline · Heal log
       },
     ],
     implementation: [
-      "Design complete: full brief, hard constraints, architecture, resolution cascade, validation gate, test strategy and a ten-item definition of done with a week-20 target.",
-      "Stack: containerised Playwright (pinned browser version, one context per run, hard memory limits, aggressive reaping); Prefect 3 or Temporal for orchestration (open decision); FastAPI + Postgres for run history, heal events and the selector cache.",
-      "Landing zone: per-run Parquet partitions with DuckDB as the query layer, compaction, idempotent upsert on natural key; data-quality contract on row counts, null rates, distribution shift (PSI/KS), referential checks and schema-drift detection — alerting before bad data reaches the client.",
-      "Frontend: Next.js 15; Monaco YAML editor with schema validation plus a form view for non-engineers.",
-      "Repo: github.com/Berakhah/selector-drift.",
+      "Built to a full brief, hard constraints, architecture, test strategy and a ten-item definition of done.",
+      "The pipeline is assembled end to end: resolve, gate, land, log. A judged run settles with redaction first, then evidence bundles, then accept or hold; a failed promotion compensates its lake file and cache rows under the quarantine row lock; a human decision and the audit trail can never disagree.",
+      "Stack: containerised Playwright (pinned browser version, one context per run, hard memory limits, aggressive reaping); Prefect 3 for orchestration and the daily evidence-retention deployment; Postgres for run history, heal events and the selector cache.",
+      "Heal-log evidence store: scrubbed and redacted DOM and screenshots with post-shot pixel verification, egress-guarded atomic writes, size-capped link-free bundle reads, and replays that expire with the target’s evidence policy.",
+      "Bench scorer: a separate, hardened Compose service judges every bench heal against an answer key, using a database role granted exactly what it needs and a read-only evidence mount, and refuses to start if either is wrong.",
+      "Landing zone: per-run Parquet partitions with DuckDB as the query layer, compaction, idempotent upsert on natural key; data-quality contract on row counts, null rates, distribution shift (PSI/KS), referential checks and schema-drift detection.",
+      "1,434 test functions in 123 files (counted 2026-11-04), including a benign-heal acceptance suite and a degraded-mode floor with every model provider disabled.",
+      "Planned, not built: the FastAPI layer and the Next.js frontend (Monaco YAML task-spec editor plus a form view for non-engineers).",
     ],
     evidence: [
+      "**Measured rung distribution with its false refusals:** a 60-run bench campaign publishes which rung resolved each field and counts the gate’s 9 benign-day rejections as false rejections, not successes (docs/methodology.md, B11).",
       "**Threat modelling before code:** the design identifies that the headline feature is also the worst failure mode and builds the product around the validation gate rather than the heal.",
       "**Legal and credential posture designed in, not bolted on:** scope records, no evasion, session injection over stored credentials, the TOTP-seed problem named explicitly.",
       "**The sales artifact is a ninety-day live heal log** against ethically clean targets, started on day one of the build because calendar time cannot be compressed — with the quarantine count in the headline, because it is proof the safety mechanism works, not an admission.",
@@ -166,12 +188,14 @@ web/             Targets · Task spec editor · Run timeline · Heal log
       "**Self-hosted test bench instead of live-site testing** costs build time and buys ethical cleanliness plus reproducible adversarial cases.",
     ],
     limitations: [
-      "Orchestration choice (Prefect 3 vs Temporal) is an open decision.",
+      "No web UI or HTTP API yet; the product runs as a pipeline and CLI.",
+      "The gate over-refuses on fields that genuinely move day to day: 9 of 15 bench discards were benign days rejected by RowKeyContinuity (continuity 0.84–0.94 against a 0.95 threshold).",
+      "Rung 3 resolved nothing on the bench, because rung 2 looks for the same label text and runs first.",
       "The ninety-day heal log and its proof-point figures are commitments, not published results.",
       "Visual grounding depends on client opt-in; without it, rung 5 escalates to humans.",
     ],
     currentStatus:
-      "Running — resolution cascade, validation gate, heal log and mutation test bench, built to the written brief and definition of done. Status per the author, 2026-09-16. Licence: Apache-2.0.",
+      "Running — resolution cascade, validation gate, assembled pipeline, heal-log evidence store and mutation test bench with scorer; 153 commits between 29 Aug and 4 Nov 2026. Web UI and API not built yet. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/selector-drift.",
   },
