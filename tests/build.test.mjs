@@ -49,12 +49,12 @@ test("CSS is inlined; display, body and mono faces are preloaded; home preloads 
   assert.doesNotMatch(cs, /rel="preload" as="image"/);
 });
 
-test("every page has the curtain before the header and the Email pill in the header", () => {
+test("every page has the curtain before the header and the Upwork pill in the header", () => {
   for (const html of [home, cs, read("resume.html"), read("404.html")]) {
     const c = html.indexOf('<div class="curtain" aria-hidden="true"></div>');
     const h = html.indexOf('<header class="site-head">');
     assert.ok(c > -1 && c < h);
-    assert.match(html, /<a class="btn btn-signal btn-sm head-cta" href="mailto:[removed]">Email<\/a>/);
+    assert.match(html, /<a class="btn btn-signal btn-sm head-cta" href="https:\/\/www.upwork.com\/freelancers\/~01645da719eb4829ed" rel="noopener" target="_blank">Hire on Upwork<\/a>/);
   }
 });
 

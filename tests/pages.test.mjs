@@ -40,8 +40,8 @@ test("404 is a single serif line with a link home", () => {
   assert.doesNotMatch(nf, /data-boot|refused/);
 });
 
-test("résumé: roles, skills, education, download CTA, no scenes", () => {
-  assert.match(resume, /<a class="btn btn-signal" href="\/assets\/Bereket_Tilahun_Resume.pdf" download>Download PDF/);
+test("résumé: roles, skills, education, Upwork CTA, no scenes", () => {
+  assert.match(resume, /<a class="btn btn-signal" href="https:\/\/www.upwork.com\/freelancers\/~01645da719eb4829ed" rel="noopener" target="_blank">Hire me on Upwork/);
   assert.ok((resume.match(/<section class="resume-role rv"/g) || []).length >= 4);
   assert.doesNotMatch(resume, /data-boot|class="scene"|class="panel"/);
 });

@@ -17,7 +17,16 @@ export const site = {
     "Open to backend and security engineering roles — Addis Ababa or remote.",
   // Set before deploy; used for canonical URLs, sitemap and OpenGraph.
   siteUrl: "https://berakhah.github.io",
+  // "upwork": the site is linked from an Upwork profile, where sharing contact
+  // details before a contract breaks Upwork's terms. Email, phone, LinkedIn and
+  // the PDF résumé (which carries them) are left out of every page, and the
+  // calls to action point to the Upwork profile instead.
+  // "direct": publish the direct contact details as before.
+  contactMode: "upwork",
+  upwork: "https://www.upwork.com/freelancers/~01645da719eb4829ed",
 };
+
+export const directContact = (s = site) => s.contactMode !== "upwork";
 
 export const nav = [
   { label: "Work", href: "/#work" },

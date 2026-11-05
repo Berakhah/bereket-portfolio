@@ -1,5 +1,6 @@
 // Page shell: head (SEO/OG/JSON-LD), scripts, header, footer. Consumed by build.mjs.
 import { esc, icon, portrait } from "./components.mjs";
+import { directContact } from "../content/person.mjs";
 
 export const scripts = (bundlePath) => `<script src="${bundlePath}" defer></script>`;
 
@@ -52,16 +53,20 @@ export const header = (path, nav, site) => `
       <a href="/resume.html">Résumé</a>
     </nav>
     <button class="theme-btn" type="button" aria-pressed="false" aria-label="Switch to dark theme">${icon("sun", "icon-sun")}${icon("moon", "icon-moon")}</button>
-    <a class="btn btn-signal btn-sm head-cta" href="mailto:${esc(site.email)}">Email</a>
+    ${directContact(site)
+      ? `<a class="btn btn-signal btn-sm head-cta" href="mailto:${esc(site.email)}">Email</a>`
+      : `<a class="btn btn-signal btn-sm head-cta" href="${esc(site.upwork)}" rel="noopener" target="_blank">Hire on Upwork</a>`}
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">${icon("menu")}</button>
   </div>
   <div class="mobile-nav" id="mobile-nav" hidden>
     <nav aria-label="Primary, mobile">
       ${nav.map((n) => `<a href="${esc(n.href)}">${esc(n.label)}</a>`).join("\n      ")}
       <a href="/resume.html">Résumé</a>
-      <a href="mailto:${esc(site.email)}">Email</a>
+      ${directContact(site)
+        ? `<a href="mailto:${esc(site.email)}">Email</a>`
+        : `<a href="${esc(site.upwork)}" rel="noopener" target="_blank">Upwork</a>`}
       <a href="${esc(site.github)}" rel="noopener" target="_blank">GitHub</a>
-      <a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>
+      ${directContact(site) ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>` : ""}
     </nav>
   </div>
 </header>`;
@@ -77,9 +82,11 @@ export const footer = (site) => `
       </div>
     </div>
     <nav class="foot-links" aria-label="Footer">
-      <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>
+      ${directContact(site)
+        ? `<a href="mailto:${esc(site.email)}">${esc(site.email)}</a>`
+        : `<a href="${esc(site.upwork)}" rel="noopener" target="_blank">Upwork</a>`}
       <a href="${esc(site.github)}" rel="noopener" target="_blank">GitHub</a>
-      <a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>
+      ${directContact(site) ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>` : ""}
       <a href="/resume.html">Résumé</a>
     </nav>
   </div>
