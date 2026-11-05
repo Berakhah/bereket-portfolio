@@ -16,7 +16,7 @@ test("hero: serif headline with one signal emphasis, portrait, two CTAs", () => 
   assert.match(home, /<h1 class="hero-h rv" id="hero-h">Systems that stay <em class="hero-em">trustworthy<\/em> when everything else changes\.<\/h1>/);
   assert.match(home, /<picture class="portrait hero-portrait">/);
   assert.match(home, /fetchpriority="high"/);
-  assert.match(home, /<a class="btn btn-signal" href="mailto:berekettilahun77@gmail.com">Email me/);
+  assert.match(home, /<a class="btn btn-signal" href="https:\/\/www.upwork.com\/freelancers\/~01645da719eb4829ed" rel="noopener" target="_blank">Hire me on Upwork/);
   assert.match(home, /<a class="btn btn-ink" href="\/resume.html">Résumé/);
   assert.doesNotMatch(home, /data-boot|hero-graph|hero-texture|class="scene"|data-hero/);
 });

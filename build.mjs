@@ -1,6 +1,6 @@
 // Zero-dependency static site builder.  node build.mjs
 // Renders index, résumé, 404 and /work/<slug> case studies from src/content.
-import { readFileSync, writeFileSync, readdirSync, unlinkSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, unlinkSync, mkdirSync, copyFileSync, rmSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -9,6 +9,7 @@ import {
   site, nav, heroMetrics, principles, timeline, stack, about, experience,
   projects, evidenceIndex,
 } from "./src/content/index.mjs";
+import { directContact } from "./src/content/person.mjs";
 import {
   esc, md, prose, bullets, icon, flowStepper, metricsRow, bigMetric, portrait,
   evidenceScript, evidenceDrawer, repoChip, prov,
@@ -107,10 +108,10 @@ const indexPage = () => {
     "@type": "Person",
     name: site.name,
     jobTitle: site.title,
-    email: `mailto:${site.email}`,
+    ...(directContact() ? { email: `mailto:${site.email}` } : {}),
     image: `${site.siteUrl}/assets/img/bereket-1200.jpg`,
     address: { "@type": "PostalAddress", addressLocality: "Addis Ababa", addressCountry: "ET" },
-    sameAs: [site.github, site.linkedin],
+    sameAs: directContact() ? [site.github, site.linkedin] : [site.github, site.upwork],
     knowsAbout: ["Backend Security", "Zero Trust", "OIDC", "Threat Modeling", "LLM Evaluation", "FastAPI", "Django REST"],
   };
 
@@ -122,7 +123,9 @@ const indexPage = () => {
       <h1 class="hero-h rv" id="hero-h">Systems that stay <em class="hero-em">trustworthy</em> when everything else changes.</h1>
       <p class="hero-lede rv" style="--d:80ms">${esc(site.positioning)}</p>
       <div class="hero-ctas rv" style="--d:140ms">
-        <a class="btn btn-signal" href="mailto:${esc(site.email)}">Email me ${icon("arrowUpRight", "icon-xs")}</a>
+        ${directContact()
+          ? `<a class="btn btn-signal" href="mailto:${esc(site.email)}">Email me ${icon("arrowUpRight", "icon-xs")}</a>`
+          : `<a class="btn btn-signal" href="${esc(site.upwork)}" rel="noopener" target="_blank">Hire me on Upwork ${icon("arrowUpRight", "icon-xs")}</a>`}
         <a class="btn btn-ink" href="/resume.html">Résumé ${icon("file", "icon-xs")}</a>
       </div>
     </div>
@@ -202,11 +205,11 @@ const indexPage = () => {
   <div class="wrap">
     <h2 class="contact-h rv" id="contact-h">Let’s talk.</h2>
     <div class="contact-links rv">
-      <a href="mailto:${esc(site.email)}"><span>${esc(site.email)}</span><span class="mono">EMAIL</span></a>
+      ${directContact() ? `<a href="mailto:${esc(site.email)}"><span>${esc(site.email)}</span><span class="mono">EMAIL</span></a>` : `<a href="${esc(site.upwork)}" rel="noopener" target="_blank"><span>Bereket T. on Upwork</span><span class="mono">UPWORK</span></a>`}
       <a href="${esc(site.github)}" rel="noopener" target="_blank"><span>github.com/Berakhah</span><span class="mono">GITHUB</span></a>
-      <a href="${esc(site.linkedin)}" rel="noopener" target="_blank"><span>in/bereket-tilahun</span><span class="mono">LINKEDIN</span></a>
-      <a href="/assets/Bereket_Tilahun_Resume.pdf" download><span>Résumé, one page</span><span class="mono">PDF</span></a>
-      <a href="tel:${esc(site.phone.replace(/\s/g, ""))}"><span>${esc(site.phone)}</span><span class="mono">PHONE</span></a>
+      ${directContact() ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank"><span>in/bereket-tilahun</span><span class="mono">LINKEDIN</span></a>` : ""}
+      ${directContact() ? `<a href="/assets/Bereket_Tilahun_Resume.pdf" download><span>Résumé, one page</span><span class="mono">PDF</span></a>` : `<a href="/resume.html"><span>Résumé, web page</span><span class="mono">RÉSUMÉ</span></a>`}
+      ${directContact() ? `<a href="tel:${esc(site.phone.replace(/\s/g, ""))}"><span>${esc(site.phone)}</span><span class="mono">PHONE</span></a>` : ""}
     </div>
     <p class="contact-avail rv">${esc(site.availability)}</p>
   </div>
@@ -333,8 +336,10 @@ const resumePage = () => {
     <h1 class="cs-title rv" style="--d:60ms">${esc(site.name)}</h1>
     <p class="cs-tagline rv" style="--d:120ms">${esc(site.title)} · ${esc(site.location)}</p>
     <div class="resume-ctas rv" style="--d:180ms">
-      <a class="btn btn-signal" href="/assets/Bereket_Tilahun_Resume.pdf" download>Download PDF ${icon("download", "icon-xs")}</a>
-      <a class="btn btn-ink" href="mailto:${esc(site.email)}">${esc(site.email)}</a>
+      ${directContact()
+        ? `<a class="btn btn-signal" href="/assets/Bereket_Tilahun_Resume.pdf" download>Download PDF ${icon("download", "icon-xs")}</a>
+      <a class="btn btn-ink" href="mailto:${esc(site.email)}">${esc(site.email)}</a>`
+        : `<a class="btn btn-signal" href="${esc(site.upwork)}" rel="noopener" target="_blank">Hire me on Upwork ${icon("arrowUpRight", "icon-xs")}</a>`}
     </div>
   </div>
 </section>
@@ -384,6 +389,12 @@ const JS_DIR = join(OUT, "assets", "js");
 mkdirSync(JS_DIR, { recursive: true });
 mkdirSync(join(OUT, "work"), { recursive: true });
 for (const f of readdirSync(JS_DIR)) if (/^app\.[0-9a-f]+\.js$/.test(f)) unlinkSync(join(JS_DIR, f));
+
+// The PDF résumé carries email, phone and LinkedIn, so it ships only when the
+// site publishes direct contact details (see site.contactMode).
+const RESUME_PDF = join(OUT, "assets", "Bereket_Tilahun_Resume.pdf");
+if (directContact()) copyFileSync(join(ROOT, "src", "assets", "Bereket_Tilahun_Resume.pdf"), RESUME_PDF);
+else rmSync(RESUME_PDF, { force: true });
 writeFileSync(join(JS_DIR, `app.${BUNDLE_HASH}.js`), BUNDLE_SRC);
 
 writeFileSync(join(OUT, "index.html"), indexPage());
