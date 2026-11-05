@@ -8,8 +8,10 @@ export const site = {
     "I build backend and security systems that stay trustworthy when the inputs, models and environments around them change.",
   location: "Addis Ababa, Ethiopia",
   reviewed: "2026-11-05",
-  email: "berekettilahun77@gmail.com",
-  phone: "+251 939 581 519",
+  // Kept out of the public repo: set PORTFOLIO_EMAIL / PORTFOLIO_PHONE when
+  // building with contactMode "direct".
+  email: process.env.PORTFOLIO_EMAIL ?? "",
+  phone: process.env.PORTFOLIO_PHONE ?? "",
   github: "https://github.com/Berakhah",
   githubHandle: "@Berakhah",
   linkedin: "https://www.linkedin.com/in/bereket-tilahun-488003232/",
@@ -26,7 +28,9 @@ export const site = {
   upwork: "https://www.upwork.com/freelancers/~01645da719eb4829ed",
 };
 
-export const directContact = (s = site) => s.contactMode !== "upwork";
+// Direct contact is published only when asked for AND an email is supplied,
+// so a build without the env vars can never emit an empty mailto: link.
+export const directContact = (s = site) => s.contactMode !== "upwork" && Boolean(s.email);
 
 export const nav = [
   { label: "Work", href: "/#work" },
