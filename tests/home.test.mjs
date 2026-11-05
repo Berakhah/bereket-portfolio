@@ -23,7 +23,7 @@ test("hero: serif headline with one signal emphasis, portrait, two CTAs", () => 
 
 test("proof strip: four big metrics with plain captions", () => {
   assert.equal((home.match(/<div class="big-metric">/g) || []).length, 4);
-  assert.match(home, /data-evidence="m-tests-ap"[^>]*>759<\/button>\s*<span class="big-plain">automated tests guard the flagship scanner<\/span>/);
+  assert.match(home, /data-evidence="m-tests-ap"[^>]*>939<\/button>\s*<span class="big-plain">automated tests guard the flagship scanner<\/span>/);
 });
 
 test("work: five sticky panels with plain + technical copy, two metrics, vertical flow, case-study link", () => {
