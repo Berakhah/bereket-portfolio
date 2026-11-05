@@ -42,14 +42,14 @@ export const project = {
       },
       {
         id: "gt-tests",
-        value: "683",
+        value: "682",
         label: "test functions",
         context: "~9,600 LOC of test code in 61 files; coverage floor 75% enforced in CI and by the compose smoke test.",
         evidence: {
-          claim: "Ground Truth’s test suite contains 683 registered test functions.",
+          claim: "Ground Truth’s test suite contains 682 registered test functions.",
           method: "DETERMINISTIC",
           source: { label: "Repository — tests/ count", href: "https://github.com/Berakhah/ground-truth" },
-          basis: "Counted from a clone of the public repository on 2026-11-04: 61 test files, 9,617 lines under tests/, 683 `def test_` functions. CI and Docker Compose ‘up’ both run the suite with --cov-fail-under=75.",
+          basis: "Counted from a clone of the public repository on 2026-11-05: 61 test files, 9,617 lines under tests/, 682 `def test_` functions. CI and Docker Compose ‘up’ both run the suite with --cov-fail-under=75.",
           observedAt: "2026-11",
           caveats: [],
         },
