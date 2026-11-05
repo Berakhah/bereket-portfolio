@@ -50,7 +50,7 @@ export const project = {
           source: { label: "docs/methodology.md", href: "https://github.com/Berakhah/agent-perimeter" },
           basis: "Evaluated on a 26-case local corpus (v1.0.0). The precision/recall table is rebuilt on every commit and CI fails if it drifts.",
           observedAt: "2026-11",
-          caveats: ["Local fixture corpus — not an independent public benchmark.", "Each class has only 1–2 true positives in this corpus, so 1.00 works as a regression guard, not an estimate of real-world accuracy."],
+          caveats: ["Local fixture corpus — not an independent public benchmark.", "Each class has 1–2 true positives in this corpus; the score shows known cases stay caught, not real-world accuracy."],
         },
       },
       {
