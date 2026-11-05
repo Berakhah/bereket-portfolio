@@ -14,14 +14,14 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Runs as a Docker Compose stack with CI, threat model, ADRs and runbooks — 48 commits, 4 May → 28 Oct 2026. Its own readiness tracker says “not ready for production yet”: 16 of 18 hardening tasks are done, and both provisional SLOs are missed.",
+      "Runs as a Docker Compose stack with CI, threat model, ADRs and runbooks — 58 commits, 4 May → 5 Nov 2026. Its own readiness tracker says “not ready for production yet”: 16 of 18 hardening tasks are done, and both provisional SLOs are missed.",
   },
   category: ["Security", "Backend Systems", "Zero Trust"],
   role: "Engineer — threat model, architecture, implementation",
   tech: ["Python", "Django", "FastAPI", "Spring Boot (Java)", "TypeScript", "Keycloak (OIDC)", "Open Policy Agent", "Redis", "PostgreSQL", "nginx", "Prometheus", "Alertmanager", "Grafana", "Docker Compose", "GitHub Actions", "cosign", "Locust"],
   flow: ["Request + JWT", "JWT verify (JWKS)", "Risk evaluation", "Policy decision (OPA)", "Allow · deny · step-up · revoke"],
   links: { github: REPO },
-  licence: "No licence file (README: reference architecture, adapt freely)",
+  licence: "Apache-2.0",
 
   card: {
     differentiator:
@@ -189,10 +189,9 @@ docs/                threat model · architecture + ADRs · API contracts
       "The replay check is not atomic, so two concurrent requests on one token can both pass it (accepted).",
       "`X-Client-Ip` and `X-Geo` are trusted only from the pinned nginx address; anything that reaches the apps without going through nginx can spoof them.",
       "Single region, single node, Compose only; Kubernetes and Helm manifests are no longer maintained.",
-      "No licence file; the README describes it as a reference architecture to adapt freely.",
     ],
     currentStatus:
-      "Running, not production-ready — 48 commits between 4 May and 28 Oct 2026. A production-readiness pass (PR #2, merged 27 Oct 2026) closed 16 of 18 hardening tasks; quarantining Kubernetes/Helm and wiring one SOC dashboard to real data remain, along with the SLO miss and five open owner decisions. No licence file.",
+      "Running, not production-ready — 58 commits between 4 May and 5 Nov 2026. A production-readiness pass (PR #2, merged 27 Oct 2026) closed 16 of 18 hardening tasks; quarantining Kubernetes/Helm and wiring one SOC dashboard to real data remain, along with the SLO miss and five open owner decisions. Licence: Apache-2.0.",
     repoNote: `Public repository: ${REPO.replace("https://", "")}.`,
   },
 };
