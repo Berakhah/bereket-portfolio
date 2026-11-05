@@ -62,7 +62,7 @@ export const project = {
           claim: "A realistic mutating portal with a mutation engine ships as an open-source artifact.",
           method: "HUMAN",
           source: { label: "Design brief — test bench; author statement 2026-09-16" },
-          basis: "Login, search, results table, detail page, export; parameterised mutations (class renames, DOM restructuring, column reordering, table-to-div conversion) plus adversarial mutations — a decoy adjacent column with plausible values. Measured on the fixed bench on one pinned day, with history (2026-10-16): 8 of 8 benign classes accepted; 3 of 7 adversarial classes refused, and the other 4 wrote only from the correct nodes, so wrong-node writes were 0 of 7 against the answer key. On run one, with no history, a value swap on the correct nodes can only be caught by the person confirming the run.",
+          basis: "Login, search, results table, detail page, export; parameterised mutations (class renames, DOM restructuring, column reordering, table-to-div conversion) plus adversarial mutations — a decoy adjacent column with plausible values. Measured on the fixed bench on one pinned day, with history (2026-10-16): 8 of 8 benign classes accepted; 3 of 7 adversarial classes rejected, and the other 4 wrote only from the correct nodes, so wrong-node writes were 0 of 7 against the answer key. On run one, with no history, a value swap on the correct nodes can only be caught by the person confirming the run.",
           observedAt: "2026-09",
           caveats: ["Reported by the author; the public repository is the verification path."],
         },
@@ -151,7 +151,7 @@ web/             (planned) Targets · Task spec editor · Run timeline
       {
         title: "The test bench is the piece nobody else builds",
         body:
-          "You cannot demonstrate self-healing without pages that change, and you cannot ethically hammer third-party sites for ninety days to get them. The bench ships a realistic portal with a mutation engine, plus adversarial mutations designed to induce wrong heals — a decoy adjacent column with plausible values. On the fixed bench the gate refused 3 of 7 adversarial classes; the other 4 wrote only from the correct nodes, so wrong-node writes were 0 of 7 against the answer key. That second number matters more.",
+          "You cannot demonstrate self-healing without pages that change, and you cannot ethically hammer third-party sites for ninety days to get them. The bench ships a realistic portal with a mutation engine, plus adversarial mutations designed to induce wrong heals — a decoy adjacent column with plausible values. On the fixed bench the gate rejected 3 of 7 adversarial classes; the other 4 wrote only from the correct nodes, so wrong-node writes were 0 of 7 against the answer key. That second number matters more.",
       },
       {
         title: "A twelve-entry blindspot register, written in advance",
