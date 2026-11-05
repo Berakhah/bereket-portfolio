@@ -12,7 +12,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Five-rung resolution cascade, six-check validation gate, assembled pipeline, heal-log evidence store and mutation test bench with a hardened scorer — 153 commits, 29 Aug → 4 Nov 2026. The web UI and HTTP API are not built yet.",
+      "Five-rung resolution cascade, seven-check validation gate, assembled pipeline, heal-log evidence store and mutation test bench with a hardened scorer — 156 commits, 29 Aug → 5 Nov 2026. The web UI and HTTP API are not built yet.",
   },
   category: ["Systems Design", "Trustworthy Automation"],
   role: "Sole engineer — threat modelling, architecture, test strategy",
@@ -41,16 +41,16 @@ export const project = {
       },
       {
         id: "sd-gate",
-        value: "6",
+        value: "7",
         label: "validation gate checks before any write",
-        context: "Type assertions → domain assertions → cross-field consistency → distributional checks → human confirmation → quarantine.",
+        context: "Format → domain → cross-field → distributional → row-key continuity → independent rung agreement → first-heal confirmation. A run that fails is quarantined.",
         evidence: {
-          claim: "Every heal passes six validation checks before any write.",
-          method: "HUMAN",
-          source: { label: "Design brief — post-heal validation gate; author statement 2026-09-16" },
-          basis: "Type/format assertions from the task spec, domain assertions (range, enum, date plausibility, currency sanity), cross-field consistency, distributional check against history (PSI/KS with warm-up and persistence), first-heal human confirmation, quarantine rather than failure.",
-          observedAt: "2026-09",
-          caveats: ["Reported by the author; the public repository is the verification path."],
+          claim: "The validation gate runs seven check classes before any write.",
+          method: "DETERMINISTIC",
+          source: { label: "selector_drift/validate/assertions/", href: "https://github.com/Berakhah/selector-drift/tree/main/selector_drift/validate/assertions" },
+          basis: "Counted from the public repository on 2026-11-05: FormatAssertion, DomainAssertion, CrossFieldAssertion, DistributionalAssertion, RowKeyContinuity, IndependentRungAgreement and FirstHealConfirmation. A run the gate does not accept goes to quarantine for a person to review.",
+          observedAt: "2026-11",
+          caveats: ["Run one has no history, so the history-based checks cannot decide and every heal is quarantined by design."],
         },
       },
       {
@@ -62,7 +62,7 @@ export const project = {
           claim: "A realistic mutating portal with a mutation engine ships as an open-source artifact.",
           method: "HUMAN",
           source: { label: "Design brief — test bench; author statement 2026-09-16" },
-          basis: "Login, search, results table, detail page, export; parameterised mutations (class renames, DOM restructuring, column reordering, table-to-div conversion) plus adversarial mutations — a decoy adjacent column with plausible values. Every mutation class gets a test asserting the cascade heals; every adversarial mutation gets a test asserting the gate refuses.",
+          basis: "Login, search, results table, detail page, export; parameterised mutations (class renames, DOM restructuring, column reordering, table-to-div conversion) plus adversarial mutations — a decoy adjacent column with plausible values. Measured on the fixed bench on one pinned day, with history (2026-10-16): 8 of 8 benign classes accepted; 3 of 7 adversarial classes refused, and the other 4 wrote only from the correct nodes, so wrong-node writes were 0 of 7 against the answer key. On run one, with no history, a value swap on the correct nodes can only be caught by the person confirming the run.",
           observedAt: "2026-09",
           caveats: ["Reported by the author; the public repository is the verification path."],
         },
@@ -151,7 +151,7 @@ web/             (planned) Targets · Task spec editor · Run timeline
       {
         title: "The test bench is the piece nobody else builds",
         body:
-          "You cannot demonstrate self-healing without pages that change, and you cannot ethically hammer third-party sites for ninety days to get them. The bench ships a realistic portal with a mutation engine, plus adversarial mutations designed to induce wrong heals — a decoy adjacent column with plausible values. Every mutation class gets a test asserting the cascade heals; every adversarial mutation gets a test asserting the gate refuses. The second set matters more.",
+          "You cannot demonstrate self-healing without pages that change, and you cannot ethically hammer third-party sites for ninety days to get them. The bench ships a realistic portal with a mutation engine, plus adversarial mutations designed to induce wrong heals — a decoy adjacent column with plausible values. On the fixed bench the gate refused 3 of 7 adversarial classes; the other 4 wrote only from the correct nodes, so wrong-node writes were 0 of 7 against the answer key. That second number matters more.",
       },
       {
         title: "A twelve-entry blindspot register, written in advance",
@@ -189,13 +189,14 @@ web/             (planned) Targets · Task spec editor · Run timeline
     ],
     limitations: [
       "No web UI or HTTP API yet; the product runs as a pipeline and CLI.",
-      "No current measure of how often the gate rejects benign heals: the 60-run campaign predates a bench fix and has not been re-run. The 9 benign-day rejections it recorded were traced to the bench defect, not the gate.",
+      "No multi-day measure of how often the gate rejects benign heals: the 60-run campaign predates a bench fix and has not been re-run. The 9 benign-day rejections it recorded were traced to the bench defect, not the gate. On the fixed bench, one pinned day accepted 8 of 8 benign classes.",
+      "With no history, on run one, a value swap on the correct nodes can only be caught by the person confirming the run.",
       "Rung 3 resolved nothing on the bench, because rung 2 looks for the same label text and runs first.",
       "The ninety-day heal log and its proof-point figures are commitments, not published results.",
       "Visual grounding depends on client opt-in; without it, rung 5 escalates to humans.",
     ],
     currentStatus:
-      "Running — resolution cascade, validation gate, assembled pipeline, heal-log evidence store and mutation test bench with scorer; 153 commits between 29 Aug and 4 Nov 2026. Web UI and API not built yet. Licence: Apache-2.0.",
+      "Running — resolution cascade, validation gate, assembled pipeline, heal-log evidence store and mutation test bench with scorer; 156 commits between 29 Aug and 5 Nov 2026. Web UI and API not built yet. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/selector-drift.",
   },

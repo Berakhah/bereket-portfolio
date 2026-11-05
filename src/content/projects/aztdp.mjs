@@ -192,7 +192,7 @@ docs/                threat model · architecture + ADRs · API contracts
       "No licence file; the README describes it as a reference architecture to adapt freely.",
     ],
     currentStatus:
-      "Running, not production-ready — 48 commits between 4 May and 28 Oct 2026. A production-readiness pass (PR #2, merged 27 Oct 2026) closed 16 of 18 hardening tasks; quarantining Kubernetes/Helm and wiring one SOC dashboard to real data remain, along with the SLO miss and five open owner decisions. No licence file.",
+      "Running, not production-ready — 53 commits between 4 May and 5 Nov 2026. A production-readiness pass (PR #2, merged 27 Oct 2026) closed 16 of 18 hardening tasks; quarantining Kubernetes/Helm and wiring one SOC dashboard to real data remain, along with the SLO miss and five open owner decisions. No licence file.",
     repoNote: `Public repository: ${REPO.replace("https://", "")}.`,
   },
 };
