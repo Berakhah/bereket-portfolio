@@ -14,7 +14,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Runs as a Docker Compose stack with CI, threat model, ADRs and runbooks — 48 commits, 4 May → 28 Oct 2026. Its own readiness tracker says “not ready for production yet”: 16 of 18 hardening tasks are done, and both provisional SLOs are missed.",
+      "Runs as a Docker Compose stack with CI, threat model, ADRs and runbooks — 53 commits, 4 May → 5 Nov 2026. Its own readiness tracker says “not ready for production yet”: 16 of 18 hardening tasks are done, and both provisional SLOs are missed.",
   },
   category: ["Security", "Backend Systems", "Zero Trust"],
   role: "Engineer — threat model, architecture, implementation",

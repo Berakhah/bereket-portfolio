@@ -11,7 +11,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Running — 257 commits, 29 Aug → 4 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI and the bank-change hard stop. A 15 Oct self-audit found it not yet ready for client writeback; its fixes are under way.",
+      "Running — 265 commits, 29 Aug → 5 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI and the bank-change hard stop. A 15 Oct self-audit found it not yet ready for client writeback; its fixes are under way.",
   },
   category: ["Trustworthy Automation", "Backend Systems", "Security"],
   role: "Sole engineer — domain modelling, implementation, security posture",
