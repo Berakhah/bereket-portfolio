@@ -19,12 +19,18 @@ before(() => execFileSync(process.execPath, ["build.mjs"], { cwd: ROOT, stdio: "
 
 test("upwork mode: no email, phone, LinkedIn or PDF résumé on any page", { skip: site.contactMode !== "upwork" }, () => {
   const digits = site.phone.replace(/\D/g, "");
+  const secrets = [site.email, site.phone, digits].filter(Boolean);
   for (const p of pages()) {
     const html = readFileSync(join(OUT, p), "utf8");
     assert.doesNotMatch(html, /mailto:|tel:|linkedin\.com|Bereket_Tilahun_Resume\.pdf/i, p);
-    assert.ok(!html.includes(site.email), `${p} contains the email`);
-    assert.ok(!html.includes(site.phone) && !html.includes(digits), `${p} contains the phone`);
+    for (const v of secrets) assert.ok(!html.includes(v), `${p} contains a contact value`);
     assert.ok(html.includes(site.upwork), `${p} links the Upwork profile`);
   }
   assert.equal(existsSync(join(OUT, "assets", "Bereket_Tilahun_Resume.pdf")), false);
+});
+
+test("source holds no email address or phone number", () => {
+  const src = readFileSync(join(ROOT, "src", "content", "person.mjs"), "utf8");
+  assert.doesNotMatch(src, /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}/);
+  assert.doesNotMatch(src, /\+\d{3}[\s\d]{6,}/);
 });

@@ -509,7 +509,7 @@ test("every page has the curtain before the header and the Email pill in the hea
     const c = html.indexOf('<div class="curtain" aria-hidden="true"></div>');
     const h = html.indexOf('<header class="site-head">');
     assert.ok(c > -1 && c < h);
-    assert.match(html, /<a class="btn btn-signal btn-sm head-cta" href="mailto:[removed]">Email<\/a>/);
+    assert.match(html, /<a class="btn btn-signal btn-sm head-cta" href="mailto:you@example.com">Email<\/a>/);
   }
 });
 
@@ -1329,7 +1329,7 @@ test("hero: serif headline with one signal emphasis, portrait, two CTAs", () => 
   assert.match(home, /<h1 class="hero-h rv" id="hero-h">Systems that stay <em class="hero-em">trustworthy<\/em> when everything else changes\.<\/h1>/);
   assert.match(home, /<picture class="portrait hero-portrait">/);
   assert.match(home, /fetchpriority="high"/);
-  assert.match(home, /<a class="btn btn-signal" href="mailto:[removed]">Email me/);
+  assert.match(home, /<a class="btn btn-signal" href="mailto:you@example.com">Email me/);
   assert.match(home, /<a class="btn btn-ink" href="\/resume.html">Résumé/);
   assert.doesNotMatch(home, /data-boot|hero-graph|hero-texture|class="scene"|data-hero/);
 });
