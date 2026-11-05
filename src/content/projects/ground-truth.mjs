@@ -13,7 +13,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Harness, statistics, LLM-judge path, publication pipeline and all six UI screens are built and running — 184 commits, 29 Aug → 4 Nov 2026. The real provider sweep has not run yet.",
+      "Harness, statistics, LLM-judge path, publication pipeline and all six UI screens are built and running — 186 commits, 29 Aug → 5 Nov 2026. The real provider sweep has not run yet.",
   },
   category: ["AI & Evaluation", "Evidence"],
   role: "Sole engineer — design, statistics, implementation, publication",
@@ -215,7 +215,7 @@ web/            leaderboard · items · judge · calibration · regression · tr
       "External validity is unmeasured by design and stated as such on the methodology page.",
     ],
     currentStatus:
-      "Running — harness, statistics, LLM-judge path, publication pipeline and all six UI screens; 184 commits between 29 Aug and 4 Nov 2026. Next: the Phase 0 provider probe and the real sweep, drafted in docs/run-schedule.md. Licence: Apache-2.0.",
+      "Running — harness, statistics, LLM-judge path, publication pipeline and all six UI screens; 186 commits between 29 Aug and 5 Nov 2026. Next: the Phase 0 provider probe and the real sweep, drafted in docs/run-schedule.md. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/ground-truth.",
   },

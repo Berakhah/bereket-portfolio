@@ -215,7 +215,7 @@ export const project = {
       "The synthetic corpus is the demo; real-document baselines are run per client under the baseline study protocol.",
     ],
     currentStatus:
-      "Running — 257 commits between 29 Aug and 4 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI, field routing and the I3 bank-change hard stop. Not yet ready for client writeback, per its own 15 Oct 2026 audit; five findings remain open. Licence: Apache-2.0.",
+      "Running — 265 commits between 29 Aug and 5 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI, field routing and the I3 bank-change hard stop. Not yet ready for client writeback, per its own 15 Oct 2026 audit; five findings remain open. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/ledger-sense.",
   },
