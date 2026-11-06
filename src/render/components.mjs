@@ -111,7 +111,7 @@ export const evidenceDrawer = () => `
   <div class="drawer-backdrop" data-drawer-close></div>
   <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" tabindex="-1">
     <div class="drawer-head">
-      <span class="drawer-eyebrow"><span class="mono">CLAIM → EVIDENCE</span></span>
+      <span class="drawer-eyebrow" id="drawer-title"><span class="mono">CLAIM → EVIDENCE</span></span>
       <button class="drawer-close" type="button" data-drawer-close aria-label="Close evidence panel">${icon("close")}</button>
     </div>
     <div class="drawer-body" id="drawer-body"><!-- rendered by main.js --></div>

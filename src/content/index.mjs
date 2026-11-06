@@ -8,12 +8,11 @@ import { project as selectorDrift } from "./projects/selector-drift.mjs";
 import { project as aztdp } from "./projects/aztdp.mjs";
 
 // Narrative order, not alphabetical: the sample audit leads because audits are the offer.
-const projects = [shopfast, agentPerimeter, groundTruth, ledgerSense, selectorDrift, aztdp];
+const projects = [shopfast, agentPerimeter, ledgerSense, aztdp, groundTruth, selectorDrift];
 
-// Homepage order, separate from the case-study order above: the sample first,
-// then the tools.
-const sampleProject = shopfast;
-const toolProjects = [agentPerimeter, ledgerSense, aztdp, groundTruth, selectorDrift];
+// The homepage and case studies share this order and numbering: the sample,
+// then the tools numbered from 01.
+const [sampleProject, ...toolProjects] = projects;
 
 // All evidence chains, keyed by metric id — embedded per page as JSON for the
 // Claim → Evidence drawer.

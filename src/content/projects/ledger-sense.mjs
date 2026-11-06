@@ -11,7 +11,7 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Running — 265 commits, 29 Aug → 5 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI and the bank-change hard stop. A 15 Oct self-audit found it not yet ready for client writeback; its fixes are under way.",
+      "Running — 266 commits, 29 Aug → 5 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI and the bank-change hard stop. A 15 Oct self-audit found it not yet ready for client writeback; its fixes are under way.",
   },
   category: ["Trustworthy Automation", "Backend Systems", "Security"],
   role: "Sole engineer — domain modelling, implementation, security posture",
@@ -212,11 +212,11 @@ export const project = {
     limitations: [
       "Calibration curves (isotonic/Platt per field type) are consumed from the Ground Truth project; an uncalibrated field type routes to review.",
       "Accounting-system writeback creates unpaid QuickBooks Bills that post to Accounts Payable immediately (QBO has no draft Bill), so the client signs off on that effect; the CSV/IIF export is the no-ledger-effect fallback.",
-      "Open audit findings: extraction still runs outside the parser’s resource boundary (LS-11), valid text-rich PDFs can be rejected by the parser queue (LS-12), reconciliation reads demo-only state (LS-14), baseline studies are not yet durable or resumable (LS-15), and QBO reversal lacks durable recovery (LS-34).",
+      "Open Critical and High audit findings: extraction still runs outside the parser’s resource boundary (LS-11), valid text-rich PDFs can be rejected by the parser queue (LS-12), reconciliation reads demo-only state (LS-14), baseline studies are not yet durable or resumable (LS-15), and QBO reversal lacks durable recovery (LS-34). All 18 Medium findings (LS-16 to LS-33) are also open.",
       "The synthetic corpus is the demo; real-document baselines are run per client under the baseline study protocol.",
     ],
     currentStatus:
-      "Running — 265 commits between 29 Aug and 5 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI, field routing and the I3 bank-change hard stop. Not yet ready for client writeback, per its own 15 Oct 2026 audit; five findings remain open. Licence: Apache-2.0.",
+      "Running — 266 commits between 29 Aug and 5 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI, field routing and the I3 bank-change hard stop. Not yet ready for client writeback, per its own 15 Oct 2026 audit; five Critical or High findings and 18 Medium findings remain open. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/ledger-sense.",
   },
