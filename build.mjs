@@ -6,12 +6,12 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  site, nav, heroMetrics, principles, timeline, stack, about, experience,
-  projects, evidenceIndex,
+  site, nav, hero, audit, principles, timeline, stack, about, experience,
+  projects, sampleProject, toolProjects, evidenceIndex,
 } from "./src/content/index.mjs";
 import { directContact } from "./src/content/person.mjs";
 import {
-  esc, md, prose, bullets, icon, flowStepper, metricsRow, bigMetric, portrait,
+  esc, md, prose, bullets, icon, flowStepper, metricsRow, portrait,
   evidenceScript, evidenceDrawer, repoChip, prov,
 } from "./src/render/components.mjs";
 import { head, scripts, header, footer } from "./src/render/layout.mjs";
@@ -28,6 +28,9 @@ const src = (...p) => readFileSync(join(ROOT, "src", ...p), "utf8");
 
 const CSS = ["fonts", "tokens", "base", "home", "pages", "motion"].map((f) => src("css", `${f}.css`)).join("\n");
 
+// Print rules for the résumé only, appended to that page's stylesheet.
+const RESUME_PRINT_CSS = src("css", "resume-print.css");
+
 const BUNDLE_SRC = [
   src("vendor", "gsap.min.js"),
   src("vendor", "ScrollTrigger.min.js"),
@@ -37,8 +40,8 @@ const BUNDLE_SRC = [
 const BUNDLE_HASH = createHash("sha256").update(BUNDLE_SRC).digest("hex").slice(0, 10);
 const BUNDLE_PATH = `/assets/js/app.${BUNDLE_HASH}.js`;
 
-const page = ({ title, desc, path, bodyClass = "", main, jsonLd = null, preloadPortrait = false }) => `${head({
-  title, desc, path, siteUrl: site.siteUrl, jsonLd, css: CSS, preloadPortrait,
+const page = ({ title, desc, path, bodyClass = "", main, jsonLd = null, preloadPortrait = false, css = CSS, siteName }) => `${head({
+  title, desc, path, siteUrl: site.siteUrl, jsonLd, css, preloadPortrait, siteName,
 })}
 <body class="${bodyClass}">
 <div class="curtain" aria-hidden="true"></div>
@@ -67,9 +70,11 @@ const sectionHead = (id, title, intro = "") => `
 // Work panel — one project, one viewport, sticky-stacked.
 // ---------------------------------------------------------------------------
 
-const panel = (p, i) => {
-  const n = String(i + 1).padStart(2, "0");
-  const lead = p.card.metrics.slice(0, 2);
+const panel = (p, n) => {
+  // card.lead picks the homepage metrics when they aren't the first two.
+  const lead = p.card.lead
+    ? p.card.lead.map((id) => p.card.metrics.find((m) => m.id === id))
+    : p.card.metrics.slice(0, 2);
   const chips = p.tech.slice(0, 6);
   const more = p.tech.length - chips.length;
   return `
@@ -78,7 +83,7 @@ const panel = (p, i) => {
     <div class="panel-copy">
       <span class="panel-num mono">${n}</span>
       <h3 class="panel-name" id="pn-${p.slug}"><a href="/work/${p.slug}.html">${esc(p.name)}</a></h3>
-      <p class="panel-plain">${esc(p.plain)}</p>
+      <p class="panel-plain">${esc(p.card.plain ?? p.plain)}</p>
       <p class="panel-tech">${md(p.card.differentiator)}</p>
       <div class="panel-metrics">
         ${lead.map((m) => `<div class="metric">
@@ -119,31 +124,44 @@ const indexPage = () => {
 <section class="hero" aria-labelledby="hero-h">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow rv">${esc(site.title)} · ${esc(site.location.split(",")[0])} · remote-ready</p>
-      <h1 class="hero-h rv" id="hero-h">Systems that stay <em class="hero-em">trustworthy</em> when everything else changes.</h1>
-      <p class="hero-lede rv" style="--d:80ms">${esc(site.positioning)}</p>
+      <p class="eyebrow rv">${esc(hero.eyebrow)}</p>
+      <h1 class="hero-h rv" id="hero-h">Can one customer see <em class="hero-em">another’s</em> data?</h1>
+      <p class="hero-lede rv" style="--d:80ms">${esc(hero.lede)}</p>
       <div class="hero-ctas rv" style="--d:140ms">
         ${directContact()
           ? `<a class="btn btn-signal" href="mailto:${esc(site.email)}">Email me ${icon("arrowUpRight", "icon-xs")}</a>`
           : `<a class="btn btn-signal" href="${esc(site.upwork)}" rel="noopener" target="_blank">Hire me on Upwork ${icon("arrowUpRight", "icon-xs")}</a>`}
-        <a class="btn btn-ink" href="/resume.html">Résumé ${icon("file", "icon-xs")}</a>
+        <a class="btn btn-ink" href="/work/${sampleProject.slug}.html">See a sample audit ${icon("arrow", "icon-xs")}</a>
       </div>
     </div>
     ${portrait(1200, "hero-portrait", true)}
   </div>
+</section>
+
+<section class="section" id="audit" aria-labelledby="audit-h">
   <div class="wrap">
-    <div class="proof rv" style="--d:200ms" aria-label="Headline figures — activate any number for its evidence">
-      ${heroMetrics.slice(0, 4).map(bigMetric).join("")}
-    </div>
+    ${sectionHead("audit-h", audit.title, audit.intro)}
+    <ol class="principles">
+      ${audit.steps.map((s, i) => `<li class="principle rv" style="--d:${i * 60}ms">
+        <span class="principle-num mono" aria-hidden="true">Step ${i + 1}</span>
+        <div>
+          <h3 class="principle-title">${esc(s.title)}</h3>
+          <p class="principle-body">${md(s.body)}</p>
+        </div>
+      </li>`).join("")}
+    </ol>
+    <p class="section-intro rv" style="margin-top:2rem">${esc(audit.pricing)} <a class="panel-cta" href="${esc(site.upwork)}" rel="noopener" target="_blank">Start on Upwork ${icon("arrow", "icon-xs")}</a></p>
   </div>
 </section>
 
 <section class="section section-work" id="work" aria-labelledby="work-h">
   <div class="wrap work-head">
-    ${sectionHead("work-h", "Five systems, built to be distrusted.", "Each one is designed to be checked, not believed. Every figure opens its source; every case study says what isn’t finished.")}
+    ${sectionHead("work-h", "One sample audit, five systems.", "First, the report a client gets. Then the tools I’ve built, all personal open-source work from 2026. Every figure opens its source; every case study says what isn’t finished.")}
   </div>
   <div class="panels">
-    ${projects.map(panel).join("")}
+    ${panel(sampleProject, "Sample")}
+<div class="wrap work-head">${sectionHead("tools-h", "Tools I’ve built.", "Personal projects, not client work. Each says plainly where it stands.")}
+</div>${toolProjects.map((p, i) => panel(p, String(i + 1).padStart(2, "0"))).join("")}
   </div>
 </section>
 
@@ -166,7 +184,7 @@ const indexPage = () => {
 <section class="section" id="path" aria-label="Path and stack">
   <div class="wrap path-grid">
     <div>
-      <h2 class="subblock-h rv">Four years, five modes.</h2>
+      <h2 class="subblock-h rv">Path.</h2>
       <ol class="modes">
         ${timeline.map((t) => `<li class="mode rv">
           <span class="mode-range mono">${esc(t.range)}</span>
@@ -212,12 +230,14 @@ const indexPage = () => {
       ${directContact() ? `<a href="tel:${esc(site.phone.replace(/\s/g, ""))}"><span>${esc(site.phone)}</span><span class="mono">PHONE</span></a>` : ""}
     </div>
     <p class="contact-avail rv">${esc(site.availability)}</p>
+    <p class="contact-avail rv">${esc(site.availabilityRoles)}</p>
   </div>
 </section>`;
 
   return page({
-    title: "Bereket Tilahun — Backend Security Engineer",
-    desc: site.positioning,
+    title: hero.metaTitle,
+    desc: hero.metaDesc,
+    siteName: hero.metaTitle,
     path: "/",
     bodyClass: "page-home",
     main,
@@ -328,6 +348,8 @@ ${caseSections(p)}
 // Résumé page — web-readable + download action
 // ---------------------------------------------------------------------------
 
+const UPWORK_RESUME_PDF = "bereket-tilahun-resume.pdf";
+
 const resumePage = () => {
   const main = `
 <section class="resume-hero">
@@ -339,8 +361,11 @@ const resumePage = () => {
       ${directContact()
         ? `<a class="btn btn-signal" href="/assets/Bereket_Tilahun_Resume.pdf" download>Download PDF ${icon("download", "icon-xs")}</a>
       <a class="btn btn-ink" href="mailto:${esc(site.email)}">${esc(site.email)}</a>`
-        : `<a class="btn btn-signal" href="${esc(site.upwork)}" rel="noopener" target="_blank">Hire me on Upwork ${icon("arrowUpRight", "icon-xs")}</a>`}
+        : `<a class="btn btn-signal" href="${esc(site.upwork)}" rel="noopener" target="_blank">Hire me on Upwork ${icon("arrowUpRight", "icon-xs")}</a>
+      <a class="btn btn-ink" href="/assets/${UPWORK_RESUME_PDF}" download>Download PDF ${icon("download", "icon-xs")}</a>`}
     </div>
+    <p class="cs-plain rv" style="--d:220ms">Fixed-price security reviews for AI-built Supabase, Next.js and Stripe apps on Upwork. ${esc(site.availabilityRoles)}</p>
+    <p class="print-only mono" style="display:none;font-size:.8rem">berakhah.github.io · github.com/Berakhah · upwork.com/freelancers/~01645da719eb4829ed</p>
   </div>
 </section>
 <div class="wrap resume-body">
@@ -348,8 +373,11 @@ const resumePage = () => {
     <div class="resume-role-head"><h2 class="resume-title" id="rr${i}">${esc(r.title)}</h2><span class="resume-range mono">${esc(r.range)}</span></div>
     <p class="resume-org">${esc(r.org)} · ${esc(r.loc)}</p>
     ${r.note ? `<p class="resume-org">${esc(r.note)}</p>` : ""}
-    ${bullets(r.points, "bullets resume-points")}
+    ${r.points.length ? bullets(r.points, "bullets resume-points") : ""}
   </section>`).join("")}
+  <section class="resume-role rv"><h2 class="resume-title">Projects</h2>
+    <ul class="bullets resume-points">${experience.projects.map((x) => `<li><a href="${esc(x.href)}" style="display:inline-block;padding-block:.15rem"><strong>${esc(x.name)}</strong></a> ${esc(x.text)}</li>`).join("")}</ul>
+  </section>
   <section class="resume-role rv"><h2 class="resume-title">Skills</h2>
     <div class="stack-runs">${stack.map((s) => `<div class="stack-run"><p class="stack-h">${esc(s.group)}</p><p class="stack-items">${s.items.map(esc).join(" · ")}</p></div>`).join("")}</div>
   </section>
@@ -357,10 +385,11 @@ const resumePage = () => {
 </div>`;
   return page({
     title: `Résumé — ${site.name}`,
-    desc: `Résumé of ${site.name}, ${site.title}. Download the PDF.`,
+    desc: `Résumé of ${site.name}, Senior Software Engineer at DZ Software Engineering, Addis Ababa: backend and application security. PDF available.`,
     path: "/resume.html",
     bodyClass: "page-resume",
     main,
+    css: CSS + "\n" + RESUME_PRINT_CSS,
   });
 };
 
@@ -390,11 +419,15 @@ mkdirSync(JS_DIR, { recursive: true });
 mkdirSync(join(OUT, "work"), { recursive: true });
 for (const f of readdirSync(JS_DIR)) if (/^app\.[0-9a-f]+\.js$/.test(f)) unlinkSync(join(JS_DIR, f));
 
-// The PDF résumé carries email, phone and LinkedIn, so it ships only when the
+// This PDF résumé carries email, phone and LinkedIn, so it ships only when the
 // site publishes direct contact details (see site.contactMode).
 const RESUME_PDF = join(OUT, "assets", "Bereket_Tilahun_Resume.pdf");
 if (directContact()) copyFileSync(join(ROOT, "src", "assets", "Bereket_Tilahun_Resume.pdf"), RESUME_PDF);
 else rmSync(RESUME_PDF, { force: true });
+// The Upwork-safe PDF carries no direct contact details, so it ships in Upwork mode.
+const UPWORK_PDF_OUT = join(OUT, "assets", UPWORK_RESUME_PDF);
+if (directContact()) rmSync(UPWORK_PDF_OUT, { force: true });
+else copyFileSync(join(ROOT, "src", "assets", UPWORK_RESUME_PDF), UPWORK_PDF_OUT);
 writeFileSync(join(JS_DIR, `app.${BUNDLE_HASH}.js`), BUNDLE_SRC);
 
 writeFileSync(join(OUT, "index.html"), indexPage());
