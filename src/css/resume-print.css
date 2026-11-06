@@ -1,0 +1,19 @@
+/* Résumé only: these rules are too broad for other pages. */
+@media print {
+  .print-only { display: block !important; }
+  .wrap { max-width: none !important; padding-inline: 0 !important; }
+  .resume-hero { padding-block: 0 .75rem !important; }
+  .resume-hero .wrap { gap: .5rem !important; }
+  .resume-hero .cs-title { font-size: 2.1rem !important; max-width: none !important; }
+  .resume-hero .cs-tagline { font-size: 1rem !important; }
+  .resume-hero .cs-plain { font-size: .85rem !important; max-width: none !important; }
+  .resume-body { gap: .9rem !important; font-size: .82rem; }
+  .resume-role { break-inside: auto !important; padding-top: .6rem !important; }
+  .resume-role-head, .resume-points li, .stack-run { break-inside: avoid; }
+  .resume-title { font-size: 1.15rem !important; }
+  .resume-body, .resume-points, .resume-org, .stack-items { max-width: none !important; }
+  .resume-points { gap: .2rem !important; margin-top: .3rem !important; }
+  .resume-points li, .stack-items, .resume-org { line-height: 1.4 !important; margin-block: 0 !important; }
+  .stack-run { padding-block: .3rem !important; }
+  .resume-hero .eyebrow { display: none !important; }
+}

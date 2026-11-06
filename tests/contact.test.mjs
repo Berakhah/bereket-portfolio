@@ -27,6 +27,7 @@ test("upwork mode: no email, phone, LinkedIn or PDF résumé on any page", { ski
     assert.ok(html.includes(site.upwork), `${p} links the Upwork profile`);
   }
   assert.equal(existsSync(join(OUT, "assets", "Bereket_Tilahun_Resume.pdf")), false);
+  assert.equal(existsSync(join(OUT, "assets", "bereket-tilahun-resume.pdf")), true, "Upwork-safe PDF ships");
 });
 
 test("source holds no email address or phone number", () => {

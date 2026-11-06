@@ -43,5 +43,8 @@ test("404 is a single serif line with a link home", () => {
 test("résumé: roles, skills, education, Upwork CTA, no scenes", () => {
   assert.match(resume, /<a class="btn btn-signal" href="https:\/\/www.upwork.com\/freelancers\/~01645da719eb4829ed" rel="noopener" target="_blank">Hire me on Upwork/);
   assert.ok((resume.match(/<section class="resume-role rv"/g) || []).length >= 4);
+  assert.match(resume, /href="\/assets\/bereket-tilahun-resume\.pdf" download/);
+  assert.match(resume, /<h2 class="resume-title">Projects<\/h2>/);
+  assert.doesNotMatch(resume, /Junior Software Engineer|CVEs|15\+ production/);
   assert.doesNotMatch(resume, /data-boot|class="scene"|class="panel"/);
 });

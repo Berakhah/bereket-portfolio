@@ -10,9 +10,9 @@ export const project = {
   statement: "A wrong heal is worse than a broken selector.",
   status: {
     code: "running",
-    label: "Running",
+    label: "In development",
     detail:
-      "Five-rung resolution cascade, seven-check validation gate, assembled pipeline, heal-log evidence store and mutation test bench with a hardened scorer — 156 commits, 29 Aug → 5 Nov 2026. The web UI and HTTP API are not built yet.",
+      "Five-rung resolution cascade, seven-check validation gate, assembled pipeline, heal-log evidence store and mutation test bench with a hardened scorer — 156 commits, 29 Aug → 5 Nov 2026. The web UI and HTTP API are not built yet, a fresh clone doesn’t install yet, and the tests don’t run in CI on main.",
   },
   category: ["Systems Design", "Trustworthy Automation"],
   role: "Sole engineer — threat modelling, architecture, test strategy",
@@ -22,6 +22,7 @@ export const project = {
   licence: "Apache-2.0",
 
   card: {
+    plain: "Keeps data extraction from legacy business systems working when their screens change, and refuses to guess. In development.",
     differentiator:
       "The heal log is the product: a wrong heal silently returns plausible, incorrect numbers into an accounting system for weeks — so the validation gate, not the heal, is the centre of the design.",
     metrics: [
@@ -196,7 +197,7 @@ web/             (planned) Targets · Task spec editor · Run timeline
       "Visual grounding depends on client opt-in; without it, rung 5 escalates to humans.",
     ],
     currentStatus:
-      "Running — resolution cascade, validation gate, assembled pipeline, heal-log evidence store and mutation test bench with scorer; 156 commits between 29 Aug and 5 Nov 2026. Web UI and API not built yet. Licence: Apache-2.0.",
+      "In development — resolution cascade, validation gate, assembled pipeline, heal-log evidence store and mutation test bench with scorer; 156 commits between 29 Aug and 5 Nov 2026. Web UI and API not built yet. Licence: Apache-2.0.",
     repoNote:
       "Public repository: github.com/Berakhah/selector-drift.",
   },
