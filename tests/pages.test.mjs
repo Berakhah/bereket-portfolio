@@ -16,7 +16,7 @@ before(() => {
 });
 
 test("case study hero: number, serif title, italic tagline, plain sentence, prose status, meta row", () => {
-  assert.match(cs, /<span class="cs-num mono rv">03<\/span>/);
+  assert.match(cs, /<span class="cs-num mono rv">04<\/span>/);
   assert.match(cs, /<h1 class="cs-title rv" style="--d:60ms">Ledger Sense<\/h1>/);
   assert.match(cs, /<p class="cs-tagline rv"/);
   assert.match(cs, /<p class="cs-plain rv"[^>]*>Reads construction invoices/);
