@@ -2,7 +2,7 @@
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { site } from "../content/index.mjs";
+import { site, hero } from "../content/index.mjs";
 import { esc } from "../render/components.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -24,8 +24,8 @@ const html = `<!doctype html>
 <body>
 <div class="in">
   <div>
-    <p class="eyebrow">${esc(site.title)} · ${esc(site.location.split(",")[0])}</p>
-    <h1>Systems that stay <em>trustworthy</em> when everything else changes.</h1>
+    <p class="eyebrow">${esc(hero.eyebrow)}</p>
+    <h1>Can one customer see <em>another’s</em> data?</h1>
     <p class="name">${esc(site.name)} <span>· berakhah.github.io</span></p>
   </div>
   <img class="pic" src="../../site/assets/img/bereket-600.jpg" alt="">

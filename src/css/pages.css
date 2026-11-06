@@ -18,7 +18,7 @@
 .cs-toc a:hover { color: var(--ink); }
 .cs-toc a.current { color: var(--signal); border-left-color: var(--signal); }
 .toc-back { margin-top: 1.5rem; }
-.cs-body { max-width: 44rem; display: grid; gap: clamp(3rem, 7vw, 5.5rem); }
+.cs-body { min-width: 0; overflow-wrap: anywhere; max-width: 44rem; display: grid; gap: clamp(3rem, 7vw, 5.5rem); }
 .cs-sec { display: grid; gap: 1.25rem; scroll-margin-top: calc(var(--head-h) + 1rem); }
 .cs-h { font-family: var(--serif); font-weight: 500; font-size: var(--fs-title); line-height: 1; letter-spacing: -.02em; }
 .cs-sec p { max-width: 62ch; }
@@ -47,7 +47,7 @@
 .pager-name { font-family: var(--serif); font-weight: 500; font-size: var(--fs-3); letter-spacing: -.02em; }
 .pager-link:hover .pager-name { color: var(--signal); }
 @media (max-width: 56em) {
-  .cs-layout { grid-template-columns: 1fr; }
+  .cs-layout { grid-template-columns: minmax(0, 1fr); }
   .cs-toc { position: static; }
 }
 
