@@ -1,5 +1,5 @@
 // Aggregates the full content model in one import point for the renderer.
-import { site, nav, heroMetrics, principles, timeline, stack, about, experience } from "./person.mjs";
+import { site, nav, hero, audit, heroMetrics, principles, timeline, stack, about, experience } from "./person.mjs";
 import { project as shopfast } from "./projects/shopfast-demo.mjs";
 import { project as agentPerimeter } from "./projects/agent-perimeter.mjs";
 import { project as groundTruth } from "./projects/ground-truth.mjs";
@@ -9,6 +9,11 @@ import { project as aztdp } from "./projects/aztdp.mjs";
 
 // Narrative order, not alphabetical: the sample audit leads because audits are the offer.
 const projects = [shopfast, agentPerimeter, groundTruth, ledgerSense, selectorDrift, aztdp];
+
+// Homepage order, separate from the case-study order above: the sample first,
+// then the tools.
+const sampleProject = shopfast;
+const toolProjects = [agentPerimeter, ledgerSense, aztdp, groundTruth, selectorDrift];
 
 // All evidence chains, keyed by metric id — embedded per page as JSON for the
 // Claim → Evidence drawer.
@@ -21,7 +26,7 @@ for (const p of projects) {
 }
 
 export {
-  site, nav, heroMetrics, principles, timeline, stack, about, experience,
-  projects, evidenceIndex,
+  site, nav, hero, audit, heroMetrics, principles, timeline, stack, about, experience,
+  projects, sampleProject, toolProjects, evidenceIndex,
   shopfast, agentPerimeter, groundTruth, ledgerSense, selectorDrift, aztdp,
 };

@@ -8,7 +8,7 @@ export const project = {
   slug: "shopfast-demo",
   name: "ShopFast sample audit",
   tagline: "A pre-launch security audit of an AI-built Next.js + Supabase + Stripe store, with every finding proven",
-  plain: "A demo store with the eight flaws AI coding tools ship most often, audited the way I'd audit a client's app, each finding proven and fixed.",
+  plain: "A demo store with the eight flaws AI coding tools ship most often, audited the way I'd audit a client's app. A demo, not client work: each finding is proven and comes with its fix.",
   statement: "A finding you can't reproduce is an opinion.",
   status: {
     code: "running",

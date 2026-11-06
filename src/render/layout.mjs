@@ -11,7 +11,7 @@ const PRELOAD_FONTS = [
   "/assets/fonts/plex-mono-normal-500.woff2",
 ];
 
-export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogType = "website", css = "", preloadPortrait = false }) => {
+export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogType = "website", css = "", preloadPortrait = false, siteName = "Bereket Tilahun — Backend Security Engineer" }) => {
   const canon = siteUrl ? `\n<link rel="canonical" href="${esc(siteUrl + path)}">` : "";
   const ogUrl = siteUrl ? `\n<meta property="og:url" content="${esc(siteUrl + path)}">` : "";
   const ogImg = siteUrl ? `\n<meta property="og:image" content="${esc(siteUrl + "/assets/img/og-card.png")}">\n<meta name="twitter:image" content="${esc(siteUrl + "/assets/img/og-card.png")}">` : "";
@@ -30,7 +30,7 @@ export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogT
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:type" content="${esc(ogType)}">
-<meta property="og:site_name" content="Bereket Tilahun — Backend Security Engineer">${ogUrl}${ogImg}
+<meta property="og:site_name" content="${esc(siteName)}">${ogUrl}${ogImg}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
@@ -50,7 +50,6 @@ export const header = (path, nav, site) => `
     <a class="brand" href="/" aria-label="Bereket Tilahun — home">${esc(site.name)}</a>
     <nav class="site-nav" aria-label="Primary">
       ${nav.map((n) => `<a href="${esc(n.href)}">${esc(n.label)}</a>`).join("\n      ")}
-      <a href="/resume.html">Résumé</a>
     </nav>
     <button class="theme-btn" type="button" aria-pressed="false" aria-label="Switch to dark theme">${icon("sun", "icon-sun")}${icon("moon", "icon-moon")}</button>
     ${directContact(site)
@@ -61,7 +60,6 @@ export const header = (path, nav, site) => `
   <div class="mobile-nav" id="mobile-nav" hidden>
     <nav aria-label="Primary, mobile">
       ${nav.map((n) => `<a href="${esc(n.href)}">${esc(n.label)}</a>`).join("\n      ")}
-      <a href="/resume.html">Résumé</a>
       ${directContact(site)
         ? `<a href="mailto:${esc(site.email)}">Email</a>`
         : `<a href="${esc(site.upwork)}" rel="noopener" target="_blank">Upwork</a>`}
