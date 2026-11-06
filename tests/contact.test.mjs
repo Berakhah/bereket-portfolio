@@ -30,8 +30,10 @@ test("upwork mode: no email, phone, LinkedIn or PDF résumé on any page", { ski
   assert.equal(existsSync(join(OUT, "assets", "bereket-tilahun-resume.pdf")), true, "Upwork-safe PDF ships");
 });
 
-test("source holds no email address or phone number", () => {
+test("source holds no email address, phone number, LinkedIn URL or direct-contact PDF", () => {
   const src = readFileSync(join(ROOT, "src", "content", "person.mjs"), "utf8");
+  assert.doesNotMatch(src, /linkedin\.com/i);
+  assert.equal(existsSync(join(ROOT, "src", "assets", "Bereket_Tilahun_Resume.pdf")), false);
   assert.doesNotMatch(src, /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}/);
   assert.doesNotMatch(src, /\+\d{3}[\s\d]{6,}/);
 });

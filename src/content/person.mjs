@@ -6,13 +6,14 @@ export const site = {
   title: "Backend Security Engineer",
   location: "Addis Ababa, Ethiopia",
   reviewed: "2026-11-06",
-  // Kept out of the public repo: set PORTFOLIO_EMAIL / PORTFOLIO_PHONE when
+  // Kept out of the public repo: set PORTFOLIO_EMAIL, PORTFOLIO_PHONE,
+  // PORTFOLIO_LINKEDIN and PORTFOLIO_RESUME_PDF (a path outside the repo) when
   // building with contactMode "direct".
   email: process.env.PORTFOLIO_EMAIL ?? "",
   phone: process.env.PORTFOLIO_PHONE ?? "",
   github: "https://github.com/Berakhah",
   githubHandle: "@Berakhah",
-  linkedin: "[removed]",
+  linkedin: process.env.PORTFOLIO_LINKEDIN ?? "",
   availability:
     "Available for fixed-price security reviews on Upwork, more than 30 hours a week from UTC+3. I reply there within 12 hours on weekdays.",
   availabilityRoles:

@@ -225,7 +225,7 @@ const indexPage = () => {
     <div class="contact-links rv">
       ${directContact() ? `<a href="mailto:${esc(site.email)}"><span>${esc(site.email)}</span><span class="mono">EMAIL</span></a>` : `<a href="${esc(site.upwork)}" rel="noopener" target="_blank"><span>Bereket T. on Upwork</span><span class="mono">UPWORK</span></a>`}
       <a href="${esc(site.github)}" rel="noopener" target="_blank"><span>github.com/Berakhah</span><span class="mono">GITHUB</span></a>
-      ${directContact() ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank"><span>[removed]</span><span class="mono">LINKEDIN</span></a>` : ""}
+      ${directContact() ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank"><span>LinkedIn profile</span><span class="mono">LINKEDIN</span></a>` : ""}
       ${directContact() ? `<a href="/assets/Bereket_Tilahun_Resume.pdf" download><span>Résumé, one page</span><span class="mono">PDF</span></a>` : `<a href="/resume.html"><span>Résumé, web page</span><span class="mono">RÉSUMÉ</span></a>`}
       ${directContact() ? `<a href="tel:${esc(site.phone.replace(/\s/g, ""))}"><span>${esc(site.phone)}</span><span class="mono">PHONE</span></a>` : ""}
     </div>
@@ -305,7 +305,7 @@ const caseSections = (p) => {
 const casePage = (p, i) => {
   const prev = projects[(i - 1 + projects.length) % projects.length];
   const next = projects[(i + 1) % projects.length];
-  const n = String(i + 1).padStart(2, "0");
+  const n = i === 0 ? "Sample" : String(i).padStart(2, "0");
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
@@ -422,7 +422,10 @@ for (const f of readdirSync(JS_DIR)) if (/^app\.[0-9a-f]+\.js$/.test(f)) unlinkS
 // This PDF résumé carries email, phone and LinkedIn, so it ships only when the
 // site publishes direct contact details (see site.contactMode).
 const RESUME_PDF = join(OUT, "assets", "Bereket_Tilahun_Resume.pdf");
-if (directContact()) copyFileSync(join(ROOT, "src", "assets", "Bereket_Tilahun_Resume.pdf"), RESUME_PDF);
+if (directContact()) {
+  if (!process.env.PORTFOLIO_RESUME_PDF) throw new Error("Direct contact mode needs PORTFOLIO_RESUME_PDF");
+  copyFileSync(process.env.PORTFOLIO_RESUME_PDF, RESUME_PDF);
+}
 else rmSync(RESUME_PDF, { force: true });
 // The Upwork-safe PDF carries no direct contact details, so it ships in Upwork mode.
 const UPWORK_PDF_OUT = join(OUT, "assets", UPWORK_RESUME_PDF);
