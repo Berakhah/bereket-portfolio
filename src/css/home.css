@@ -9,7 +9,7 @@
 .hero-portrait { width: 100%; max-width: 34rem; justify-self: end; aspect-ratio: 3 / 4; }
 @media (max-width: 56em) {
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-portrait { order: -1; width: 60vw; max-width: 20rem; justify-self: start; }
+  .hero-portrait { order: 1; width: 40vw; max-width: 12rem; justify-self: start; }
 }
 
 /* ------------------------------------------------------------- proof strip */

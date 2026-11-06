@@ -21,6 +21,7 @@ export const project = {
   licence: "Apache-2.0",
 
   card: {
+    plain: "Reads construction invoices, checks the arithmetic, and only lets a human approve anything that moves money. An engineering prototype; my own audit of it is in the case study.",
     differentiator:
       "Deterministic-first architecture: Decimal money handling (no floats in the money path), sensitivity boundaries enforced structurally, writeback that never approves or pays, and a hard stop on bank-detail changes that only an attested human confirmation can clear.",
     metrics: [

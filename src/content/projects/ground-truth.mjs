@@ -23,6 +23,7 @@ export const project = {
   licence: "Apache-2.0",
 
   card: {
+    plain: "A test bench that says how accurate a document-reading model really is, with error bars anyone can recompute. The leaderboard is simulated until a real model run.",
     differentiator:
       "Every published figure is a bootstrap confidence interval, never a bare point estimate — and a stdlib-only script regenerates every leaderboard row from the published data alone, no repo checkout needed.",
     metrics: [
