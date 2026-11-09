@@ -11,7 +11,7 @@ const PRELOAD_FONTS = [
   "/assets/fonts/plex-mono-normal-500.woff2",
 ];
 
-export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogType = "website", css = "", preloadPortrait = false, siteName = "Bereket Tilahun — Backend Security Engineer", noindex = false }) => {
+export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogType = "website", css = "", preloadPortrait = false, siteName = "Bereket Tilahun — Security engineer for AI-built apps", noindex = false }) => {
   const canon = siteUrl ? `\n<link rel="canonical" href="${esc(siteUrl + path)}">` : "";
   const ogUrl = siteUrl ? `\n<meta property="og:url" content="${esc(siteUrl + path)}">` : "";
   const ogImg = siteUrl ? `\n<meta property="og:image" content="${esc(siteUrl + "/assets/img/og-card.png")}">\n<meta name="twitter:image" content="${esc(siteUrl + "/assets/img/og-card.png")}">` : "";
