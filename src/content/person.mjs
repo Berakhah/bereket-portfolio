@@ -3,7 +3,7 @@
 
 export const site = {
   name: "Bereket Tilahun",
-  title: "Backend and security engineer",
+  title: "Security engineer for AI-built apps",
   jobTitle: "Senior Software Engineer",
   location: "Addis Ababa, Ethiopia",
   reviewed: "2026-11-07",
@@ -48,10 +48,10 @@ export const nav = [
 // ---------------------------------------------------------------------------
 
 export const hero = {
-  metaTitle: "Bereket Tilahun — Security reviews for AI-built apps",
+  metaTitle: "Bereket Tilahun — Security engineer for AI-built apps",
   metaDesc:
     "Security reviews for apps built with Lovable, Cursor, Bolt or Claude Code on Supabase, Next.js and Stripe. Each finding comes with a way to reproduce it, and the fix.",
-  eyebrow: "Security reviews for AI-built apps · Addis Ababa, UTC+3",
+  eyebrow: "Security engineer for AI-built apps · Addis Ababa, UTC+3",
   lede:
     "If you built your app with Lovable, Cursor, Bolt or Claude Code on Supabase, Next.js and Stripe, I check it before real users or payments touch it. Each finding comes with the fix and a way to reproduce it: a script you can re-run, or exact steps and screenshots where a script can’t work. I also review and harden Python (FastAPI, Django) and Node.js APIs.",
 };
