@@ -11,7 +11,7 @@ const PRELOAD_FONTS = [
   "/assets/fonts/plex-mono-normal-500.woff2",
 ];
 
-export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogType = "website", css = "", preloadPortrait = false, siteName = "Bereket Tilahun — Backend Security Engineer" }) => {
+export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogType = "website", css = "", preloadPortrait = false, siteName = "Bereket Tilahun — Backend Security Engineer", noindex = false }) => {
   const canon = siteUrl ? `\n<link rel="canonical" href="${esc(siteUrl + path)}">` : "";
   const ogUrl = siteUrl ? `\n<meta property="og:url" content="${esc(siteUrl + path)}">` : "";
   const ogImg = siteUrl ? `\n<meta property="og:image" content="${esc(siteUrl + "/assets/img/og-card.png")}">\n<meta name="twitter:image" content="${esc(siteUrl + "/assets/img/og-card.png")}">` : "";
@@ -25,7 +25,7 @@ export const head = ({ title, desc, path = "/", siteUrl = "", jsonLd = null, ogT
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <title>${esc(title)}</title>
-<meta name="description" content="${esc(desc)}">
+<meta name="description" content="${esc(desc)}">${noindex ? '\n<meta name="robots" content="noindex">' : ""}
 <meta name="author" content="Bereket Tilahun">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">

@@ -10,6 +10,7 @@ import {
   projects, sampleProject, toolProjects, evidenceIndex,
 } from "./src/content/index.mjs";
 import { directContact } from "./src/content/person.mjs";
+import { posts } from "./src/content/writing.mjs";
 import {
   esc, md, prose, bullets, icon, flowStepper, metricsRow, portrait,
   evidenceScript, evidenceDrawer, repoChip, prov,
@@ -17,7 +18,13 @@ import {
 import { head, scripts, header, footer } from "./src/render/layout.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
-const OUT = join(ROOT, "site");
+// SITE_OUT renders somewhere other than site/, e.g. a draft preview that must never be committed.
+const OUT = process.env.SITE_OUT || join(ROOT, "site");
+
+// Drafts render only with DRAFTS=1, and never get a sitemap entry.
+const visiblePosts = posts.filter((p) => !p.draft || process.env.DRAFTS === "1");
+const publishedPosts = posts.filter((p) => !p.draft);
+const NAV = visiblePosts.length ? [...nav, { label: "Writing", href: "/writing/" }] : nav;
 const src = (...p) => readFileSync(join(ROOT, "src", ...p), "utf8");
 
 // ---------------------------------------------------------------------------
@@ -40,12 +47,12 @@ const BUNDLE_SRC = [
 const BUNDLE_HASH = createHash("sha256").update(BUNDLE_SRC).digest("hex").slice(0, 10);
 const BUNDLE_PATH = `/assets/js/app.${BUNDLE_HASH}.js`;
 
-const page = ({ title, desc, path, bodyClass = "", main, jsonLd = null, preloadPortrait = false, css = CSS, siteName }) => `${head({
-  title, desc, path, siteUrl: site.siteUrl, jsonLd, css, preloadPortrait, siteName,
+const page = ({ title, desc, path, bodyClass = "", main, jsonLd = null, preloadPortrait = false, css = CSS, siteName, noindex = false }) => `${head({
+  title, desc, path, siteUrl: site.siteUrl, jsonLd, css, preloadPortrait, siteName, noindex,
 })}
 <body class="${bodyClass}">
 <div class="curtain" aria-hidden="true"></div>
-${header(path, nav, site)}
+${header(path, NAV, site)}
 <main id="main">
 ${main}
 </main>
@@ -407,6 +414,75 @@ ${src("content", "scope-main.html").trimEnd()}`,
   });
 
 // ---------------------------------------------------------------------------
+// Writing: one page per post, plus an index. Bodies are HTML fragments.
+// ---------------------------------------------------------------------------
+
+const postDate = (p) => (p.date ? new Date(`${p.date}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }) : "Draft, not published");
+const draftBanner = (p) => (p.draft
+  ? `<p class="post-draft" role="note"><strong>Draft.</strong> Not published. This preview exists so it can be reviewed before it goes out.</p>`
+  : "");
+
+const postPage = (p) => {
+  const body = src("content", "writing", `${p.slug}.html`);
+  const main = `
+<article class="post">
+  <header class="post-hero">
+    <div class="wrap post-wrap">
+      ${draftBanner(p)}
+      <p class="eyebrow mono">${esc(postDate(p))}</p>
+      <h1 class="post-title">${esc(p.title)}</h1>
+      <p class="post-dek">${esc(p.dek)}</p>
+    </div>
+  </header>
+  <div class="wrap post-wrap post-body">
+${body.trimEnd()}
+    <aside class="post-cta" aria-label="${esc(p.cta.label)}">
+      <p>${esc(p.cta.text)}</p>
+      <a class="btn btn-signal" href="${esc(p.cta.href)}" rel="noopener" target="_blank">${esc(p.cta.label)} ${icon("arrowUpRight", "icon-xs")}</a>
+    </aside>
+    <p class="post-back"><a class="text-link" href="/writing/">All writing</a> · <a class="text-link" href="${esc(p.repo)}" rel="noopener" target="_blank">Repository</a></p>
+  </div>
+</article>`;
+  return page({
+    title: `${p.title} · ${site.name}`,
+    desc: p.dek,
+    path: `/writing/${p.slug}.html`,
+    bodyClass: "page-post",
+    main,
+    noindex: p.draft,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      headline: p.title,
+      description: p.dek,
+      author: { "@type": "Person", name: site.name },
+      ...(p.date ? { datePublished: p.date } : {}),
+    },
+  });
+};
+
+const writingIndex = (list) =>
+  page({
+    title: `Writing · ${site.name}`,
+    desc: "Write-ups of my own work. Each one gives the method, the result with its caveats, what it does not show, and how to reproduce it.",
+    path: "/writing/",
+    bodyClass: "page-post",
+    noindex: list.every((p) => p.draft),
+    main: `
+<section class="post-hero"><div class="wrap post-wrap">
+  <h1 class="post-title">Writing</h1>
+  <p class="post-dek">Each post gives the method, the result with its caveats, what it does not show, and how to reproduce it.</p>
+</div></section>
+<div class="wrap post-wrap post-list">
+  ${list.map((p) => `<article class="post-item">
+    <p class="eyebrow mono">${esc(postDate(p))}</p>
+    <h2><a href="/writing/${p.slug}.html">${esc(p.title)}</a></h2>
+    <p>${esc(p.dek)}</p>
+  </article>`).join("\n  ")}
+</div>`,
+  });
+
+// ---------------------------------------------------------------------------
 // 404
 // ---------------------------------------------------------------------------
 
@@ -455,13 +531,22 @@ writeFileSync(join(OUT, "scope.html"), scopePage());
 for (const [i, p] of projects.entries()) {
   writeFileSync(join(OUT, "work", `${p.slug}.html`), casePage(p, i));
 }
+rmSync(join(OUT, "writing"), { recursive: true, force: true });
+if (visiblePosts.length) {
+  mkdirSync(join(OUT, "writing"), { recursive: true });
+  writeFileSync(join(OUT, "writing", "index.html"), writingIndex(visiblePosts));
+  for (const p of visiblePosts) writeFileSync(join(OUT, "writing", `${p.slug}.html`), postPage(p));
+}
 
 // robots + sitemap
 writeFileSync(
   join(OUT, "robots.txt"),
   `User-agent: *\nAllow: /\n${site.siteUrl ? `Sitemap: ${site.siteUrl}/sitemap.xml\n` : ""}`
 );
-const urls = ["/", "/resume.html", ...projects.map((p) => `/work/${p.slug}.html`), "/scope.html"];
+const urls = [
+  "/", "/resume.html", ...projects.map((p) => `/work/${p.slug}.html`), "/scope.html",
+  ...(publishedPosts.length ? ["/writing/", ...publishedPosts.map((p) => `/writing/${p.slug}.html`)] : []),
+];
 writeFileSync(
   join(OUT, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
