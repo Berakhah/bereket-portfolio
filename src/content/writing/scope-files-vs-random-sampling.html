@@ -1,0 +1,64 @@
+<p class="post-lede">My census of the MCP Registry was meant to have three tiers. The third would have asked a random sample of live servers which protocol revision they speak. I built it, and then I deleted it, because it broke a rule the scanner is built around: no active probe without a scope file.</p>
+<p>The two ideas can't both hold. A random sample of servers you don't own has nobody who can authorise it. This post covers why I kept the rule and what the census lost because of it.</p>
+
+<section class="post-sec" id="rule">
+<h2>The rule</h2>
+<p>Agent Perimeter won't send an active probe to a target without a scope file. A scope file is a small, validated record:</p>
+<pre><code>target: https://mcp.example.com/mcp
+authorising_party: Example Ltd, security lead
+authorised_on: 2026-11-09
+attestation: I own this server or am authorised to test it.
+expires_on: 2026-12-09        # optional</code></pre>
+<p>Every active check calls <code>require_scope()</code> first. It fails closed: no file, a different target, an expired date or a blank field means the probe doesn't run, and the error names the field. Testing someone else's server without permission can be a crime, not a breach of etiquette. So the scanner enforces the rule in code and doesn't leave it to the user's judgement.</p>
+</section>
+
+<section class="post-sec" id="tier3">
+<h2>The tier that broke it</h2>
+<p>The census had three tiers:</p>
+<ol>
+<li><strong>Tier 1:</strong> every entry in the registry. Metadata only.</li>
+<li><strong>Tier 2:</strong> a seeded random sample of npm and PyPI packages, analysed statically. Nothing is executed and no server is contacted.</li>
+<li><strong>Tier 3:</strong> a seeded random sample of about 100 live servers, each sent one <code>server/discover</code> request to see which revision it actually speaks.</li>
+</ol>
+<p>Tier 3 is the only one that answers the interesting question. Tier 2 can only read published files, and 56% of the registry (17,897 of 31,953 entries) is remote-only, with no package to read. One request to a live server would cover that gap.</p>
+<p>A code review on 23 September found that <code>tier3.py</code> sent that request with no scope-file check. Every other active path in the codebase called <code>require_scope()</code>; this one didn't. Tier 3 had never been wired into a census run or a published report.</p>
+</section>
+
+<section class="post-sec" id="why-not-fix">
+<h2>Why I didn't just add the check</h2>
+<p>Adding <code>require_scope()</code> to <code>tier3.py</code> would take one line, and it would make Tier 3 refuse every target. A scope file records one party consenting to one target. A seeded random sample of 100 servers drawn from a public registry has no single party who can sign for it. I have no relationship with those servers; that's what makes the sample random.</p>
+<p>Every way of saving it gave something up:</p>
+<ul>
+<li><strong>Ask each operator first.</strong> The sample becomes the servers whose owners reply and say yes. That's a self-selected sample, which is exactly the bias the randomness was there to remove.</li>
+<li><strong>Sample only servers that opted in.</strong> Same problem, from the other end.</li>
+<li><strong>Treat <code>server/discover</code> as harmless and exempt it.</strong> It's a read, and it's part of the protocol. But the rule has no exemption mechanism, and the first exemption is the one that makes the next one easy. A scanner whose selling point is "I won't touch what you haven't authorised" can't start by touching 100 servers nobody authorised.</li>
+</ul>
+<p>So I dropped Tier 3 rather than redesigning it. The code and its tests are deleted. The report's live-discover section now says "not run", not "not yet run", because there's no implementation and no route to one that keeps the rule.</p>
+</section>
+
+<section class="post-sec" id="cost">
+<h2>What it cost</h2>
+<p>The census can't see deployments. It reports what published packages are capable of, not what any server does. The remote-only 56% is outside it entirely, and the headline (0 of 302 packaged artifacts showing evidence of the new revision, 95% CI 0.0–1.3%) comes with a paragraph of caveats, every one of which Tier 3 would have shortened.</p>
+<p>The trade-off is still right. Anyone can rerun a static census without asking permission, because it never contacts an MCP server. A live probe of strangers' servers would have made the report more complete and the tool less trustworthy, and trust is the product.</p>
+</section>
+
+<section class="post-sec" id="not-shown">
+<h2>What this does not argue</h2>
+<ul>
+<li>That nobody should measure live servers. A registry operator, or a study where the servers' owners consented, can do it legitimately. This project can't.</li>
+<li>That <code>server/discover</code> is dangerous. It isn't. The rule exists because the line between a harmless request and a probe gets drawn by whoever is sending it, and I'd rather the tool draw it the same way every time.</li>
+<li>That the gap is closed for good. Registered checks are walled off: one that doesn't declare it needs authorisation can't make a non-passive call, and tests try to get past that. Census code sits outside that wall. The census is passive today because Tier 3 is gone, not because a test would catch a new one. Putting the census behind the same transport is the open follow-up.</li>
+</ul>
+</section>
+
+<section class="post-sec" id="reproduce">
+<h2>Check it yourself</h2>
+<p>The decision and the deleted code are both in the public history:</p>
+<pre><code>git clone https://github.com/Berakhah/agent-perimeter && cd agent-perimeter
+sed -n '/## Unreleased/,/## 2026-09-14/p' docs/census/CHANGELOG.md   # the ruling
+grep -n "Tier 3" docs/open-decisions.md                               # decision 5
+git log --oneline --all -- agent_perimeter/census/tier3.py            # when it went</code></pre>
+<p>To see the gate refuse, run an active scan with no scope file. It exits 2 and says which field is missing.</p>
+</section>
+
+<p class="post-note">Agent Perimeter was built with Claude Code under my direction, and a code review in that workflow found the missing check. The ruling to drop Tier 3 was mine. This post was drafted with Claude Code from the decision records linked above.</p>

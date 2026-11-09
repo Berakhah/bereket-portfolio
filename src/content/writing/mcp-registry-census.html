@@ -1,0 +1,57 @@
+<p class="post-lede">I downloaded a random sample of the packaged servers in the official MCP Registry and looked for evidence that they support the protocol revision released on 28 July 2026. In 0 of 302, the published artifact showed it.</p>
+<p>That zero is real, and it says less than it seems to. This post covers what was measured, the interval around the zero, the 18 packages that could flip it, and the 56% of the registry it says nothing about.</p>
+
+<section class="post-sec" id="why">
+<h2>Why the revision matters</h2>
+<p>MCP revision 2026-07-28 moved the protocol toward a stateless design. It added <code>server/discover</code>, a <code>resultType</code> on results, cacheable results with <code>ttlMs</code> and <code>cacheScope</code>, and a new way to ask the client for input mid-call. It is not fully backward compatible. A client that negotiates the new revision against a server that only speaks the old one has to fall back. A security scanner that assumes one behaviour will misread the other.</p>
+<p>So before writing checks for the new revision, I wanted to know how much of the ecosystem had moved. Both official SDKs shipped 2.0.0, the first release that speaks the revision, on 27 and 28 July.</p>
+</section>
+
+<section class="post-sec" id="method">
+<h2>Method</h2>
+<ol>
+<li><strong>Population.</strong> Every entry in <code>registry.modelcontextprotocol.io/v0/servers</code> on 14 September 2026: 31,953 entries, 320 pages, 0 pagination failures. A failed page aborts the run instead of silently shrinking the population.</li>
+<li><strong>Frame.</strong> Only entries that point at an npm or PyPI package can be examined statically: 12,246 of them. Everything else is out of the frame (see below).</li>
+<li><strong>Sample.</strong> A seeded uniform random sample of 200 npm and 200 PyPI entries. Seed <code>2307759973</code>. Uniform, not by download count, so popular servers aren't over-represented.</li>
+<li><strong>Fetch.</strong> Download each package's published artifact. 377 fetched; 23 failed (16 had no downloadable artifact, 5 weren't found, 2 exceeded the size cap). Failures are excluded from every <em>n</em> and listed.</li>
+<li><strong>Classify.</strong> An artifact <em>supports</em> 2026-07-28 only if it pins an SDK at or above 2.0.0 <em>and</em> its shipped source carries a revision feature, such as a <code>server/discover</code> handler. No SDK pin means <em>unknown</em>, never <em>supports</em>.</li>
+</ol>
+<p>No MCP server was contacted. The census reads the registry listing and package archives from npm and PyPI, the same files <code>npm install</code> and <code>pip install</code> download.</p>
+</section>
+
+<section class="post-sec" id="result">
+<h2>Result</h2>
+<div class="post-table"><table>
+<thead><tr><th>Ecosystem</th><th>Supports</th><th>Does not</th><th>Unknown</th><th>Share, 95% Wilson CI</th></tr></thead>
+<tbody>
+<tr><td>npm</td><td>0</td><td>174</td><td>21</td><td>0.0% (0.0–2.2%)</td></tr>
+<tr><td>PyPI</td><td>0</td><td>128</td><td>54</td><td>0.0% (0.0–2.9%)</td></tr>
+<tr><td>Pooled, for reference</td><td>0</td><td>302</td><td>75</td><td>0.0% (0.0–1.3%)</td></tr>
+</tbody></table></div>
+<p>The interval is the point of publishing this. Zero out of 174 is consistent with a true share of up to about 2.2% of packaged npm servers. Zero is not "none".</p>
+<p>A second run earlier the same day, with a different seed, found 3 npm artifacts that genuinely supported the revision. I didn't publish it because its pin detector had a bug (described below), but its 3 of 176 and this run's 0 of 174 are both consistent with a true share in the low single digits. That's what the interval is for.</p>
+<p>Most packaged servers still pin the 1.x SDK: 166 of 174 npm pins and 113 of 128 PyPI pins. Seven weeks after release, the move to 2.x had barely started among published packages.</p>
+</section>
+
+<section class="post-sec" id="not-shown">
+<h2>What this does not show</h2>
+<ul>
+<li><strong>The 18 packages that could flip the zero.</strong> Eighteen artifacts (5 npm, 13 PyPI) pin SDK 2.x but ship no handler for a revision feature in their own source. The rule needs both, so they count as <em>does not support</em>. But the 2.x SDKs speak the revision themselves, so many of these servers probably answer <code>server/discover</code> without writing a line for it. Counted as supporting, the pooled share is 18 of 302: 6.0% (95% CI 3.8–9.2%). Per ecosystem: npm 2.9%, PyPI 10.2%. The honest reading is a range, roughly 0–9% of packaged servers, and the artifact alone can't narrow it.</li>
+<li><strong>The 56% that has no package.</strong> 17,897 of 31,953 entries are remote-only: a URL, no artifact to download. A static census can't see them, and this one doesn't claim to.</li>
+<li><strong>Deployments.</strong> "Supports" is a statement about a published file. It says nothing about which version a server actually runs.</li>
+<li><strong>Other package types.</strong> 1,354 entries point at a package outside npm and PyPI. Unexamined.</li>
+<li><strong>The 75 unknowns.</strong> Of these, 74 carry no SDK pin at all, and 1 has a source signal but no pin. They're excluded from the denominator.</li>
+</ul>
+<p>The detector also got things wrong before this run. The first full run that day looked for the SDK pin only at the archive root and classified 94% of artifacts as unknown. The second read <code>&lt;3</code> in a version specifier as a pin at 3.x. Both runs were discarded, both bugs were fixed, and both are recorded in the census changelog with their commits. I'd rather show the errors than have someone else find them.</p>
+</section>
+
+<section class="post-sec" id="reproduce">
+<h2>Reproduce it</h2>
+<p>Every figure above comes from one CSV. Each row is a sampled record keyed by a salted digest, with no server names or URLs, because the report is about the population, not about anyone's server.</p>
+<pre><code>git clone https://github.com/Berakhah/agent-perimeter
+cd agent-perimeter
+uv run python analysis/census_analysis.py docs/census/2026-09-14/records.csv</code></pre>
+<p>The script recomputes each figure from the CSV, compares it with the published summary, and prints <code>match</code> on every line. Method hash <code>1c49920d8849ff45</code>. The full method and the discarded runs are in <a href="https://github.com/Berakhah/agent-perimeter/blob/main/docs/census/CHANGELOG.md"><code>docs/census/CHANGELOG.md</code></a>.</p>
+</section>
+
+<p class="post-note">Agent Perimeter was built with Claude Code under my direction; the <a href="https://github.com/Berakhah/agent-perimeter#how-this-was-built">README</a> says how. This post was drafted with it too, from the census records, and every number here is regenerated by the script above.</p>
