@@ -7,7 +7,8 @@ export const esc = (s = "") =>
 export const md = (s = "") =>
   esc(s)
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/`([^`]+)`/g, "<code>$1</code>");
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\[([^\]]+)\]\(((?:https:\/\/|\/)[^)\s]+)\)/g, '<a class="text-link" href="$2">$1</a>');
 
 export const prose = (text, cls = "") => {
   const paras = Array.isArray(text) ? text : [text];
@@ -116,7 +117,7 @@ export const evidenceDrawer = () => `
     </div>
     <div class="drawer-body" id="drawer-body"><!-- rendered by main.js --></div>
     <div class="drawer-foot mono">
-      <span>Every figure on this site carries a chain like this one.</span>
+      <span>Each project figure carries a chain like this one. DZ figures come from internal dashboards I can’t publish; ask me about them.</span>
     </div>
   </aside>
 </div>`;
@@ -128,7 +129,7 @@ export const evidenceDrawer = () => `
 export const repoChip = (p) => {
   if (p.links && p.links.github) {
     return `<a class="chip chip-link" href="${esc(p.links.github)}" rel="noopener" target="_blank">
-      ${icon("github")}<span class="mono">github.com/Berakhah/${esc(p.slug)}</span>${icon("external", "icon-xs")}
+      ${icon("github")}<span class="mono">${esc(p.links.github.replace(/^https:\/\//, ""))}</span>${icon("external", "icon-xs")}
     </a>`;
   }
   const state = p.repoState === "pending"

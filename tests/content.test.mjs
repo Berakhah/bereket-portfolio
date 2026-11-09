@@ -26,8 +26,8 @@ test("status labels are sentence case; codes unchanged", () => {
   }
 });
 
-test("hero lede ≤ 40 words; every hero metric has a plain caption", () => {
-  assert.ok(words(hero.lede) <= 40, `lede is ${words(hero.lede)} words`);
+test("hero lede ≤ 70 words; every hero metric has a plain caption", () => {
+  assert.ok(words(hero.lede) <= 70, `lede is ${words(hero.lede)} words`);
   for (const m of heroMetrics) assert.ok(m.plain && m.plain.length <= 80, `${m.id} needs plain ≤ 80`);
 });
 

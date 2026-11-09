@@ -12,10 +12,10 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Implemented and demonstrably working: public repository, Apache-2.0, with a clean-machine reproduction of the README quickstart in CI, and usable as a GitHub Action. 259 commits, 11 Aug → 5 Nov 2026.",
+      "Implemented and demonstrably working: public repository, Apache-2.0, with a clean-machine reproduction of the README quickstart in CI, and usable as a GitHub Action. 259 commits, 11 Aug → 5 Nov 2026; kept locally until the repository was created on 29 Aug.",
   },
   category: ["Security", "Backend Systems", "Evidence"],
-  role: "Sole engineer — design, implementation, verification, publication",
+  role: "Designed, specified and reviewed by me; much of the code generated with Claude Code under my direction (commits under [@Berakhah-sys](https://github.com/Berakhah-sys), my second account)",
   tech: ["Python 3.12", "FastAPI", "Pydantic v2", "SQLAlchemy 2 + Alembic", "Postgres 16", "Next.js 15.5", "React 19", "TypeScript strict", "Tailwind v4", "Docker Compose", "GitHub Actions", "SARIF 2.1.0", "Playwright"],
   flow: ["MCP server", "Discovery", "Capability graph", "34 checks · 8 groups", "Findings + reproductions", "SARIF / HTML / CI drift gate"],
   links: { github: "https://github.com/Berakhah/agent-perimeter" },
@@ -44,7 +44,7 @@ export const project = {
         id: "ap-pr",
         value: "1.00 / 1.00",
         label: "precision / recall",
-        context: "13 of 34 registered checks evaluated, 26-case corpus I built — CI-regenerated per commit.",
+        context: "Measured on only 13 of the 34 checks, against a 26-case corpus I built myself. CI regenerates it per commit.",
         evidence: {
           claim: "Precision and recall of 1.00 on the 13 of 34 checks that have labelled cases.",
           method: "DETERMINISTIC",
@@ -57,10 +57,10 @@ export const project = {
       {
         id: "ap-tests",
         value: "940",
-        label: "test functions",
+        label: "Python test functions",
         context: "~15,400 LOC of test code in 97 files; coverage floor 75% enforced in CI.",
         evidence: {
-          claim: "The test suite contains 940 test functions.",
+          claim: "The test suite contains 940 Python test functions.",
           method: "DETERMINISTIC",
           source: { label: "Repository — tests/ count", href: "https://github.com/Berakhah/agent-perimeter" },
           basis: "Counted from a clone of the public repository on 2026-11-06: 940 `def test_` functions. pyproject.toml sets --cov-fail-under=75.",
@@ -98,7 +98,7 @@ export const project = {
       },
     ],
     caveat:
-      "The LLM-judge check is registered but runs in its disabled lane — no paid provider account is provisioned yet. The census is passive-only: Tier 3 (live discovery against third-party servers) was dropped permanently on 23 Sep 2026 because it could not satisfy the scope-file rule.",
+      "The LLM-judge check is registered but runs in its disabled lane — no paid provider account is provisioned yet. The census is passive-only. Code for a Tier 3 live-discovery probe existed from 3 to 23 Sep 2026. It was never connected to the census, never ran against third-party hosts, and was deleted because it could not satisfy the scope-file rule.",
   },
 
   caseStudy: {
@@ -182,7 +182,7 @@ tests/fixtures/servers/   vulnerable-server fleet (Python + Node)`,
       "~13,800 LOC of non-test Python across 123 files; ~4,800 LOC TypeScript with 80+ Playwright test cases in 9 spec files; mypy --strict, ruff, gitleaks pre-commit, hypothesis.",
     ],
     evidence: [
-      "**Canary-based injection reachability** — the differentiator no inventoried competitor (Snyk agent-scan, Cisco, Akto, Enkrypt, Trend Micro, four arXiv tools) ships.",
+      "**Canary-based injection reachability:** I didn’t find it in the tools I reviewed (Snyk agent-scan, Cisco, Akto, Enkrypt, Trend Micro, four arXiv tools), but that review was by web search, not by running them.",
       "**First public census report (2026-09-14):** 31,953 registry entries, full pagination; 0 of 174 npm and 0 of 128 PyPI artifacts show published evidence of supporting the 2026-07-28 revision — reported with Wilson 95% intervals (0.0–2.2% and 0.0–2.9%) so a zero is never reported as “none”. 377 artifacts fetched, 23 fetch failures disclosed by cause.",
       "**A real detection bug found during verification, documented:** @modelcontextprotocol/sdk never shipped a 2.x (the SDK split into /server, /client, …), so the artifact detector could never have matched a v2 npm pin. Fixed and written up rather than buried.",
       "**Reproducibility:** analysis/census_analysis.py recomputes every published figure from records.csv alone. Two earlier same-day runs were discarded for detector bugs and recorded in the changelog.",

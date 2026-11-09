@@ -3,9 +3,10 @@
 
 export const site = {
   name: "Bereket Tilahun",
-  title: "Backend Security Engineer",
+  title: "Backend and security engineer",
+  jobTitle: "Senior Software Engineer",
   location: "Addis Ababa, Ethiopia",
-  reviewed: "2026-11-06",
+  reviewed: "2026-11-07",
   // Kept out of the public repo: set PORTFOLIO_EMAIL, PORTFOLIO_PHONE,
   // PORTFOLIO_LINKEDIN and PORTFOLIO_RESUME_PDF (a path outside the repo) when
   // building with contactMode "direct".
@@ -15,9 +16,10 @@ export const site = {
   githubHandle: "@Berakhah",
   linkedin: process.env.PORTFOLIO_LINKEDIN ?? "",
   availability:
-    "Available for fixed-price security reviews on Upwork, more than 30 hours a week from UTC+3. I reply there within 12 hours on weekdays.",
+    "Available for fixed-price security reviews on Upwork, more than 30 hours a week from UTC+3, alongside 20 hours a week at DZ. My employer knows about and allows this work.",
+  // Résumé lede.
   availabilityRoles:
-    "Also open to full-time or contract backend and application-security roles, remote or Addis Ababa.",
+    "Open to full-time or contract backend and application-security roles, remote or Addis Ababa. I also take fixed-price security reviews of Supabase, Next.js and Stripe apps.",
   // Set before deploy; used for canonical URLs, sitemap and OpenGraph.
   siteUrl: "https://berakhah.github.io",
   // "upwork": the site is linked from an Upwork profile, where sharing contact
@@ -48,32 +50,32 @@ export const nav = [
 export const hero = {
   metaTitle: "Bereket Tilahun — Security reviews for AI-built apps",
   metaDesc:
-    "Security reviews for apps built with Lovable, Cursor, Bolt or Claude Code on Supabase, Next.js and Stripe. Every finding proven with a test you can re-run, with the fix.",
+    "Security reviews for apps built with Lovable, Cursor, Bolt or Claude Code on Supabase, Next.js and Stripe. Each finding comes with a way to reproduce it, and the fix.",
   eyebrow: "Security reviews for AI-built apps · Addis Ababa, UTC+3",
   lede:
-    "If you built your app with Lovable, Cursor, Bolt or Claude Code on Supabase, Next.js and Stripe, I check it before real users or payments touch it. Every finding comes with a test you can re-run and the fix.",
+    "If you built your app with Lovable, Cursor, Bolt or Claude Code on Supabase, Next.js and Stripe, I check it before real users or payments touch it. Each finding comes with the fix and a way to reproduce it: a script you can re-run, or exact steps and screenshots where a script can’t work. I also review and harden Python (FastAPI, Django) and Node.js APIs.",
 };
 
 export const audit = {
   title: "How an audit works.",
-  intro: "Fixed price, from $249. Report in 3–7 days, booked through Upwork.",
+  intro: "Fixed price, from $249. Report in 3–7 days, counted from when I have access and the scope is signed. Booked through Upwork.",
   pricing: "Starter $249 (3 days) · Standard $595 (5 days) · Advanced $1,190 (7 days). Larger codebases quoted per job.",
   steps: [
     {
       title: "Tell me your stack and what worries you",
-      body: "Message me on Upwork. I reply there within 12 hours on weekdays with the first three things I’d check.",
+      body: "Message me on Upwork. I usually reply within 24 hours on weekdays (Mon–Fri, Ethiopian public holidays excepted) with the first three things I’d check.",
     },
     {
       title: "Written scope, on staging or a copy",
-      body: "We agree in writing what I test before I test anything. I work on staging or a copy of your app, never on production. NDA on request.",
+      body: "We sign a short [scope and authorisation form](/scope.html) before I test anything. I test on staging or a copy. If you only have production, we first agree in writing on read-only checks and a time window. NDA on request. I remove my access within 7 days of delivery and keep the report for 12 months, then delete it.",
     },
     {
       title: "I sign in as each role and try to cross the line",
-      body: "Row-level security, storage and Realtime; keys in the browser bundle or git history; prices or “paid” status decided in the browser; unsigned Stripe webhooks; prompt injection in AI features. Each finding gets a script that proves it.",
+      body: "Row-level security; keys in the browser bundle or git history; prices or “paid” status decided in the browser; unsigned Stripe webhooks. I also test storage buckets, Realtime, SECURITY DEFINER functions and prompt injection in AI tools; the sample has a planted, proven example of each. Findings that can be reproduced get a script you can re-run; the rest, such as secrets in git history or settings, get exact steps and screenshots.",
     },
     {
       title: "Report, fix, recheck",
-      body: "Every finding ranked Critical to Low, with plain-English impact, the reproduction and the fix, usually a code or policy diff. The report lists what I didn’t test. After you patch, I recheck.",
+      body: "Every finding ranked Critical to Low, with plain-English impact, the reproduction and the fix, usually a code or policy diff. The report lists what I didn’t test. One recheck within 14 days of delivery is included. If you want me to apply the fixes, that’s $40 an hour, with no warranty beyond the recheck.",
     },
   ],
 };
@@ -169,10 +171,10 @@ export const heroMetrics = [
     plain: "p95 latency after caching, in production",
     context: "Production services at DZ — Redis caching at 84% hit rate, 420 req/min peak.",
     evidence: {
-      claim: "Redis caching dropped p95 latency on the auth verification path from ~340 ms to ~195 ms under peak load.",
+      claim: "After Redis caching was added, p95 latency fell from 340 ms to 195 ms.",
       method: "HUMAN",
       source: { label: "Résumé — DZ Software Engineering PLC, Software Engineer, Jul 2023 – Apr 2026" },
-      basis: "Self-reported from production telemetry: 15 containerized backend services, Redis-backed caching with 84% hit rate on hot paths, peak ~420 req/min.",
+      basis: "Self-reported from DZ production dashboards. DZ has authorised citing this figure.",
       observedAt: "2023 – 2026",
       caveats: ["Self-reported figure from production dashboards; the measurement window is not published."],
     },
@@ -219,9 +221,9 @@ export const timeline = [
   {
     mode: "Build",
     range: "2021 – 2023",
-    heading: "Freelance Backend Engineer (part-time) · Individual organizations, remote",
+    heading: "Freelance Backend Engineer (part-time) · Small organizations, remote",
     body:
-      "Part-time backend work for individual organizations on FastAPI, Django REST and Spring Boot.",
+      "Part-time backend work for small organizations on FastAPI, Django REST and Spring Boot.",
     kind: "build",
   },
   {
@@ -229,7 +231,7 @@ export const timeline = [
     range: "2022 – 2023",
     heading: "Full Stack Developer · DZ Software Engineering PLC",
     body:
-      "Triaged 10–12 Tier-1 incidents a day across Python, Java and C++ services; wrote the runbooks and automated health checks that cut recurring failures by 15%.",
+      "Triaged production incidents across Python, Java and C++ services, then wrote runbooks and automated health checks for the ones that kept coming back.",
     kind: "operate",
   },
   {
@@ -237,7 +239,7 @@ export const timeline = [
     range: "2023 – 2026",
     heading: "Software Engineer · DZ Software Engineering PLC",
     body:
-      "Hardened 47 API endpoints and closed 9 High/Critical findings from internal reviews and dependency scans, with no recurrence. Replaced 11 long-lived secrets with short-lived OIDC tokens; incident reconstruction now takes under 20 minutes.",
+      "As main backend developer on a 15-service platform, I hardened 47 API endpoints and closed 9 High/Critical findings from internal reviews and dependency scans. I also replaced 11 long-lived secrets with short-lived, scope-limited tokens.",
     kind: "harden",
   },
   {
@@ -245,14 +247,14 @@ export const timeline = [
     range: "2023 – 2026",
     heading: "Software Engineer · DZ Software Engineering PLC",
     body:
-      "Built the LLM evaluation pipeline and CI gate now guarding 11 production services, with 40% less manual review and zero correctness regressions, and a benchmark curation pipeline that cut MTTD by 30%.",
+      "Built the LLM evaluation pipeline that runs as a quality gate on 11 production services; manual review effort fell 40%. A second pipeline, for benchmark curation, cut mean time to detect model-quality regressions by 30%.",
     kind: "measure",
   },
   {
-    mode: "Lead",
+    mode: "Senior",
     range: "2026 – present",
     heading: "Senior Software Engineer · DZ Software Engineering PLC",
-    body: "Promoted to Senior in May 2026; part-time since August 2026.",
+    body: "Promoted in May 2026; part-time, 20 hours a week, since August 2026.",
     kind: "lead",
   },
   {
@@ -272,24 +274,16 @@ export const timeline = [
 
 export const stack = [
   {
-    group: "Backend",
-    items: ["Python 3.12", "FastAPI", "Django REST", "Spring Boot", "Pydantic v2", "SQLAlchemy 2 + Alembic", "PostgreSQL", "async workers", "event-driven pipelines", "Typer CLI"],
-  },
-  {
     group: "Security",
-    items: ["Zero Trust", "OIDC / Keycloak", "JWT & token lifecycle", "RBAC / ABAC", "OWASP Top 10", "threat modeling", "SARIF 2.1.0", "envelope encryption", "Argon2", "seccomp profiles", "HMAC", "Bandit / pip-audit", "Trivy", "gitleaks"],
+    items: ["OWASP Top 10", "Supabase / PostgreSQL row-level security", "Stripe webhooks", "Keycloak / OIDC", "Bandit", "pip-audit", "Trivy", "gitleaks"],
   },
   {
-    group: "Data",
-    items: ["Redis", "DuckDB", "SQLite", "Parquet", "NumPy / SciPy / scikit-learn", "BM25 / TF-IDF", "pdfplumber", "pypdfium2", "RapidOCR"],
+    group: "Backend",
+    items: ["Python", "FastAPI", "Django REST", "Spring Boot", "PostgreSQL", "Redis", "SQLAlchemy + Alembic", "TypeScript", "Next.js"],
   },
   {
     group: "Infrastructure",
-    items: ["Docker & Compose", "GitHub Actions", "AWS (EC2, S3, IAM, VPC)", "Linux", "structlog", "Prometheus", "multi-stage builds", "CI/CD gates"],
-  },
-  {
-    group: "AI & Evaluation",
-    items: ["LLM evaluation pipelines", "cluster-BCa bootstrap intervals", "Cohen’s κ · Krippendorff’s α", "Benjamini–Hochberg", "O’Brien–Fleming sequential testing", "isotonic / Platt calibration", "LLM-as-judge bias controls", "hypothesis property testing"],
+    items: ["Docker & Compose", "GitHub Actions", "AWS (EC2, S3, IAM, VPC)", "Linux", "Prometheus"],
   },
 ];
 
@@ -299,72 +293,7 @@ export const about = {
   body: [
     "I’m a Senior Software Engineer in Addis Ababa. I’ve operated production services, built them, hardened them and measured them, and I’ve come to believe that correctness, security and evidence are design inputs, not things you add after.",
     "The sample audit and five systems here are where that belief has ended up. Each one is designed to be checked: scope files before probing, sealed splits before leaderboards, a review queue before any money moves, provenance before publication. The case studies say exactly where each one stands, including what isn’t finished.",
-    "I use AI coding tools in my own work, and my GitHub shows it. I treat their output like a junior’s pull request: I read it, test it and own it. On your code, I only use them if you approve in writing, and secrets or customer data never go into them.",
+    "For the systems here, I wrote the specifications with Claude Code, set the evaluation criteria, made the design decisions, and reviewed and tested the changes. Claude Code generated a substantial part of the code under my direction; its commits sit under [@Berakhah-sys](https://github.com/Berakhah-sys), my second GitHub account. On your code I use AI tools only with your written OK, after I scan the repo for secrets, and never with customer data.",
   ],
-  education: "B.Sc. Computer Science — HiLCoE School of Computer Science & Technology, Addis Ababa, 2026",
-  // Résumé-only: the about section keeps the shorter line above.
-  educationResume: "B.Sc. Computer Science — HiLCoE School of Computer Science & Technology, Addis Ababa · Jul 2026",
-  educationNote: "Completed while working as a software engineer at DZ Software Engineering (2022–2026).",
-};
-
-export const experience = {
-  roles: [
-    {
-      title: "Senior Software Engineer",
-      org: "DZ Software Engineering PLC",
-      range: "May 2026 – Present",
-      loc: "Addis Ababa, Ethiopia",
-      note: "Promoted to Senior in May 2026; part-time since August 2026.",
-      points: [],
-    },
-    {
-      title: "Software Engineer",
-      org: "DZ Software Engineering PLC",
-      range: "Jul 2023 – Apr 2026",
-      loc: "Addis Ababa, Ethiopia",
-      note: "Completed my BSc in Computer Science at HiLCoE alongside this role.",
-      points: [
-        "Built and operated 15 containerized backend services on FastAPI and Django REST, shipping through CI/CD; layered Redis caching (84% hit rate) to drop p95 latency from 340ms to 195ms at 420 req/min peak.",
-        "Architected an LLM evaluation pipeline and CI gate benchmarking correctness, reliability and runtime across Python, JavaScript, Java, C++ and Rust submissions — rolled out as an automated quality gate on 11 production services, cutting manual review by 40% with zero correctness regressions since launch.",
-        "Designed an automated benchmark curation pipeline over PostgreSQL telemetry and Redis event streams, reducing MTTD by 30% and producing 1,200+ labeled records for fine-tuning.",
-        "Hardened 47 API endpoints with schema-enforced validation, parameterized queries, rate limiting and Bandit/pip-audit pre-merge gates, closing 9 High/Critical findings from internal reviews and dependency scans with no recurrence.",
-        "Replaced 11 long-lived secrets with short-lived, scope-limited OIDC tokens, made Trivy image scans a hard deploy gate, and stood up an append-only audit pipeline; incident reconstruction now takes under 20 minutes.",
-        "Deployed evaluation services on AWS (EC2, S3, IAM role-scoped access, VPC-isolated mesh) behind load-balanced ingress, achieving environment parity across 11 staging/production pairs and reducing rollback time by 35%.",
-      ],
-    },
-    {
-      title: "Full Stack Developer",
-      org: "DZ Software Engineering PLC",
-      range: "Mar 2022 – Jun 2023",
-      loc: "Addis Ababa, Ethiopia",
-      points: [
-        "Triaged 10–12 Tier 1 incidents daily across Python, Java and C++ services; authored runbooks and automated recurring health checks, cutting recurring failures by 15% across enterprise environments.",
-        "Diagnosed and resolved OS, network and distributed-service failures end-to-end, establishing observability baselines that were later adopted across 3 production environments.",
-      ],
-    },
-    {
-      title: "Freelance Backend Engineer (part-time)",
-      org: "Independent, for individual organizations",
-      range: "Mar 2021 – Jun 2023",
-      loc: "Remote",
-      note: "Part-time backend work before and alongside DZ, until mid-2023.",
-      points: [
-        "Built backends on FastAPI, Django REST and Spring Boot, with React/Node.js frontends.",
-        "Engineered a multilingual code search backend with BM25 and TF-IDF retrieval; enforced authorization-before-query checks to neutralize timing-oracle attacks and applied AES-256 tenant-scoped encryption at rest.",
-        "Folded correctness scoring, latency profiling and reliability checks into a unified CI/CD-gated pipeline, eliminating manual handoffs between frontend, API and backend stages.",
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "ShopFast sample audit",
-      href: "/work/shopfast-demo.html",
-      text: "(2026, demo, not client work): a demo store with 8 planted flaws (3 Critical, 2 High, 3 Medium), all 8 proven in a live run and 6 re-proven by one command, each with its fix.",
-    },
-    {
-      name: "Agent Perimeter",
-      href: "/work/agent-perimeter.html",
-      text: "(2026, open source, Apache-2.0): security scanner for MCP servers and AI agents; 34 checks in 8 groups, 940 test functions, and a census of 31,953 MCP Registry entries.",
-    },
-  ],
+  education: "B.Sc. Computer Science, HiLCoE School of Computer Science & Technology, Addis Ababa, Jan 2021 – Jul 2026 (part-time study alongside work)",
 };

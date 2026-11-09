@@ -13,10 +13,10 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Harness, statistics, LLM-judge path, publication pipeline and all six UI screens are built and running — 186 commits, 29 Aug → 5 Nov 2026. The real provider sweep has not run yet.",
+      "Harness, statistics, LLM-judge path, publication pipeline and all six UI screens are built and running — 186 commits, 29 Aug → 5 Nov 2026. (The first commit’s date was corrected on 4 Nov 2026; the README explains why.) The real provider sweep has not run yet.",
   },
   category: ["AI & Evaluation", "Evidence"],
-  role: "Sole engineer — design, statistics, implementation, publication",
+  role: "Designed, specified and reviewed by me; much of the code generated with Claude Code under my direction (commits under [@Berakhah-sys](https://github.com/Berakhah-sys), my second account)",
   tech: ["Python 3.12", "Pydantic v2", "DuckDB", "NumPy / SciPy / scikit-learn", "Jinja2", "Next.js 16.3", "React 19.2", "TypeScript strict", "Playwright", "Docker Compose", "GitHub Actions"],
   flow: ["Corpus", "Grader", "Replicates (n ≥ 5)", "Statistics", "Calibration", "Leaderboard"],
   links: { github: "https://github.com/Berakhah/ground-truth" },
@@ -44,10 +44,10 @@ export const project = {
       {
         id: "gt-tests",
         value: "682",
-        label: "test functions",
+        label: "Python test functions",
         context: "~9,600 LOC of test code in 61 files; coverage floor 75% enforced in CI and by the compose smoke test.",
         evidence: {
-          claim: "Ground Truth’s test suite contains 682 registered test functions.",
+          claim: "Ground Truth’s test suite contains 682 Python test functions.",
           method: "DETERMINISTIC",
           source: { label: "Repository — tests/ count", href: "https://github.com/Berakhah/ground-truth" },
           basis: "Counted from a clone of the public repository on 2026-11-05: 61 test files, 9,617 lines under tests/, 682 `def test_` functions. CI and Docker Compose ‘up’ both run the suite with --cov-fail-under=75.",
@@ -137,7 +137,7 @@ web/            leaderboard · items · judge · calibration · regression · tr
       "**Self-serving measurement.** The tool itself could become a vendor — so the methodology opens by stating the population is synthetic and external validity is unmeasured by design.",
       "**Private-split leakage.** Published hashes must not let outsiders reconstruct private items: salted content hashes with a 128-bit secret salt mean a public generator plus a public seed enumerates nothing.",
       "**Judge manipulation.** LLM-as-judge is only used where a deterministic grader cannot reach, with pre-registered rejection thresholds and mandatory bias controls.",
-      "**Data publication accidents.** A triage HTML was briefly published to Pages (caught 29 Aug 2026); the recorded incident now gates every publish step behind a mandatory security review.",
+      "**Data publication accidents.** A plan audit on 29 Aug 2026 found a step that would have written a triage HTML file into the Pages directory. It was fixed before any publish workflow existed, so nothing was published, and the data was synthetic. Every publish step now goes through a security review.",
       "**Vendor relations.** Results are versioned and dated; corrections are new entries with the old value struck through; a right-of-reply process with 5/15-business-day windows and 10-day advance notice before naming a provider in a regression finding.",
     ],
     decisions: [
@@ -193,7 +193,7 @@ web/            leaderboard · items · judge · calibration · regression · tr
     ],
     evidence: [
       "**A benchmark designed to be distrusted:** hash-committed private split, stdlib reproduction script, pre-registered analysis plan, right-of-reply process, corrections log.",
-      "**A documented 46-defect self-audit** and a recorded data-leak incident (a triage HTML briefly published to Pages, caught 29 Aug 2026) that now gates every publish step behind a mandatory security review.",
+      "**A documented 46-defect self-audit** and a recorded near-miss: a planned step would have put a triage HTML file on Pages. It was caught on 29 Aug 2026 before anything was published.",
       "**Byte-stable calibration exports** — isotonic/Platt curves per field type, fit on public data and validated on private, exported for Ledger Sense’s confidence routing.",
       "**Reproducibility test:** published numbers regenerate from published data alone; the private split never appears in published output.",
     ],

@@ -1,0 +1,29 @@
+<section class="resume-role rv" aria-labelledby="rr0">
+  <div class="resume-role-head"><h2 class="resume-title" id="rr0">Senior Software Engineer</h2><span class="resume-range mono">May 2026 – Present</span></div>
+  <p class="resume-org">DZ Software Engineering PLC · Addis Ababa, Ethiopia</p>
+  <p class="resume-org">Promoted in May 2026. Part-time (20 hours a week) since August 2026.</p>
+</section>
+<section class="resume-role rv" aria-labelledby="rr1">
+  <div class="resume-role-head"><h2 class="resume-title" id="rr1">Software Engineer</h2><span class="resume-range mono">Jul 2023 – Apr 2026</span></div>
+  <p class="resume-org">DZ Software Engineering PLC · Addis Ababa, Ethiopia</p>
+  <p class="resume-org">Main backend developer on DZ's 15-service platform (FastAPI, Django REST, Docker) from July 2023.</p>
+  <ul class="bullets resume-points"><li>Added Redis caching to the platform's services; p95 latency fell from 340 ms to 195 ms.</li><li>Built an LLM evaluation pipeline that runs as an automated quality gate on 11 production services, which cut manual review effort by 40%.</li><li>Built a benchmark-curation pipeline over PostgreSQL telemetry and Redis event streams that cut mean time to detect model-quality regressions by 30%.</li><li>Hardened 47 API endpoints with schema validation, parameterized queries, rate limits and Bandit/pip-audit checks before merge.</li><li>Replaced 11 long-lived secrets with short-lived, scope-limited OIDC tokens and made Trivy image scans a blocking deploy step.</li><li>Deployed evaluation services on AWS (EC2, S3, role-scoped IAM, VPC) behind a load balancer; rollback time fell 35%.</li></ul>
+</section>
+<section class="resume-role rv" aria-labelledby="rr2">
+  <div class="resume-role-head"><h2 class="resume-title" id="rr2">Full Stack Developer</h2><span class="resume-range mono">Mar 2022 – Jun 2023</span></div>
+  <p class="resume-org">DZ Software Engineering PLC · Addis Ababa, Ethiopia</p>
+  <ul class="bullets resume-points"><li>Triaged production incidents across Python, Java and C++ services and wrote runbooks for the ones that kept coming back.</li><li>Automated recurring health checks and set up observability baselines for the services I supported.</li></ul>
+</section>
+<section class="resume-role rv" aria-labelledby="rr3">
+  <div class="resume-role-head"><h2 class="resume-title" id="rr3">Freelance Backend Engineer (part-time)</h2><span class="resume-range mono">Mar 2021 – Jun 2023</span></div>
+  <p class="resume-org">Independent, for small organizations · Remote</p>
+  <ul class="bullets resume-points"><li>Built backends with FastAPI, Django REST and Spring Boot.</li></ul>
+</section>
+<section class="resume-role rv"><h2 class="resume-title">Projects</h2>
+  <p class="resume-org">Personal projects, 2026. I design them and direct AI coding agents (Claude Code) that write much of the code; I review and test it. Each repo says how it was built and what isn't finished.</p>
+  <ul class="bullets resume-points"><li><a href="/work/shopfast-demo.html"><strong>ShopFast sample audit</strong></a> (demo, not client work): a Next.js + Supabase + Stripe store with 12 planted flaws, each proven and paired with its fix.</li><li><a href="/work/agent-perimeter.html"><strong>Agent Perimeter</strong></a> (Apache-2.0): security scanner for MCP servers and AI agents with 34 checks and a passive census of 31,953 MCP Registry entries.</li><li><a href="/work/ledger-sense.html"><strong>Ledger Sense</strong></a> (Apache-2.0): checks construction pay applications before payment. My own audit of it recorded 34 findings; I reproduced and fixed the Critical one.</li></ul>
+</section>
+<section class="resume-role rv"><h2 class="resume-title">Skills</h2>
+  <div class="stack-runs"><div class="stack-run"><p class="stack-h">Backend</p><p class="stack-items">Python 3.12 · FastAPI · Django REST · Spring Boot · Pydantic v2 · SQLAlchemy 2 + Alembic · PostgreSQL · Redis · Typer CLI</p></div><div class="stack-run"><p class="stack-h">App security</p><p class="stack-items">Supabase RLS and Postgres policies (ShopFast) · Stripe webhook and checkout checks (ShopFast) · OIDC / Keycloak, JWT (DZ, AZTDP) · RBAC · OWASP Top 10 · threat modeling · SARIF 2.1.0 · Argon2 · Bandit / pip-audit · Trivy · gitleaks</p></div><div class="stack-run"><p class="stack-h">Web</p><p class="stack-items">Next.js and TypeScript (ShopFast, Agent Perimeter UI) · React</p></div><div class="stack-run"><p class="stack-h">Infrastructure</p><p class="stack-items">Docker &amp; Compose · GitHub Actions · AWS (EC2, S3, IAM, VPC) · Linux · Prometheus · CI/CD gates</p></div><div class="stack-run"><p class="stack-h">Evaluation</p><p class="stack-items">LLM evaluation pipelines · bootstrap confidence intervals · judge agreement (Cohen's κ) · property-based testing (Hypothesis)</p></div></div>
+</section>
+<section class="resume-role rv"><h2 class="resume-title">Education</h2><p class="resume-org">B.Sc. Computer Science, HiLCoE School of Computer Science &amp; Technology, Addis Ababa · Jan 2021 – Jul 2026</p><p class="resume-org">Part-time study, alongside freelance work (2021–2023) and my job at DZ (from March 2022).</p></section>
