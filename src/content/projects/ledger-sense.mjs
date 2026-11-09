@@ -11,10 +11,10 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Running — 266 commits, 29 Aug → 5 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI and the bank-change hard stop. A 15 Oct self-audit found it not yet ready for client writeback; its fixes are under way.",
+      "Running — 266 commits, 29 Aug → 5 Nov 2026 (the first commit’s date was corrected on 4 Nov 2026; the README explains why). They cover extraction, validation rules, sensitivity gateway, inbox API, review-queue UI and the bank-change hard stop. A 15 Oct self-audit found it not yet ready for client writeback; its fixes are under way.",
   },
   category: ["Trustworthy Automation", "Backend Systems", "Security"],
-  role: "Sole engineer — domain modelling, implementation, security posture",
+  role: "Designed, specified and reviewed by me; much of the code generated with Claude Code under my direction (commits under [@Berakhah-sys](https://github.com/Berakhah-sys), my second account)",
   tech: ["Python 3.12", "FastAPI", "Pydantic v2", "SQLAlchemy 2 + Alembic", "PostgreSQL", "pdfplumber", "pypdfium2", "RapidOCR", "cryptography", "Argon2", "Next.js 15.5", "React 19", "Tailwind v4", "pdf.js", "Docker Compose", "hypothesis"],
   flow: ["Document", "Classify", "Parse", "Extract", "Validate", "Route"],
   links: { github: "https://github.com/Berakhah/ledger-sense" },
@@ -42,10 +42,10 @@ export const project = {
       {
         id: "ls-tests",
         value: "921",
-        label: "test functions",
+        label: "Python test functions",
         context: "~14,600 LOC of test code in 91 files; hypothesis property tests over every arithmetic rule.",
         evidence: {
-          claim: "Ledger Sense’s test suite contains 921 registered test functions.",
+          claim: "Ledger Sense’s test suite contains 921 Python test functions.",
           method: "DETERMINISTIC",
           source: { label: "Repository — tests/ count", href: "https://github.com/Berakhah/ledger-sense" },
           basis: "Counted from a clone of the public repository on 2026-11-04: 91 test files, 14,647 lines under tests/, 921 `def test_` functions. Property-based coverage routes hypothesis invariants over every arithmetic rule through the real run_rules() entry point.",
@@ -186,7 +186,7 @@ export const project = {
       "Every extracted field is now routed (LS-09): cleared fields pass, uncleared ones queue for review, and an audit holdback samples cleared fields to produce audit-basis labels.",
       "Domain modelling as typed rules: retainage stepping at 50% / substantial completion, stored materials that must leave the stored column when installed, approved change orders reconciling to the adjusted contract sum.",
       "The t-interval uses a table to 200 df, not 1.96; loaded-rate uncertainty propagates — supply a low/high hourly rate and the interval widens, supply one figure and the report says verbatim that the interval holds it fixed.",
-      "Baseline study is the billable first week: times real document handling, computes cost-per-document with a 95% Student’s t interval (minimum 8 samples enforced), and renders a print-ready report carrying its own method statement.",
+      "A baseline study is how a first engagement would start: it times real document handling, computes cost-per-document with a 95% Student’s t interval (minimum 8 samples enforced), and renders a print-ready report carrying its own method statement.",
     ],
     evidence: [
       "**Property-based validation:** hypothesis invariants run over every arithmetic rule, routed through the real run_rules() entry point — not a parallel test-only code path.",
@@ -213,7 +213,7 @@ export const project = {
       "Calibration curves (isotonic/Platt per field type) are consumed from the Ground Truth project; an uncalibrated field type routes to review.",
       "Accounting-system writeback creates unpaid QuickBooks Bills that post to Accounts Payable immediately (QBO has no draft Bill), so the client signs off on that effect; the CSV/IIF export is the no-ledger-effect fallback.",
       "Open Critical and High audit findings: extraction still runs outside the parser’s resource boundary (LS-11), valid text-rich PDFs can be rejected by the parser queue (LS-12), reconciliation reads demo-only state (LS-14), baseline studies are not yet durable or resumable (LS-15), and QBO reversal lacks durable recovery (LS-34). All 18 Medium findings (LS-16 to LS-33) are also open.",
-      "The synthetic corpus is the demo; real-document baselines are run per client under the baseline study protocol.",
+      "The synthetic corpus is the demo. No real-document baseline has been run yet; the protocol for one is written.",
     ],
     currentStatus:
       "Running — 266 commits between 29 Aug and 5 Nov 2026: extraction, validation rules, sensitivity gateway, inbox API, review-queue UI, field routing and the I3 bank-change hard stop. Not yet ready for client writeback, per its own 15 Oct 2026 audit; five Critical or High findings and 18 Medium findings remain open. Licence: Apache-2.0.",

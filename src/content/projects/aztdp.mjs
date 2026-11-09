@@ -14,10 +14,10 @@ export const project = {
     code: "running",
     label: "Running",
     detail:
-      "Runs as a Docker Compose stack with CI, threat model, ADRs and runbooks — 58 commits, 4 May → 5 Nov 2026. Its own readiness tracker says “not ready for production yet”: 16 of 18 hardening tasks are done, and both provisional SLOs are missed.",
+      "Runs as a Docker Compose stack with CI, threat model, ADRs and runbooks — 60 commits, 4 May → 6 Nov 2026. Its own readiness tracker says “not ready for production yet”: 16 of 18 hardening tasks are done, and both provisional SLOs are missed.",
   },
   category: ["Security", "Backend Systems", "Zero Trust"],
-  role: "Engineer — threat model, architecture, implementation",
+  role: "My personal project. Dashboard scaffold and UI generated with Lovable; logic, security controls and tests written and reviewed by me, much of it with Claude Code",
   tech: ["Python", "Django", "FastAPI", "Spring Boot (Java)", "TypeScript", "Keycloak (OIDC)", "Open Policy Agent", "Redis", "PostgreSQL", "nginx", "Prometheus", "Alertmanager", "Grafana", "Docker Compose", "GitHub Actions", "cosign", "Locust"],
   flow: ["Request + JWT", "JWT verify (JWKS)", "Risk evaluation", "Policy decision (OPA)", "Allow · deny · step-up · revoke"],
   links: { github: REPO },
@@ -57,11 +57,11 @@ export const project = {
       },
       {
         id: "az-tests",
-        value: "212",
-        label: "test functions",
-        context: "196 Python and 16 Java, plus a live attack-simulation suite and a Locust load test.",
+        value: "196",
+        label: "Python test functions",
+        context: "Plus 16 Java tests (not counted), plus a live attack-simulation suite and a Locust load test.",
         evidence: {
-          claim: "The repository contains 212 registered test functions: 196 Python and 16 Java.",
+          claim: "The repository contains 196 Python test functions (plus 16 Java tests, not counted here).",
           method: "DETERMINISTIC",
           source: { label: "Repository — test function count", href: REPO },
           basis: "Counted from a clone on 2026-11-04: 196 Python `def test_` functions and 16 Java `@Test` annotations. Up from 82 on 2026-10-19, after the production-readiness pass added per-service test runs and tests for two previously untested services.",
@@ -85,7 +85,7 @@ export const project = {
       },
     ],
     caveat:
-      "Not production-ready, by its own tracker: both provisional SLOs are missed, the go-live checklist has not been executed, the release workflow has never run on a tag, and five owner decisions are open. Single-region, Compose-only.",
+      "Not production-ready, by its own tracker: both provisional SLOs are missed, the go-live checklist has not been executed, the release workflow has never run on a tag, and five of my design decisions are still open. Single-region, Compose-only.",
   },
 
   caseStudy: {
@@ -109,7 +109,7 @@ export const project = {
   forensics/         incident replay and event search
   attack-sim/        scripted attacks with expected outcomes
   dashboard/         operator UI
-sentinel-command-main/  candidate SOC dashboard (TypeScript)
+sentinel-command-main/  SOC dashboard; scaffold and UI generated with Lovable
 policies/opa/        Rego policy
 scripts/db/migrations/  one migration path, run by db-migrate
 infra/               nginx ingress, Prometheus + Alertmanager rules,
@@ -150,7 +150,7 @@ docs/                threat model · architecture + ADRs · API contracts
       {
         title: "Measure the SLO, and publish the miss",
         body:
-          "Resource limits and a restart policy went in, then a Locust baseline was run and written up with its test conditions. Neither provisional SLO is met. The document says so, names the anomaly service as the throughput ceiling, and leaves SLO enforcement off in CI until the owner agrees the numbers.",
+          "Resource limits and a restart policy went in, then a Locust baseline was run and written up with its test conditions. Neither provisional SLO is met. The document says so, names the anomaly service as the throughput ceiling, and leaves SLO enforcement off in CI until I settle the numbers.",
       },
       {
         title: "Replay window of 60 seconds, not the token lifetime",
@@ -168,7 +168,7 @@ docs/                threat model · architecture + ADRs · API contracts
     evidence: [
       "**Counts are reproducible:** the service and test-function counts above come from a clone of the public repository and can be re-run by anyone.",
       "**Attack outcomes are asserted, not described:** the attack-sim suite checks that each scripted attack ends in its expected allow, deny, step-up or revoke.",
-      "**Known gaps are written down:** KNOWN_LIMITATIONS.md marks each limitation accepted, open or measured, and PRODUCTION_READINESS.md lists the open blockers and owner decisions, instead of leaving them to be discovered.",
+      "**Known gaps are written down:** KNOWN_LIMITATIONS.md marks each limitation accepted, open or measured, and PRODUCTION_READINESS.md lists the open blockers and my open decisions, instead of leaving them to be discovered.",
       "**False “done” claims reopened in public:** the readiness tracker marks which earlier audit items were wrongly closed and which finding closed each one.",
     ],
     securityControls: [
@@ -185,13 +185,13 @@ docs/                threat model · architecture + ADRs · API contracts
     ],
     limitations: [
       "Not production-ready: both provisional SLOs are missed (best run p99 820 ms), the go-live checklist has not been run, and the release workflow has never run on a tag.",
-      "Anomaly scoring fails open: if the anomaly service errors or exceeds its 150 ms timeout, the request is scored without the ML signal. Every fallback is now counted and alerted on; whether high-sensitivity endpoints should fail closed is an open owner decision.",
+      "Anomaly scoring fails open: if the anomaly service errors or exceeds its 150 ms timeout, the request is scored without the ML signal. Every fallback is now counted and alerted on; whether high-sensitivity endpoints should fail closed is a decision I haven’t made yet.",
       "The replay check is not atomic, so two concurrent requests on one token can both pass it (accepted).",
       "`X-Client-Ip` and `X-Geo` are trusted only from the pinned nginx address; anything that reaches the apps without going through nginx can spoof them.",
       "Single region, single node, Compose only; Kubernetes and Helm manifests are no longer maintained.",
     ],
     currentStatus:
-      "Running, not production-ready — 58 commits between 4 May and 5 Nov 2026. A production-readiness pass (PR #2, merged 27 Oct 2026) closed 16 of 18 hardening tasks; quarantining Kubernetes/Helm and wiring one SOC dashboard to real data remain, along with the SLO miss and five open owner decisions. Licence: Apache-2.0.",
+      "Running, not production-ready — 60 commits between 4 May and 6 Nov 2026. A production-readiness pass (PR #2, merged 27 Oct 2026) closed 16 of 18 hardening tasks; quarantining Kubernetes/Helm and wiring one SOC dashboard to real data remain, along with the SLO miss and five open design decisions. Licence: Apache-2.0.",
     repoNote: `Public repository: ${REPO.replace("https://", "")}.`,
   },
 };

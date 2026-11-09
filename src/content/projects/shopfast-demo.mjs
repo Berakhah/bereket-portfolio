@@ -8,7 +8,7 @@ export const project = {
   slug: "shopfast-demo",
   name: "ShopFast sample audit",
   tagline: "A pre-launch security audit of an AI-built Next.js + Supabase + Stripe store, with every finding proven",
-  plain: "A demo store with the eight flaws AI coding tools ship most often, audited the way I'd audit a client's app. A demo, not client work: each finding is proven and comes with its fix.",
+  plain: "A demo store with twelve flaw types common in AI-built Supabase apps, audited the way I'd audit a client's app. A demo, not client work: each finding is proven and comes with its fix.",
   statement: "A finding you can't reproduce is an opinion.",
   status: {
     code: "running",
@@ -17,7 +17,7 @@ export const project = {
       "Public demo and sample report, published Nov 2026. Demo app, not client work: the flaws were planted on purpose and the code is marked do-not-deploy.",
   },
   category: ["Security", "Audit", "Supabase"],
-  role: "Sole reviewer — threat model, review, proofs, report",
+  role: "Threat model, review and report by me; proof scripts written with Claude Code under my direction",
   tech: ["Next.js 14", "Supabase", "PostgreSQL RLS", "Stripe", "OpenAI API", "Node.js", "CVSS 3.1", "Bash"],
   flow: ["Read code + migrations", "Sign in as each role", "Try to cross the boundary", "Prove it with a script", "Severity, proof, fix"],
   links: { github: REPO },
@@ -25,32 +25,32 @@ export const project = {
 
   card: {
     differentiator:
-      "Every finding comes with a proof a client can run themselves: `npm run poc` builds the app and replays the attacks against localhost, with Stripe and OpenAI swapped for local stand-ins so no real account is touched.",
+      "Ten of the twelve come with a proof you can run yourself: `npm run poc` builds the app and replays the attacks against localhost, with Stripe and OpenAI swapped for local stand-ins so no real account is touched.",
     metrics: [
       {
         id: "sf-proven",
-        value: "8 / 8",
+        value: "12 / 12",
         label: "planted flaws proven in a live run",
-        context: "3 Critical, 2 High, 3 Medium, each with a CVSS 3.1 score, proof and code fix.",
+        context: "3 Critical, 6 High, 3 Medium across all twelve, each with a CVSS 3.1 score, proof and code fix.",
         evidence: {
-          claim: "All eight planted flaws were proven in a live run of the demo app.",
+          claim: "All twelve planted flaws were proven in a live run of the demo app.",
           method: "HUMAN",
           source: { label: "shopfast-demo — README and sample report", href: REPO },
-          basis: "Stated in the published sample report; the planted flaws and their locations are listed in the repository README.",
+          basis: "SF-01 to SF-08 were proven in the live run behind the published sample report. SF-09 to SF-12 were added on 7 Nov 2026 and proven in GitHub Actions run 42414269396. The revised written report (Nov 9, 2026) covers all twelve; it is in the repository at docs/ShopFast-Sample-Security-Audit.pdf.",
           observedAt: "2026-11",
           caveats: ["Demo application with flaws planted on purpose, not client work."],
         },
       },
       {
         id: "sf-runner",
-        value: "6",
+        value: "10",
         label: "flaws re-proven by one command",
-        context: "SF-01, 02, 04, 05, 06 and 07 run in `npm run poc`; SF-08 has its own load script and SF-03 lives in the first commit.",
+        context: "SF-01, 02, 04, 05, 06, 07 and the four added on 7 Nov (SF-09 storage, SF-10 Realtime, SF-11 SECURITY DEFINER, SF-12 prompt injection) run in `npm run poc` and in CI; SF-08 has its own load script. SF-03 is a secret in git history, which no script can replay, so the report gives exact steps to find it. The written report covers all twelve, each with its proof and fix.",
         evidence: {
-          claim: "The one-command proof runner covers six of the eight findings.",
+          claim: "The one-command proof runner covers ten of the twelve findings.",
           method: "DETERMINISTIC",
           source: { label: "poc/run-all.mjs", href: REPO },
-          basis: "Counted the finding sections in poc/run-all.mjs from a clone on 2026-11-06: SF-01, SF-02, SF-04, SF-05, SF-06 and SF-07. SF-08 is proven by poc/sf08.sh (200 parallel unauthenticated chat requests).",
+          basis: "Counted the finding sections in poc/run-all.mjs on 2026-11-07: SF-01, 02, 04, 05, 06, 07, 09, 10, 11 and 12. GitHub Actions run 42414269396 reproduced all ten. SF-08 is proven by poc/sf08.sh (200 parallel unauthenticated chat requests).",
           observedAt: "2026-11-06",
           caveats: ["Needs a throwaway Supabase project and Node 20+ to run."],
         },
@@ -115,7 +115,7 @@ poc/                run-all.mjs (one-command runner), sf01.sh,
     ],
     implementation: [
       "App: Next.js 14 App Router, @supabase/ssr and supabase-js, Stripe and OpenAI SDKs; one SQL migration defines the schema.",
-      "Proofs: `npm run poc` builds the app, starts it on localhost and runs the six HTTP-level proofs, writing redacted results to poc/out/results.txt; secrets and tokens are redacted in the output.",
+      "Proofs: `npm run poc` builds the app, starts it on localhost and runs ten proofs (SF-01, 02, 04–07 and 09–12), writing redacted results to poc/out/results.txt; secrets and tokens are redacted in the output.",
       "Report: plain-English summary, CVSS 3.1 score, proof and code fix per finding, and a fix-today / this-week / before-launch roadmap.",
       `Repo: ${REPO.replace("https://", "")}.`,
     ],

@@ -12,10 +12,10 @@ export const project = {
     code: "running",
     label: "In development",
     detail:
-      "Five-rung resolution cascade, seven-check validation gate, assembled pipeline, heal-log evidence store and mutation test bench with a hardened scorer — 156 commits, 29 Aug → 5 Nov 2026. The web UI and HTTP API are not built yet, a fresh clone doesn’t install yet, and the tests don’t run in CI on main.",
+      "Five-rung resolution cascade, seven-check validation gate, assembled pipeline, heal-log evidence store and mutation test bench with a hardened scorer — 156 commits, 29 Aug → 5 Nov 2026. (The first commit’s date was corrected on 4 Nov 2026; the README explains why.) The web UI and HTTP API are not built yet, a fresh clone doesn’t install yet, and the tests don’t run in CI on main.",
   },
   category: ["Systems Design", "Trustworthy Automation"],
-  role: "Sole engineer — threat modelling, architecture, test strategy",
+  role: "Designed, specified and reviewed by me; much of the code generated with Claude Code under my direction (commits under [@Berakhah-sys](https://github.com/Berakhah-sys), my second account)",
   tech: ["Python 3.12", "Playwright", "Pydantic v2", "PostgreSQL", "Alembic", "Prefect 3", "Parquet", "DuckDB", "Docker Compose"],
   flow: ["Cached selector", "Accessibility tree", "Semantic anchors", "Structural heuristics", "Visual grounding (last resort)"],
   links: { github: "https://github.com/Berakhah/selector-drift" },
@@ -84,7 +84,7 @@ export const project = {
       },
     ],
     caveat:
-      "The ninety-day live heal log (3 portals, 41 UI changes, zero manual fixes, 99.2% run success) is the headline proof point the design commits to; it is not published here as a figure, because calendar time cannot be compressed and a result that has not been measured must not render as one.",
+      "The design’s main proof point would be a ninety-day live heal log. It hasn’t been run, so there are no results to report yet.",
   },
 
   caseStudy: {
@@ -167,7 +167,7 @@ web/             (planned) Targets · Task spec editor · Run timeline
       "Heal-log evidence store: scrubbed and redacted DOM and screenshots with post-shot pixel verification, egress-guarded atomic writes, size-capped link-free bundle reads, and replays that expire with the target’s evidence policy.",
       "Bench scorer: a separate, hardened Compose service judges every bench heal against an answer key, using a database role granted exactly what it needs and a read-only evidence mount, and refuses to start if either is wrong.",
       "Landing zone: per-run Parquet partitions with DuckDB as the query layer, compaction, idempotent upsert on natural key; data-quality contract on row counts, null rates, distribution shift (PSI/KS), referential checks and schema-drift detection.",
-      "1,434 test functions in 123 files (counted 2026-11-04), including a benign-heal acceptance suite and a degraded-mode floor with every model provider disabled.",
+      "1,434 test functions in 123 files, by static count (grep for def test_, 2026-11-07); a fresh clone doesn’t install yet, so the suite can’t be re-run from a clean install today, including a benign-heal acceptance suite and a degraded-mode floor with every model provider disabled.",
       "Planned, not built: the FastAPI layer and the Next.js frontend (Monaco YAML task-spec editor plus a form view for non-engineers).",
     ],
     evidence: [

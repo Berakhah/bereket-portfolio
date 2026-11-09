@@ -64,7 +64,8 @@ export const header = (path, nav, site) => `
         ? `<a href="mailto:${esc(site.email)}">Email</a>`
         : `<a href="${esc(site.upwork)}" rel="noopener" target="_blank">Upwork</a>`}
       <a href="${esc(site.github)}" rel="noopener" target="_blank">GitHub</a>
-      ${directContact(site) ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>` : ""}
+      ${site.linkedin ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>` : ""}
+      
     </nav>
   </div>
 </header>`;
@@ -84,12 +85,13 @@ export const footer = (site) => `
         ? `<a href="mailto:${esc(site.email)}">${esc(site.email)}</a>`
         : `<a href="${esc(site.upwork)}" rel="noopener" target="_blank">Upwork</a>`}
       <a href="${esc(site.github)}" rel="noopener" target="_blank">GitHub</a>
-      ${directContact(site) ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>` : ""}
+      ${site.linkedin ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank">LinkedIn</a>` : ""}
+      
       <a href="/resume.html">Résumé</a>
     </nav>
   </div>
   <div class="wrap foot-base mono">
     <span>© <span id="year">2026</span> ${esc(site.name)}</span>
-    <span>Reviewed ${esc(site.reviewed)} · No trackers · Every figure carries its source</span>
+    <span>Reviewed ${esc(site.reviewed)} · No trackers · Project figures link to their source</span>
   </div>
 </footer>`;

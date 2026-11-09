@@ -40,7 +40,7 @@ test("work: six sticky panels with plain + technical copy, two metrics, vertical
   assert.match(home, /<span class="panel-num mono">Sample<\/span>/);
   assert.match(home, /<span class="panel-num mono">01<\/span>/);
   assert.match(home, /id="tools-h">Tools I’ve built\.</);
-  assert.match(home, /<p class="panel-plain">A demo store with the eight flaws AI coding tools ship most often/);
+  assert.match(home, /<p class="panel-plain">A demo store with twelve flaw types common in AI-built Supabase apps/);
   assert.equal((home.match(/<p class="panel-tech">/g) || []).length, 6);
   assert.equal((home.match(/<div class="panel-metrics">/g) || []).length, 6);
   assert.equal((home.match(/<ol class="flow flow-v"/g) || []).length, 6);
@@ -55,7 +55,7 @@ test("principles list, path + stack band, about with portrait, contact block", (
   assert.equal((home.match(/<li class="principle rv"/g) || []).length, 8);
   assert.match(home, /<section class="section" id="principles"/);
   assert.equal((home.match(/<li class="mode rv"/g) || []).length, 6);
-  assert.equal((home.match(/<div class="stack-run rv">/g) || []).length, 5);
+  assert.equal((home.match(/<div class="stack-run rv">/g) || []).length, 3);
   assert.match(home, /<picture class="portrait about-portrait">/);
   assert.match(home, /<h2 class="contact-h rv" id="contact-h">Let’s talk\.<\/h2>/);
   assert.match(home, /<div class="contact-links rv">/);

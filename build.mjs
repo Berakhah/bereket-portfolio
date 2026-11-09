@@ -6,7 +6,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  site, nav, hero, audit, principles, timeline, stack, about, experience,
+  site, nav, hero, audit, principles, timeline, stack, about,
   projects, sampleProject, toolProjects, evidenceIndex,
 } from "./src/content/index.mjs";
 import { directContact } from "./src/content/person.mjs";
@@ -112,7 +112,7 @@ const indexPage = () => {
     "@context": "https://schema.org",
     "@type": "Person",
     name: site.name,
-    jobTitle: site.title,
+    jobTitle: site.jobTitle,
     ...(directContact() ? { email: `mailto:${site.email}` } : {}),
     image: `${site.siteUrl}/assets/img/bereket-1200.jpg`,
     address: { "@type": "PostalAddress", addressLocality: "Addis Ababa", addressCountry: "ET" },
@@ -156,7 +156,7 @@ const indexPage = () => {
 
 <section class="section section-work" id="work" aria-labelledby="work-h">
   <div class="wrap work-head">
-    ${sectionHead("work-h", "One sample audit, five systems.", "First, the report a client gets. Then the tools I’ve built, all personal open-source work from 2026. Every figure opens its source; every case study says what isn’t finished.")}
+    ${sectionHead("work-h", "One sample audit, five systems.", "First, the report a client gets. Then five personal projects from 2026, each open source. Project figures link to their source, and every case study says what isn’t finished.")}
   </div>
   <div class="panels">
     ${panel(sampleProject, "Sample")}
@@ -198,12 +198,10 @@ const indexPage = () => {
     </div>
     <div>
       <h2 class="subblock-h rv">Stack.</h2>
-      <div class="stack-runs">
-        ${stack.map((s) => `<div class="stack-run rv">
-          <p class="stack-h">${esc(s.group)}</p>
-          <p class="stack-items">${s.items.map(esc).join(" · ")}</p>
-        </div>`).join("")}
-      </div>
+      <div class="stack-runs">${stack.map((s) => `<div class="stack-run rv">
+            <p class="stack-h">${esc(s.group)}</p>
+            <p class="stack-items">${s.items.map(esc).join(" · ")}</p>
+          </div>`).join("")}</div>
     </div>
   </div>
 </section>
@@ -225,12 +223,17 @@ const indexPage = () => {
     <div class="contact-links rv">
       ${directContact() ? `<a href="mailto:${esc(site.email)}"><span>${esc(site.email)}</span><span class="mono">EMAIL</span></a>` : `<a href="${esc(site.upwork)}" rel="noopener" target="_blank"><span>Bereket T. on Upwork</span><span class="mono">UPWORK</span></a>`}
       <a href="${esc(site.github)}" rel="noopener" target="_blank"><span>github.com/Berakhah</span><span class="mono">GITHUB</span></a>
-      ${directContact() ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank"><span>LinkedIn profile</span><span class="mono">LINKEDIN</span></a>` : ""}
+      ${directContact()
+        ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank"><span>LinkedIn profile</span><span class="mono">LINKEDIN</span></a>`
+        : [
+          site.linkedin && `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank"><span>${esc(bareUrl(site.linkedin))}</span><span class="mono">LINKEDIN</span></a>`,
+          site.email && `<a href="mailto:${esc(site.email)}"><span>${esc(site.email)}</span><span class="mono">EMAIL</span></a>`,
+        ].filter(Boolean).map((a) => `${a}
+      `).join("")}
       ${directContact() ? `<a href="/assets/Bereket_Tilahun_Resume.pdf" download><span>Résumé, one page</span><span class="mono">PDF</span></a>` : `<a href="/resume.html"><span>Résumé, web page</span><span class="mono">RÉSUMÉ</span></a>`}
       ${directContact() ? `<a href="tel:${esc(site.phone.replace(/\s/g, ""))}"><span>${esc(site.phone)}</span><span class="mono">PHONE</span></a>` : ""}
     </div>
     <p class="contact-avail rv">${esc(site.availability)}</p>
-    <p class="contact-avail rv">${esc(site.availabilityRoles)}</p>
   </div>
 </section>`;
 
@@ -322,7 +325,7 @@ const casePage = (p, i) => {
     <p class="cs-plain rv" style="--d:180ms">${esc(p.plain)}</p>
     <p class="cs-status rv" style="--d:240ms"><span class="dot" aria-hidden="true"></span><span><strong>${esc(p.status.label)}</strong> — ${md(p.status.detail)}</span></p>
     <div class="cs-meta rv" style="--d:300ms">
-      <span><strong>Role</strong> ${esc(p.role)}</span>
+      <span><strong>Role</strong> ${md(p.role)}</span>
       <span><strong>Licence</strong> ${esc(p.licence)}</span>
       ${p.links && p.links.github ? `<a class="text-link" href="${esc(p.links.github)}" rel="noopener" target="_blank">GitHub ${icon("external", "icon-xs")}</a>` : ""}
     </div>
@@ -350,7 +353,15 @@ ${caseSections(p)}
 
 const UPWORK_RESUME_PDF = "bereket-tilahun-resume.pdf";
 
+// The résumé body is generated from docs/resume/resume.tex (the PDF's source)
+// by docs/resume/make_resume_html.py, so the page and the PDF say the same thing.
+const RESUME_BODY = src("content", "resume-body.html");
+const bareUrl = (u) => u.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+
 const resumePage = () => {
+  const printContact = site.email || site.linkedin
+    ? [site.email, site.linkedin && bareUrl(site.linkedin), "github.com/Berakhah", "berakhah.github.io"].filter(Boolean).join(" · ")
+    : "berakhah.github.io · github.com/Berakhah · upwork.com/freelancers/~01645da719eb4829ed";
   const main = `
 <section class="resume-hero">
   <div class="wrap">
@@ -364,25 +375,13 @@ const resumePage = () => {
         : `<a class="btn btn-signal" href="${esc(site.upwork)}" rel="noopener" target="_blank">Hire me on Upwork ${icon("arrowUpRight", "icon-xs")}</a>
       <a class="btn btn-ink" href="/assets/${UPWORK_RESUME_PDF}" download>Download PDF ${icon("download", "icon-xs")}</a>`}
     </div>
-    <p class="cs-plain rv" style="--d:220ms">Fixed-price security reviews for AI-built Supabase, Next.js and Stripe apps on Upwork. ${esc(site.availabilityRoles)}</p>
-    <p class="print-only mono" style="display:none;font-size:.8rem">berakhah.github.io · github.com/Berakhah · upwork.com/freelancers/~01645da719eb4829ed</p>
+    <p class="cs-plain rv" style="--d:220ms">${esc(site.availabilityRoles)}</p>
+    <p class="print-only mono" style="display:none;font-size:.8rem">${esc(printContact)}</p>
   </div>
 </section>
 <div class="wrap resume-body">
-  ${experience.roles.map((r, i) => `<section class="resume-role rv" aria-labelledby="rr${i}">
-    <div class="resume-role-head"><h2 class="resume-title" id="rr${i}">${esc(r.title)}</h2><span class="resume-range mono">${esc(r.range)}</span></div>
-    <p class="resume-org">${esc(r.org)} · ${esc(r.loc)}</p>
-    ${r.note ? `<p class="resume-org">${esc(r.note)}</p>` : ""}
-    ${r.points.length ? bullets(r.points, "bullets resume-points") : ""}
-  </section>`).join("")}
-  <section class="resume-role rv"><h2 class="resume-title">Projects</h2>
-    <ul class="bullets resume-points">${experience.projects.map((x) => `<li><a href="${esc(x.href)}" style="display:inline-block;padding-block:.15rem"><strong>${esc(x.name)}</strong></a> ${esc(x.text)}</li>`).join("")}</ul>
-  </section>
-  <section class="resume-role rv"><h2 class="resume-title">Skills</h2>
-    <div class="stack-runs">${stack.map((s) => `<div class="stack-run"><p class="stack-h">${esc(s.group)}</p><p class="stack-items">${s.items.map(esc).join(" · ")}</p></div>`).join("")}</div>
-  </section>
-  <section class="resume-role rv"><h2 class="resume-title">Education</h2><p class="resume-org">${esc(about.educationResume ?? about.education)}</p>${about.educationNote ? `<p class="resume-org">${esc(about.educationNote)}</p>` : ""}</section>
-</div>`;
+<!-- generated from resume.tex by make_resume_html.py; do not edit by hand -->
+${RESUME_BODY}</div>`;
   return page({
     title: `Résumé — ${site.name}`,
     desc: `Résumé of ${site.name}, Senior Software Engineer at DZ Software Engineering, Addis Ababa: backend and application security. PDF available.`,
@@ -392,6 +391,20 @@ const resumePage = () => {
     css: CSS + "\n" + RESUME_PRINT_CSS,
   });
 };
+
+// ---------------------------------------------------------------------------
+// Scope and authorisation form
+// ---------------------------------------------------------------------------
+
+const scopePage = () =>
+  page({
+    title: `Scope form · ${site.name}`,
+    desc: "The form a client and I sign before I test anything: what is in scope, where I test, and how I handle access and data.",
+    path: "/scope.html",
+    bodyClass: "page-404",
+    main: `
+${src("content", "scope-main.html").trimEnd()}`,
+  });
 
 // ---------------------------------------------------------------------------
 // 404
@@ -430,12 +443,15 @@ else rmSync(RESUME_PDF, { force: true });
 // The Upwork-safe PDF carries no direct contact details, so it ships in Upwork mode.
 const UPWORK_PDF_OUT = join(OUT, "assets", UPWORK_RESUME_PDF);
 if (directContact()) rmSync(UPWORK_PDF_OUT, { force: true });
-else copyFileSync(join(ROOT, "src", "assets", UPWORK_RESUME_PDF), UPWORK_PDF_OUT);
+// PORTFOLIO_UPWORK_RESUME_PDF overrides it with a PDF kept outside the repo
+// (the published one lists LinkedIn, which never goes into source).
+else copyFileSync(process.env.PORTFOLIO_UPWORK_RESUME_PDF || join(ROOT, "src", "assets", UPWORK_RESUME_PDF), UPWORK_PDF_OUT);
 writeFileSync(join(JS_DIR, `app.${BUNDLE_HASH}.js`), BUNDLE_SRC);
 
 writeFileSync(join(OUT, "index.html"), indexPage());
 writeFileSync(join(OUT, "resume.html"), resumePage());
 writeFileSync(join(OUT, "404.html"), notFoundPage());
+writeFileSync(join(OUT, "scope.html"), scopePage());
 for (const [i, p] of projects.entries()) {
   writeFileSync(join(OUT, "work", `${p.slug}.html`), casePage(p, i));
 }
@@ -445,7 +461,7 @@ writeFileSync(
   join(OUT, "robots.txt"),
   `User-agent: *\nAllow: /\n${site.siteUrl ? `Sitemap: ${site.siteUrl}/sitemap.xml\n` : ""}`
 );
-const urls = ["/", "/resume.html", ...projects.map((p) => `/work/${p.slug}.html`)];
+const urls = ["/", "/resume.html", ...projects.map((p) => `/work/${p.slug}.html`), "/scope.html"];
 writeFileSync(
   join(OUT, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
