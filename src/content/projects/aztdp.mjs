@@ -1,8 +1,8 @@
 // AZTDP — Adaptive Zero-Trust Defense Platform. Security / backend systems case study.
-// Source: github.com/Berakhah/Adaptive-Zero-Trust-Defense-Platform--AZTDP- (README, docs/, docker-compose.yml,
+// Source: github.com/Berakhah/aztdp (README, docs/, docker-compose.yml,
 // .github/workflows/ci.yml, docs/PRODUCTION_READINESS.md). Counts re-taken from a clone on 2026-11-04.
 
-const REPO = "https://github.com/Berakhah/Adaptive-Zero-Trust-Defense-Platform--AZTDP-";
+const REPO = "https://github.com/Berakhah/aztdp";
 
 export const project = {
   slug: "aztdp",
