@@ -21,6 +21,11 @@ export const project = {
   tech: ["Next.js 14", "Supabase", "PostgreSQL RLS", "Stripe", "OpenAI API", "Node.js", "CVSS 3.1", "Bash"],
   flow: ["Read code + migrations", "Sign in as each role", "Try to cross the boundary", "Prove it with a script", "Severity, proof, fix"],
   links: { github: REPO },
+  demo: {
+    src: "/assets/video/shopfast-demo.mp4",
+    poster: "/assets/video/shopfast-demo-poster.jpg",
+    caption: "Walkthrough, 1:42: all twelve findings replayed in the attack console, then the run telemetry, the findings ledger and the fix roadmap. Captions on screen, no voiceover.",
+  },
   licence: "No licence — demo, do not reuse",
 
   card: {

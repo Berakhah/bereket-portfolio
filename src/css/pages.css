@@ -105,3 +105,9 @@
 .post-item { display: grid; gap: .5rem; padding-top: 1.5rem; border-top: 1px solid var(--hair); }
 .post-item h2 { font-family: var(--serif); font-weight: 500; font-size: var(--fs-3); line-height: 1.1; letter-spacing: -.01em; }
 .post-item h2 a:hover { color: var(--signal); }
+
+/* Demo video (case study hero + write-up) */
+.demo-video { margin: 2.5rem 0 0; }
+.demo-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 12px; background: var(--paper-2); border: 1px solid var(--hair); }
+.demo-video figcaption { margin-top: .75rem; font-size: var(--fs--1); color: var(--muted); max-width: 70ch; }
+.post-body .demo-video, .demo-video.post-demo { margin: 2rem 0; }

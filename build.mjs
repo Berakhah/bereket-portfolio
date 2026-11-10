@@ -256,6 +256,15 @@ const indexPage = () => {
   });
 };
 
+// Demo video figure: poster first, metadata-only preload, native controls
+const demoFigure = (d, cls = "") => `<figure class="demo-video${cls ? ` ${cls}` : ""}" id="demo">
+  <video controls playsinline preload="metadata" poster="${esc(d.poster)}" width="1920" height="1080">
+    <source src="${esc(d.src)}" type="video/mp4">
+    <a href="${esc(d.src)}">Download the walkthrough (MP4)</a>
+  </video>
+  <figcaption>${esc(d.caption)}</figcaption>
+</figure>`;
+
 // ---------------------------------------------------------------------------
 // Case study pages — fixed structure (§9)
 // ---------------------------------------------------------------------------
@@ -337,6 +346,7 @@ const casePage = (p, i) => {
       ${p.links && p.links.github ? `<a class="text-link" href="${esc(p.links.github)}" rel="noopener" target="_blank">GitHub ${icon("external", "icon-xs")}</a>` : ""}
     </div>
     <div class="cs-tech rv" style="--d:360ms">${p.tech.map((t) => `<span class="chip">${esc(t)}</span>`).join("")}</div>
+    ${p.demo ? demoFigure(p.demo, "cs-demo rv") : ""}
   </div>
 </section>
 ${caseSections(p)}
