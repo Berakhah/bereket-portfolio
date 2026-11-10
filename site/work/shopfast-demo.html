@@ -535,6 +535,12 @@ html.drawer-open { overflow: hidden; }
 .post-item h2 { font-family: var(--serif); font-weight: 500; font-size: var(--fs-3); line-height: 1.1; letter-spacing: -.01em; }
 .post-item h2 a:hover { color: var(--signal); }
 
+/* Demo video (case study hero + write-up) */
+.demo-video { margin: 2.5rem 0 0; }
+.demo-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 12px; background: var(--paper-2); border: 1px solid var(--hair); }
+.demo-video figcaption { margin-top: .75rem; font-size: var(--fs--1); color: var(--muted); max-width: 70ch; }
+.post-body .demo-video, .demo-video.post-demo { margin: 2rem 0; }
+
 /* Every hidden-until-revealed state lives under .motion (set by main.js
    only when GSAP loaded and reduced motion is off). Without it the site is
    fully visible and static. */
@@ -604,6 +610,13 @@ html.drawer-open { overflow: hidden; }
       <a class="text-link" href="https://github.com/Berakhah/shopfast-demo" rel="noopener" target="_blank">GitHub <svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9M18 13v6H5V6h6"/></svg></a>
     </div>
     <div class="cs-tech rv" style="--d:360ms"><span class="chip">Next.js 14</span><span class="chip">Supabase</span><span class="chip">PostgreSQL RLS</span><span class="chip">Stripe</span><span class="chip">OpenAI API</span><span class="chip">Node.js</span><span class="chip">CVSS 3.1</span><span class="chip">Bash</span></div>
+    <figure class="demo-video cs-demo rv" id="demo">
+  <video controls playsinline preload="metadata" poster="/assets/video/shopfast-demo-poster.jpg" width="1920" height="1080">
+    <source src="/assets/video/shopfast-demo.mp4" type="video/mp4">
+    <a href="/assets/video/shopfast-demo.mp4">Download the walkthrough (MP4)</a>
+  </video>
+  <figcaption>Walkthrough, 1:42: all twelve findings replayed in the attack console, then the run telemetry, the findings ledger and the fix roadmap. Captions on screen, no voiceover.</figcaption>
+</figure>
   </div>
 </section>
 

@@ -64,3 +64,13 @@ test("résumé: roles, skills, education, Upwork CTA, no scenes", () => {
   assert.doesNotMatch(resume, /Junior Software Engineer|CVEs|15\+ production/);
   assert.doesNotMatch(resume, /data-boot|class="scene"|class="panel"/);
 });
+
+test("ShopFast case study and write-up embed the demo video; other case studies don't", () => {
+  for (const f of ["work/shopfast-demo.html", "writing/shopfast-twelve-leaks.html"]) {
+    const h = read(f);
+    assert.match(h, /<figure class="demo-video[^"]*" id="demo">/);
+    assert.match(h, /<video controls playsinline preload="metadata" poster="\/assets\/video\/shopfast-demo-poster\.jpg"/);
+    assert.match(h, /<source src="\/assets\/video\/shopfast-demo\.mp4" type="video\/mp4">/);
+  }
+  assert.doesNotMatch(read("work/ledger-sense.html"), /class="demo-video/);
+});
