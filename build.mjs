@@ -6,8 +6,8 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  site, nav, hero, audit, principles, timeline, stack, about,
-  projects, sampleProject, toolProjects, evidenceIndex,
+  site, nav, hero, proof, paths, audit, principles, timeline, stack, about, contact,
+  projects, sampleProject, toolProjects, securityProjects, depthProjects, evidenceIndex,
 } from "./src/content/index.mjs";
 import { directContact } from "./src/content/person.mjs";
 import { posts } from "./src/content/writing.mjs";
@@ -124,30 +124,95 @@ const indexPage = () => {
     image: `${site.siteUrl}/assets/img/bereket-1200.jpg`,
     address: { "@type": "PostalAddress", addressLocality: "Addis Ababa", addressCountry: "ET" },
     sameAs: directContact() ? [site.github, site.linkedin] : [site.github, site.upwork],
-    knowsAbout: ["Backend Security", "Zero Trust", "OIDC", "Threat Modeling", "LLM Evaluation", "FastAPI", "Django REST"],
+    knowsAbout: ["Application Security", "Supabase Row-Level Security", "MCP Security", "Zero Trust", "OIDC", "LLM Evaluation", "FastAPI", "Django REST"],
   };
+  const { clients, employers } = paths;
+  const f = hero.finding;
+  const upworkBtn = (label, cls = "btn btn-signal") => directContact()
+    ? `<a class="${cls}" href="mailto:${esc(site.email)}">Email me ${icon("arrowUpRight", "icon-xs")}</a>`
+    : `<a class="${cls}" href="${esc(site.upwork)}" rel="noopener" target="_blank">${esc(label)} ${icon("arrowUpRight", "icon-xs")}</a>`;
+  const [before, after] = hero.headline.split(hero.headlineEm);
+  // Security work keeps the "Sample, 01, 02" numbering; depth continues it.
+  const num = (p) => { const i = projects.indexOf(p); return i === 0 ? "Sample" : String(i).padStart(2, "0"); };
 
   const main = `
 <section class="hero" aria-labelledby="hero-h">
   <div class="wrap hero-grid">
     <div class="hero-copy">
       <p class="eyebrow rv">${esc(hero.eyebrow)}</p>
-      <h1 class="hero-h rv" id="hero-h">Can one customer see <em class="hero-em">another’s</em> data?</h1>
+      <h1 class="hero-h rv" id="hero-h">${esc(before)}<em class="hero-em">${esc(hero.headlineEm)}</em>${esc(after)}</h1>
       <p class="hero-lede rv" style="--d:80ms">${esc(hero.lede)}</p>
       <div class="hero-ctas rv" style="--d:140ms">
-        ${directContact()
-          ? `<a class="btn btn-signal" href="mailto:${esc(site.email)}">Email me ${icon("arrowUpRight", "icon-xs")}</a>`
-          : `<a class="btn btn-signal" href="${esc(site.upwork)}" rel="noopener" target="_blank">Hire me on Upwork ${icon("arrowUpRight", "icon-xs")}</a>`}
+        ${upworkBtn("Book an audit on Upwork")}
         <a class="btn btn-ink" href="/work/${sampleProject.slug}.html">See a sample audit ${icon("arrow", "icon-xs")}</a>
       </div>
+      <p class="hero-hiring rv" style="--d:180ms"><a class="panel-cta" href="/resume.html">${esc(hero.hiringLink)} ${icon("arrow", "icon-xs")}</a></p>
     </div>
     ${portrait(1200, "hero-portrait", true)}
+  </div>
+
+  <div class="wrap finding-band">
+    <figure class="finding rv" aria-labelledby="finding-title">
+      <div class="finding-copy">
+        <p class="eyebrow">Example finding · ${esc(f.id)}</p>
+        <p class="finding-title" id="finding-title">${esc(f.title)}</p>
+        <p class="finding-body">${esc(f.body)}</p>
+        <p class="finding-sev"><span class="dot" aria-hidden="true"></span>${esc(f.severity)} · CVSS ${esc(f.cvss)}</p>
+      </div>
+      <div class="diff" role="group" aria-label="The fix, as a policy diff">
+        <p class="diff-file mono">${esc(f.file)}</p>
+        <pre><code>${f.context.map((l) => `<span class="dl"><span class="dl-sign" aria-hidden="true"> </span>${esc(l)}</span>`).join("")}<span class="dl dl-del"><span class="dl-sign" aria-hidden="true">-</span><span class="sr-only">Removed: </span>${esc(f.removed)}</span><span class="dl dl-add"><span class="dl-sign" aria-hidden="true">+</span><span class="sr-only">Added: </span>${esc(f.added)}</span></code></pre>
+        <figcaption class="finding-proof">${f.proof} <a href="/work/shopfast-demo.html">Read the sample audit</a></figcaption>
+      </div>
+    </figure>
+    <ul class="proof" aria-label="Proof points">
+      ${proof.map((p, i) => `<li class="big-metric rv" style="--d:${i * 60}ms">
+        <button class="big-value prov-trigger" type="button" data-evidence="${esc(p.id)}" aria-haspopup="dialog" aria-label="${esc(`${p.value}: show evidence`)}">${esc(p.value)}</button>
+        <span class="big-plain">${esc(p.text)}</span>
+      </li>`).join("")}
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="hire" aria-labelledby="hire-h">
+  <div class="wrap">
+    ${sectionHead("hire-h", `${paths.title}.`)}
+    <div class="paths">
+      <div class="path path-clients rv">
+        <p class="eyebrow">For founders</p>
+        <h3 class="path-h">${esc(clients.lede)}</h3>
+        <ul class="bullets">${clients.checks.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
+        <table class="tiers">
+          <caption class="sr-only">Fixed prices</caption>
+          <tbody>${clients.tiers.map((t) => `<tr><th scope="row">${esc(t.name)}</th><td class="tier-price mono">${esc(t.price)}</td><td>${esc(t.days)}</td></tr>`).join("")}</tbody>
+        </table>
+        <p class="path-note">${esc(clients.note)}</p>
+        <div class="path-ctas">${upworkBtn(clients.cta)}<a class="panel-cta" href="#audit">How an audit works ${icon("arrow", "icon-xs")}</a></div>
+      </div>
+      <div class="path path-employers rv" style="--d:80ms">
+        <p class="eyebrow">For hiring teams</p>
+        <h3 class="path-h">${esc(employers.lede)}</h3>
+        <ul class="bullets">${employers.points.map((c) => `<li>${md(c)}</li>`).join("")}</ul>
+        <div class="path-ctas"><a class="btn btn-ink" href="/resume.html">${esc(employers.cta)} ${icon("arrow", "icon-xs")}</a><a class="panel-cta" href="${esc(site.github)}" rel="noopener" target="_blank">${esc(employers.secondary)} ${icon("arrowUpRight", "icon-xs")}</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-work" id="work" aria-labelledby="work-h">
+  <div class="wrap work-head">
+    ${sectionHead("work-h", "Security work.", "One sample audit, then two open-source security systems. Every figure opens its source, and every case study says what isn’t finished.")}
+  </div>
+  <div class="panels">
+    ${securityProjects.map((p) => panel(p, num(p))).join("")}
+<div class="wrap work-head">${sectionHead("depth-h", "Engineering depth.", "Three more open-source systems built around one rule: when the software isn’t sure, a person decides.")}
+</div>${depthProjects.map((p) => panel(p, num(p))).join("")}
   </div>
 </section>
 
 <section class="section" id="audit" aria-labelledby="audit-h">
   <div class="wrap">
-    ${sectionHead("audit-h", audit.title, audit.intro)}
+    ${sectionHead("audit-h", `${audit.title}.`, audit.intro)}
     <ol class="principles">
       ${audit.steps.map((s, i) => `<li class="principle rv" style="--d:${i * 60}ms">
         <span class="principle-num mono" aria-hidden="true">Step ${i + 1}</span>
@@ -157,24 +222,13 @@ const indexPage = () => {
         </div>
       </li>`).join("")}
     </ol>
-    <p class="section-intro rv" style="margin-top:2rem">${esc(audit.pricing)} <a class="panel-cta" href="${esc(site.upwork)}" rel="noopener" target="_blank">Start on Upwork ${icon("arrow", "icon-xs")}</a></p>
-  </div>
-</section>
-
-<section class="section section-work" id="work" aria-labelledby="work-h">
-  <div class="wrap work-head">
-    ${sectionHead("work-h", "One sample audit, five systems.", "First, the report a client gets. Then five personal projects from 2026, each open source. Project figures link to their source, and every case study says what isn’t finished.")}
-  </div>
-  <div class="panels">
-    ${panel(sampleProject, "Sample")}
-<div class="wrap work-head">${sectionHead("tools-h", "Tools I’ve built.", "Personal projects, not client work. Each says plainly where it stands.")}
-</div>${toolProjects.map((p, i) => panel(p, String(i + 1).padStart(2, "0"))).join("")}
+    <p class="section-intro rv" style="margin-top:2rem">Starter $249 (3 days) · Standard $595 (5 days) · Advanced $1,190 (7 days). Larger codebases quoted per job. ${directContact() ? "" : `<a class="panel-cta" href="${esc(site.upwork)}" rel="noopener" target="_blank">Start on Upwork ${icon("arrow", "icon-xs")}</a>`}</p>
   </div>
 </section>
 
 <section class="section" id="principles" aria-labelledby="principles-h">
   <div class="wrap">
-    ${sectionHead("principles-h", "How I work.", "Four rules, each with the system that forced it.")}
+    ${sectionHead("principles-h", "How I work.", "Four rules, each with the system that enforces it.")}
     <ol class="principles">
       ${principles.map((pr, i) => `<li class="principle rv" style="--d:${i * 60}ms">
         <span class="principle-num mono" aria-hidden="true">No. ${i + 1}</span>
@@ -188,10 +242,10 @@ const indexPage = () => {
   </div>
 </section>
 
-<section class="section" id="path" aria-label="Path and stack">
+<section class="section" id="experience" aria-label="Experience and stack">
   <div class="wrap path-grid">
     <div>
-      <h2 class="subblock-h rv">Path.</h2>
+      <h2 class="subblock-h rv">Experience.</h2>
       <ol class="modes">
         ${timeline.map((t) => `<li class="mode rv">
           <span class="mode-range mono">${esc(t.range)}</span>
@@ -202,6 +256,7 @@ const indexPage = () => {
           </div>
         </li>`).join("")}
       </ol>
+      <p class="mode-note rv">DZ figures come from internal dashboards I can’t publish; ask me about them.</p>
     </div>
     <div>
       <h2 class="subblock-h rv">Stack.</h2>
@@ -227,18 +282,18 @@ const indexPage = () => {
 <section class="section contact" id="contact" aria-labelledby="contact-h">
   <div class="wrap">
     <h2 class="contact-h rv" id="contact-h">Let’s talk.</h2>
+    <p class="section-intro rv" style="margin-bottom:2.5rem">${esc(contact.body)}</p>
     <div class="contact-links rv">
       ${directContact() ? `<a href="mailto:${esc(site.email)}"><span>${esc(site.email)}</span><span class="mono">EMAIL</span></a>` : `<a href="${esc(site.upwork)}" rel="noopener" target="_blank"><span>Bereket T. on Upwork</span><span class="mono">UPWORK</span></a>`}
+      <a href="/resume.html"><span>Résumé, web page and PDF</span><span class="mono">RÉSUMÉ</span></a>
       <a href="${esc(site.github)}" rel="noopener" target="_blank"><span>github.com/Berakhah</span><span class="mono">GITHUB</span></a>
       ${directContact()
         ? `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank"><span>LinkedIn profile</span><span class="mono">LINKEDIN</span></a>`
         : [
           site.linkedin && `<a href="${esc(site.linkedin)}" rel="noopener" target="_blank"><span>${esc(bareUrl(site.linkedin))}</span><span class="mono">LINKEDIN</span></a>`,
           site.email && `<a href="mailto:${esc(site.email)}"><span>${esc(site.email)}</span><span class="mono">EMAIL</span></a>`,
-        ].filter(Boolean).map((a) => `${a}
-      `).join("")}
-      ${directContact() ? `<a href="/assets/Bereket_Tilahun_Resume.pdf" download><span>Résumé, one page</span><span class="mono">PDF</span></a>` : `<a href="/resume.html"><span>Résumé, web page</span><span class="mono">RÉSUMÉ</span></a>`}
-      ${directContact() ? `<a href="tel:${esc(site.phone.replace(/\s/g, ""))}"><span>${esc(site.phone)}</span><span class="mono">PHONE</span></a>` : ""}
+        ].filter(Boolean).join("\n      ")}
+      ${directContact() && site.phone ? `<a href="tel:${esc(site.phone.replace(/\s/g, ""))}"><span>${esc(site.phone)}</span><span class="mono">PHONE</span></a>` : ""}
     </div>
     <p class="contact-avail rv">${esc(site.availability)}</p>
   </div>

@@ -6,7 +6,7 @@ export const site = {
   title: "Security engineer for AI-built apps",
   jobTitle: "Senior Software Engineer",
   location: "Addis Ababa, Ethiopia",
-  reviewed: "2026-11-07",
+  reviewed: "2026-11-21",
   // Kept out of the public repo: set PORTFOLIO_EMAIL, PORTFOLIO_PHONE,
   // PORTFOLIO_LINKEDIN and PORTFOLIO_RESUME_PDF (a path outside the repo) when
   // building with contactMode "direct".
@@ -16,7 +16,7 @@ export const site = {
   githubHandle: "@Berakhah",
   linkedin: process.env.PORTFOLIO_LINKEDIN ?? "",
   availability:
-    "Available for fixed-price security reviews on Upwork, more than 30 hours a week from UTC+3, alongside 20 hours a week at DZ. My employer knows about and allows this work.",
+    "Available for fixed-price security reviews, more than 30 hours a week from UTC+3, alongside 20 hours a week at DZ, which knows about and allows this work.",
   // Résumé lede.
   availabilityRoles:
     "Open to full-time or contract backend and application-security roles, remote or Addis Ababa. I also take fixed-price security reviews of Supabase, Next.js and Stripe apps.",
@@ -38,44 +38,108 @@ export const directContact = (s = site) => s.contactMode !== "upwork" && Boolean
 
 export const nav = [
   { label: "Work", href: "/#work" },
-  { label: "How an audit works", href: "/#audit" },
-  { label: "About", href: "/#about" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Services", href: "/#hire" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Résumé", href: "/resume.html" },
 ];
 
 // ---------------------------------------------------------------------------
-// Homepage hero and the audit offer.
+// Homepage hero. The visual is a real finding from the ShopFast sample (SF-10):
+// the planted policy and its fix, exactly as in supabase/migrations/.
 // ---------------------------------------------------------------------------
 
 export const hero = {
   metaTitle: "Bereket Tilahun — Security engineer for AI-built apps",
   metaDesc:
-    "Security reviews for apps built with Lovable, Cursor, Bolt or Claude Code on Supabase, Next.js and Stripe. Each finding comes with a way to reproduce it, and the fix.",
+    "Security reviews for Supabase, Next.js and Stripe apps built with Lovable, Cursor, Bolt or Claude Code, from a senior backend engineer. Every finding comes with a reproduction and the fix.",
   eyebrow: "Security engineer for AI-built apps · Addis Ababa, UTC+3",
+  headline: "I find where AI-built apps leak customer data, and hand you the fix.",
+  headlineEm: "leak",
   lede:
-    "If you built your app with Lovable, Cursor, Bolt or Claude Code on Supabase, Next.js and Stripe, I check it before real users or payments touch it. Each finding comes with the fix and a way to reproduce it: a script you can re-run, or exact steps and screenshots where a script can’t work. I also review and harden Python (FastAPI, Django) and Node.js APIs.",
+    "I review Supabase, Next.js and Stripe apps built with Lovable, Cursor, Bolt or Claude Code before real users or payments touch them. Each finding comes with a way to reproduce it and the fix. I’m also a Senior Software Engineer at DZ Software Engineering, where I build and harden production Python backends.",
+  hiringLink: "Hiring? Read my résumé",
+  finding: {
+    id: "SF-10",
+    severity: "High",
+    cvss: "7.7",
+    title: "Customer B receives customer A’s order updates in real time.",
+    body: "Row-level security was switched on, so the table looked safe. But the policy let every signed-in user read every row, and Supabase Realtime streams whatever that policy allows.",
+    file: "supabase/migrations/20261107000000_new_flaws.sql",
+    context: [
+      'create policy "notifications readable by any signed-in user"',
+      "  on public.notifications for select to authenticated",
+    ],
+    removed: "  using (true);",
+    added: "  using (auth.uid() = user_id);",
+    proof: "One of the twelve planted flaws in the ShopFast sample audit; <code>npm run poc</code> builds the app and replays it.",
+  },
+};
+
+// Three proof points under the hero, one for each kind of reader. Each opens
+// its evidence chain in the drawer.
+export const proof = [
+  { id: "m-census-31953", value: "31,953", text: "MCP Registry entries covered by a passive, reproducible census run with Agent Perimeter, my open-source scanner for MCP servers and agents." },
+  { id: "sf-proven", value: "12 of 12", text: "planted flaws proven in a live run of the ShopFast sample audit; CI replays ten of them on every push." },
+  { id: "m-dz-hardening", value: "47", text: "production API endpoints hardened at DZ, closing 9 High and Critical findings along the way." },
+];
+
+// ---------------------------------------------------------------------------
+// Two ways to work together: a fixed-price audit, or a role.
+// ---------------------------------------------------------------------------
+
+export const paths = {
+  title: "Two ways to work with me",
+  clients: {
+    heading: "For founders shipping an AI-built app",
+    lede: "A fixed-price security review before real users or payments touch your app.",
+    checks: [
+      "Can one customer read another customer’s rows, files or Realtime messages?",
+      "Are service-role or Stripe secret keys in the browser bundle or git history?",
+      "Does the browser decide the price, or whether an order is paid?",
+      "Are Stripe webhooks verified, and are SECURITY DEFINER functions safe?",
+      "Can a prompt make your AI feature act on someone else’s account?",
+    ],
+    tiers: [
+      { name: "Starter", price: "$249", days: "3 days" },
+      { name: "Standard", price: "$595", days: "5 days" },
+      { name: "Advanced", price: "$1,190", days: "7 days" },
+    ],
+    note: "Larger codebases are quoted per job. One recheck within 14 days is included.",
+    cta: "Book an audit on Upwork",
+  },
+  employers: {
+    heading: "For teams hiring an engineer",
+    lede: "Open to full-time or contract backend and application-security roles, remote or in Addis Ababa.",
+    points: [
+      "Backend engineer since 2021: FastAPI, Django REST and Spring Boot, then four years in production at DZ.",
+      "Built an LLM evaluation pipeline that runs as an automated quality gate on 11 production services at DZ.",
+      "Writes security tooling other engineers can run: SARIF output, a GitHub Action, reproducible research.",
+      "Senior Software Engineer since May 2026; B.Sc. in Computer Science, HiLCoE, July 2026.",
+    ],
+    cta: "Read my résumé",
+    secondary: "Browse my GitHub",
+  },
 };
 
 export const audit = {
-  title: "How an audit works.",
-  intro: "Fixed price, from $249. Report in 3–7 days, counted from when I have access and the scope is signed. Booked through Upwork.",
-  pricing: "Starter $249 (3 days) · Standard $595 (5 days) · Advanced $1,190 (7 days). Larger codebases quoted per job.",
+  title: "How an audit works",
+  intro: "Booked through Upwork. The report arrives 3 to 7 days after I have access and the scope is signed.",
   steps: [
     {
-      title: "Tell me your stack and what worries you",
-      body: "Message me on Upwork. I usually reply within 24 hours on weekdays (Mon–Fri, Ethiopian public holidays excepted) with the first three things I’d check.",
+      title: "You tell me your stack and what worries you",
+      body: "Message me on Upwork. On weekdays I usually reply within 24 hours with the first three things I’d check.",
     },
     {
-      title: "Written scope, on staging or a copy",
-      body: "We sign a short [scope and authorisation form](/scope.html) before I test anything. I test on staging or a copy. If you only have production, we first agree in writing on read-only checks and a time window. NDA on request. I remove my access within 7 days of delivery and keep the report for 12 months, then delete it.",
+      title: "We agree a written scope",
+      body: "You sign a short [scope and authorisation form](/scope.html) before I test anything, and I work on staging or a copy. If production is all you have, we agree read-only checks and a time window first. NDA on request.",
     },
     {
       title: "I sign in as each role and try to cross the line",
-      body: "Row-level security; keys in the browser bundle or git history; prices or “paid” status decided in the browser; unsigned Stripe webhooks. I also test storage buckets, Realtime, SECURITY DEFINER functions and prompt injection in AI tools; the sample has a planted, proven example of each. Findings that can be reproduced get a script you can re-run; the rest, such as secrets in git history or settings, get exact steps and screenshots.",
+      body: "Row-level security, storage buckets, Realtime, keys, payments, webhooks and AI tools. Anything I can reproduce gets a script you can re-run; the rest gets exact steps and screenshots.",
     },
     {
-      title: "Report, fix, recheck",
-      body: "Every finding ranked Critical to Low, with plain-English impact, the reproduction and the fix, usually a code or policy diff. The report lists what I didn’t test. One recheck within 14 days of delivery is included. If you want me to apply the fixes, that’s $40 an hour, with no warranty beyond the recheck.",
+      title: "You get the report, the fixes and a recheck",
+      body: "Each finding is ranked Critical to Low, with plain-English impact, the reproduction and a code or policy diff. The report lists what I didn’t test. I remove my access within 7 days of delivery. One recheck within 14 days is included; if you want me to apply the fixes, that’s $40 an hour, with no warranty beyond the recheck.",
     },
   ],
 };
@@ -181,89 +245,90 @@ export const heroMetrics = [
   },
 ];
 
+
+// Evidence for the DZ proof point (self-reported, résumé-sourced).
+heroMetrics.push({
+  id: "m-dz-hardening",
+  value: "47",
+  label: "API endpoints hardened",
+  plain: "production API endpoints hardened at DZ",
+  context: "Main backend developer on a 15-service platform at DZ Software Engineering.",
+  evidence: {
+    claim: "As main backend developer on a 15-service platform, Bereket hardened 47 API endpoints and closed 9 High/Critical findings from internal reviews and dependency scans.",
+    method: "HUMAN",
+    source: { label: "Résumé — DZ Software Engineering PLC, Software Engineer, Jul 2023 – Apr 2026" },
+    basis: "Self-reported from DZ’s internal tracking. The code is DZ’s and is not public.",
+    observedAt: "2023 – 2026",
+    caveats: ["Employer figures come from internal dashboards I can’t publish; ask me about them."],
+  },
+});
+
 // ---------------------------------------------------------------------------
-// "How I Think" — principles, each citing the actual system it comes from.
+// How I work — four rules, each traced to a system that enforces it.
 // ---------------------------------------------------------------------------
 
 export const principles = [
   {
-    title: "No floats in the money path",
-    body:
-      "Ledger Sense treats money as Decimal with contract-supplied rounding, enforced by a ruff lint rule, a dedicated CI job, and hypothesis property tests over every arithmetic rule — the wrong type is rejected before it can reach a total.",
-    source: "Ledger Sense — money path",
-  },
-  {
     title: "Fail closed",
     body:
-      "Agent Perimeter refuses active probing without a scope file — CLI and HTTP API go through the same authorisation function, and the API returns 422 authorization_required, never a silent skip. Its census records an un-cursored page as a suspected pagination bug, never as a completed population.",
-    source: "Agent Perimeter — scope gate & census",
+      "When a system isn’t sure, it stops. Agent Perimeter refuses to actively probe anything without a scope file, and Ledger Sense blocks any bank-detail change until a person confirms it.",
+    source: "Agent Perimeter, Ledger Sense",
   },
   {
-    title: "A wrong heal is worse than a broken selector",
+    title: "Prove it or don’t claim it",
     body:
-      "Selector Drift’s resolution cascade exists to heal; its validation gate exists to stop bad heals. Type assertions outrank model confidence, and distributional checks catch the adjacent-column lock-on that per-value checks cannot.",
-    source: "Selector Drift — validation gate",
+      "Every project figure on this site opens its source, method and caveats. Agent Perimeter’s census can be recomputed from its published CSV by someone who doesn’t trust me.",
+    source: "Agent Perimeter census",
   },
   {
-    title: "Don’t hide caveats",
+    title: "Say what isn’t finished",
     body:
-      "Ground Truth’s methodology opens by stating that its population is synthetic and external validity is unmeasured by design. Agent Perimeter reports census zeros with Wilson intervals so a zero never reads as “none”.",
-    source: "Ground Truth & Agent Perimeter — methodology",
+      "Each case study ends with its limits. Ground Truth’s leaderboard is clearly marked as a placeholder until a real model run; AZTDP publishes the latency target it misses.",
+    source: "Ground Truth, AZTDP",
+  },
+  {
+    title: "AI-assisted, human-owned",
+    body:
+      "I write the specifications, set the tests and review every change; Claude Code drafts much of the code, committing as [@Berakhah-sys](https://github.com/Berakhah-sys). On your code I use AI tools only with your written OK, after I scan the repo for secrets, and never with customer data.",
+    source: "All repositories",
   },
 ];
 
 // ---------------------------------------------------------------------------
-// Timeline — progression of engineering modes, not a list of job dates.
+// Experience — one entry per employer, with the progression inside it.
 // Anchored to résumé facts only.
 // ---------------------------------------------------------------------------
 
 export const timeline = [
   {
-    mode: "Build",
-    range: "2021 – 2023",
+    mode: "Freelance",
+    range: "Mar 2021 – Jun 2023",
     heading: "Freelance Backend Engineer (part-time) · Small organizations, remote",
-    body:
-      "Part-time backend work for small organizations on FastAPI, Django REST and Spring Boot.",
-    kind: "build",
+    body: "Built backends with FastAPI, Django REST and Spring Boot.",
   },
   {
     mode: "Operate",
-    range: "2022 – 2023",
+    range: "Mar 2022 – Jun 2023",
     heading: "Full Stack Developer · DZ Software Engineering PLC",
-    body:
-      "Triaged production incidents across Python, Java and C++ services, then wrote runbooks and automated health checks for the ones that kept coming back.",
-    kind: "operate",
+    body: "Triaged production incidents across Python, Java and C++ services, wrote runbooks for the ones that kept coming back, and automated recurring health checks.",
   },
   {
-    mode: "Harden",
-    range: "2023 – 2026",
+    mode: "Harden & measure",
+    range: "Jul 2023 – Apr 2026",
     heading: "Software Engineer · DZ Software Engineering PLC",
-    body:
-      "As main backend developer on a 15-service platform, I hardened 47 API endpoints and closed 9 High/Critical findings from internal reviews and dependency scans. I also replaced 11 long-lived secrets with short-lived, scope-limited tokens.",
-    kind: "harden",
-  },
-  {
-    mode: "Measure",
-    range: "2023 – 2026",
-    heading: "Software Engineer · DZ Software Engineering PLC",
-    body:
-      "Built the LLM evaluation pipeline that runs as a quality gate on 11 production services; manual review effort fell 40%. A second pipeline, for benchmark curation, cut mean time to detect model-quality regressions by 30%.",
-    kind: "measure",
+    body: "Main backend developer on a 15-service platform: hardened 47 API endpoints, closed 9 High/Critical findings and replaced 11 long-lived secrets with short-lived tokens. Built an LLM evaluation pipeline that gates 11 production services, cutting manual review by 40%.",
   },
   {
     mode: "Senior",
-    range: "2026 – present",
+    range: "May 2026 – present",
     heading: "Senior Software Engineer · DZ Software Engineering PLC",
     body: "Promoted in May 2026; part-time, 20 hours a week, since August 2026.",
-    kind: "lead",
   },
   {
-    mode: "Design systems",
+    mode: "Independent",
     range: "2026",
-    heading: "The sample audit and five systems on this site",
-    body:
-      "ShopFast sample audit, Agent Perimeter, Ledger Sense, AZTDP, Ground Truth and Selector Drift: personal open-source work that treats security, evidence and failure behaviour as design inputs.",
-    kind: "design",
+    heading: "Security reviews and open-source tools",
+    body: "The ShopFast sample audit and the five open-source systems on this site: personal work that treats security, evidence and failure behaviour as design inputs.",
     href: "/#work",
   },
 ];
@@ -274,26 +339,29 @@ export const timeline = [
 
 export const stack = [
   {
-    group: "Security",
-    items: ["OWASP Top 10", "Supabase / PostgreSQL row-level security", "Stripe webhooks", "Keycloak / OIDC", "Bandit", "pip-audit", "Trivy", "gitleaks"],
+    group: "Application security",
+    items: ["Supabase and PostgreSQL row-level security", "OWASP Top 10", "Stripe webhooks and checkout", "Keycloak and OIDC", "MCP and agent security", "Bandit, pip-audit, Trivy, gitleaks"],
   },
   {
     group: "Backend",
-    items: ["Python", "FastAPI", "Django REST", "Spring Boot", "PostgreSQL", "Redis", "SQLAlchemy + Alembic", "TypeScript", "Next.js"],
+    items: ["Python", "FastAPI", "Django REST", "Spring Boot", "PostgreSQL", "Redis", "SQLAlchemy and Alembic", "TypeScript", "Next.js"],
   },
   {
     group: "Infrastructure",
-    items: ["Docker & Compose", "GitHub Actions", "AWS (EC2, S3, IAM, VPC)", "Linux", "Prometheus"],
+    items: ["Docker and Compose", "GitHub Actions", "AWS (EC2, S3, IAM, VPC)", "Linux", "Prometheus"],
   },
 ];
 
 export const about = {
-  lede:
-    "I build systems that know what they are allowed to do, know when they are uncertain, and fail safely.",
+  lede: "I build systems that know what they’re allowed to do, and stop when they aren’t sure.",
   body: [
-    "I’m a Senior Software Engineer in Addis Ababa. I’ve operated production services, built them, hardened them and measured them, and I’ve come to believe that correctness, security and evidence are design inputs, not things you add after.",
-    "The sample audit and five systems here are where that belief has ended up. Each one is designed to be checked: scope files before probing, sealed splits before leaderboards, a review queue before any money moves, provenance before publication. The case studies say exactly where each one stands, including what isn’t finished.",
-    "For the systems here, I wrote the specifications with Claude Code, set the evaluation criteria, made the design decisions, and reviewed and tested the changes. Claude Code generated a substantial part of the code under my direction; its commits sit under [@Berakhah-sys](https://github.com/Berakhah-sys), my second GitHub account. On your code I use AI tools only with your written OK, after I scan the repo for secrets, and never with customer data.",
+    "I’m a Senior Software Engineer in Addis Ababa. Over five years I’ve built, run, hardened and measured production services, and I’ve learned that security and correctness are cheapest when they’re designed in from the start.",
+    "That’s why I now spend my independent time on the apps AI tools are producing fastest: Supabase, Next.js and Stripe stacks where one missing policy line exposes every customer. I audit them, and I build the open-source tools I use to do it.",
   ],
-  education: "B.Sc. Computer Science, HiLCoE School of Computer Science & Technology, Addis Ababa, Jan 2021 – Jul 2026 (part-time study alongside work)",
+  education: "B.Sc. Computer Science, HiLCoE School of Computer Science and Technology, Addis Ababa, 2021 to 2026 (part-time, alongside work)",
+};
+
+export const contact = {
+  heading: "Have an app about to take payments, or a role to fill?",
+  body: "Audits are booked through Upwork. For a role, start with the résumé, then message me on Upwork; I usually reply within 24 hours on weekdays.",
 };
