@@ -16,7 +16,7 @@ before(() => {
 });
 
 test("case study hero: number, serif title, italic tagline, plain sentence, prose status, meta row", () => {
-  assert.match(cs, /<span class="cs-num mono rv">02<\/span>/);
+  assert.match(cs, /<span class="cs-num mono rv">03<\/span>/);
   assert.match(cs, /<h1 class="cs-title rv" style="--d:60ms">Ledger Sense<\/h1>/);
   assert.match(cs, /<p class="cs-tagline rv"/);
   assert.match(cs, /<p class="cs-plain rv"[^>]*>Reads construction invoices/);
@@ -37,7 +37,7 @@ test("case study body: 11 sections in order, caveat section carries card.caveat,
 test("case study numbers match the homepage; the evidence panel is named", () => {
   assert.match(read("work/shopfast-demo.html"), /<span class="cs-num mono rv">Sample<\/span>/);
   const home = read("index.html");
-  for (const [slug, n] of [["agent-perimeter", "01"], ["ledger-sense", "02"], ["aztdp", "03"], ["ground-truth", "04"], ["selector-drift", "05"]]) {
+  for (const [slug, n] of [["agent-perimeter", "01"], ["aztdp", "02"], ["ledger-sense", "03"], ["ground-truth", "04"], ["selector-drift", "05"]]) {
     assert.match(read(`work/${slug}.html`), new RegExp(`<span class="cs-num mono rv">${n}</span>`));
     assert.match(home, new RegExp(`<span class="panel-num mono">${n}</span>\\s*<h3 class="panel-name" id="pn-${slug}"`));
   }
